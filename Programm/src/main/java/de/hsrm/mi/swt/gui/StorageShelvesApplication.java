@@ -15,7 +15,7 @@ public class StorageShelvesApplication extends Application {
 		vbox.setAlignment(Pos.CENTER);
 
 		primaryStage.setScene(new Scene(vbox));
-		primaryStage.setTitle("StorageShelves App");
+		primaryStage.setTitle("Storage Shelves App");
 		primaryStage.show();
 	}
 
