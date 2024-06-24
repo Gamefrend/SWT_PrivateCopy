@@ -12,3 +12,6 @@ hs_err_pid*log
 /.project
 /.vscode
 .DS_Store
+
+/.idea/
+/out/
