@@ -1,6 +1,6 @@
 package de.hsrm.mi.swt;
 
-import de.hsrm.mi.swt.gui.StorageShelvesApplication;
+import de.hsrm.mi.swt.view.StorageShelvesApplication;
 import javafx.application.Application;
 
 public class StorageShelvesMain {
