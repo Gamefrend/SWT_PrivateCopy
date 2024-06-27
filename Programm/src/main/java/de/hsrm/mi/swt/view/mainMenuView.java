@@ -1,6 +1,6 @@
 // mainMenuView.java
 
-package de.hsrm.mi.swt.view;
+package main.java.de.hsrm.mi.swt.view;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
