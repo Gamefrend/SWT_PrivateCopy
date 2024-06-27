@@ -1,11 +1,11 @@
 package main.java.de.hsrm.mi.swt.model.storage;
 
-public class Kuehlschrank {
-    private int hoehe;
-    public int getHoehe() {
-        return hoehe;
+import java.util.List;
+
+public class Kuehlschrank extends Regal{
+
+    public Kuehlschrank(int hoehe, List<RegalBrett> regalBretter, Saeule saeule, int saelenPos1, int saulenPos2){
+        super(hoehe, regalBretter, saeule, saelenPos1, saulenPos2);
     }
-    public void setHoehe(int hoehe) {
-        this.hoehe = hoehe;
-    }
+
 }

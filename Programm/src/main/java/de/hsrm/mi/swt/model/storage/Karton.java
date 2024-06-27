@@ -7,7 +7,16 @@ public class Karton {
     private int hoehe;
     private int maxBelastung;
     private int xPosition;
-    private List<Ware> waren;
+    private Ware waren;
+
+    public Karton(int gewicht, int breite, int hoehe, int maxBelastung, int xPosition, Ware waren) {
+        this.gewicht = gewicht;
+        this.breite = breite;
+        this.hoehe = hoehe;
+        this.maxBelastung = maxBelastung;
+        this.xPosition = xPosition;
+        this.waren = waren;
+    }
 
     public int getGewicht() {
         return gewicht;
@@ -49,11 +58,11 @@ public class Karton {
         this.xPosition = xPosition;
     }
 
-    public List<Ware> getWaren() {
+    public Ware getWaren() {
         return waren;
     }
 
-    public void setWaren(List<Ware> waren) {
+    public void setWaren(Ware ware) {
         this.waren = waren;
     }
 }

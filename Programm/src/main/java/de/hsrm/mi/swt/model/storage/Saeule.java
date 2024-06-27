@@ -4,7 +4,10 @@ import java.util.List;
 
 public class Saeule {
     private int positionX;
-    private List<Regal> regale;
+
+    public Saeule(int positionX){
+        this.positionX = positionX;
+    }
     public int getPositionX() {
         return positionX;
     }
@@ -13,11 +16,4 @@ public class Saeule {
         this.positionX = positionX;
     }
 
-    public List<Regal> getRegale() {
-        return regale;
-    }
-
-    public void setRegale(List<Regal> regale) {
-        this.regale = regale;
-    }
 }

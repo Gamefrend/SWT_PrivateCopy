@@ -4,6 +4,13 @@ public class Typ {
     private boolean lebensmittelBool;
     private boolean giftigBool;
     private boolean gekuehltBool;
+
+    public Typ(boolean lebensmittelBool, boolean giftigBool, boolean gekuehltBool) {
+        this.lebensmittelBool = lebensmittelBool;
+        this.giftigBool = giftigBool;
+        this.gekuehltBool = gekuehltBool;
+    }
+
     public boolean isLebensmittelBool() {
         return lebensmittelBool;
     }
