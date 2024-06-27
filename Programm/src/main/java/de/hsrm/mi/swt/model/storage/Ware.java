@@ -1,4 +1,4 @@
-package de.hsrm.mi.swt.model.storage;
+package main.java.de.hsrm.mi.swt.model.storage;
 public class Ware {
     private String name;
     private int hoehe;

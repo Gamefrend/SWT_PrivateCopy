@@ -1,4 +1,4 @@
-package de.hsrm.mi.swt.model.save;
+package main.java.de.hsrm.mi.swt.model.save;
 
 import java.util.List;
 
