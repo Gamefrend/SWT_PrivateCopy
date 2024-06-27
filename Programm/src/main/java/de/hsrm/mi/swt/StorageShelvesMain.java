@@ -1,3 +1,5 @@
+// StorageShelvesMain.java
+
 package de.hsrm.mi.swt;
 
 import de.hsrm.mi.swt.view.StorageShelvesApplication;
