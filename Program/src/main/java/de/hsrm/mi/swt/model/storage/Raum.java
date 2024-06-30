@@ -1,9 +1,10 @@
 package main.java.de.hsrm.mi.swt.model.storage;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Raum {
+public class Raum implements Serializable {
 
     private int hoehe;
     private int breite;
