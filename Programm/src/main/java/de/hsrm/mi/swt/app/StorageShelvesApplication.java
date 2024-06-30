@@ -51,7 +51,7 @@ public class StorageShelvesApplication extends Application {
 		// Fügen Sie die Header-HBox zur VBox hinzu
 		Pane root = new Pane();
 
-		Scene scene = new Scene(root, 1440, 500);
+		Scene scene = new Scene(root, 1440, 1024);
 		scene.getStylesheets().add("main/resources/css/style.css");
 		primaryStage.setScene(scene);
 		switchView(PrimaryViewName.StartmenueView);

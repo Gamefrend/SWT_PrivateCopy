@@ -7,7 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import main.java.de.hsrm.mi.swt.view.startmenue.NeuesLagerOderProfilView;
+import main.java.de.hsrm.mi.swt.view.startmenue.hauptmenueView;
 import main.java.de.hsrm.mi.swt.view.PrimaryViewName;
 import main.java.de.hsrm.mi.swt.app.StorageShelvesApplication;
 
@@ -18,7 +18,7 @@ public class NeuesLagerOderProfilController {
     private HashMap<PrimaryViewName, Pane> primaryViews;
     private Stage primaryStage;
     private StackPane rootContainer;
-    NeuesLagerOderProfilView root;
+    hauptmenueView root;
     Button neuesLagerBtn;
 
     private StorageShelvesApplication application;
@@ -26,7 +26,7 @@ public class NeuesLagerOderProfilController {
     public NeuesLagerOderProfilController(StorageShelvesApplication application) {
         this.application = application;
 
-        root = new NeuesLagerOderProfilView();
+        root = new hauptmenueView();
         rootContainer = new StackPane();
         neuesLagerBtn = root.getNewSystemButton();
 

@@ -1,27 +1,80 @@
+/* style.css */
+
 @font-face {
     -fx-font-family: 'SuisseIntl-Medium';
-    src: url('/main/resources/fonts/SuisseIntl-Medium.otf');
+    src: url('../fonts/SuisseIntl-Medium.otf');
 }
 
-/*
+@font-face {
+    -fx-font-family: 'SuisseIntl-Bold';
+    src: url('../fonts/SuisseIntl-Bold.otf');
+}
+
 @font-face {
     -fx-font-family: 'SuisseIntl-Regular';
-    src: url('main/resources/fonts/SuisseIntl-Regular.otf');
+    src: url('../fonts/SuisseIntl-Regular.otf');
 }
 
 @font-face {
     -fx-font-family: 'SuisseIntl-Light';
-    src: url('main/resources/fonts/SuisseIntl-Light.ttf');
+    src: url('../fonts/SuisseIntl-Light.ttf');
 }
-*/
 
-.button {
-    -fx-background-color: red;
-    -fx-text-fill: black;
-    -fx-font-family: 'SuisseIntl-Medium';
+.root {
+    -fx-primary: #0029FF;
+    -fx-offwhite: #EBEBEB;
+    -fx-black: #000000;
+    -fx-white: #FFFFFF;
 }
-.label{
+
+.header-label {
+    -fx-font-family: "Suisse Int'l-Medium";
+    -fx-font-size: 30px;
+    -fx-text-fill: -fx-black;
+    -fx-font-weight: 500;
+}
+
+.button-container {
+    -fx-spacing: 50;
+    -fx-alignment: center-left;
+}
+
+.custom-button {
+    -fx-background-color: -fx-offwhite;
+    -fx-padding: 20 50;
+    -fx-effect: dropshadow(gaussian, -fx-primary, 0, 0, 10, 10);
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+    -fx-alignment: center-left;
+}
+
+.custom-button .label {
+    -fx-font-family: "Suisse Int'l-Bold";
     -fx-font-size: 50px;
-    -fx-text-fill: black;
-    -fx-font-family: 'SuisseIntl-Medium';
+    -fx-text-fill: -fx-black;
+    -fx-font-weight: 700;
+}
+
+.custom-button .image-view {
+    -fx-translate-x: 10;
+}
+
+/* Responsive Anpassungen */
+.small-layout .header-label {
+    -fx-font-size: 24px;
+}
+
+.small-layout .custom-button {
+    -fx-padding: 15 30;
+}
+
+.small-layout .custom-button .label {
+    -fx-font-size: 30px;
+}
+
+.small-layout .custom-button .image-view {
+    -fx-fit-height: 30;
+    -fx-fit-width: 30;
 }
