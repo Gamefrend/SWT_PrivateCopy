@@ -1,4 +1,4 @@
-package de.hsrm.mi.swt.view.neueslagersystemview;
+package main.java.de.hsrm.mi.swt.view.neueslagersystemview;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;

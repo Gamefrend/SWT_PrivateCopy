@@ -1,4 +1,4 @@
-package de.hsrm.mi.swt.view;
+package main.java.de.hsrm.mi.swt.view;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -37,7 +37,7 @@ public class mainMenuView extends BorderPane {
         VBox buttonBox = new VBox(10); // Dynamischer Abstand
 
         // Laden des Pfeilbildes
-        Image arrowImage = new Image(getClass().getResourceAsStream("/icons/arrow.png"));
+        Image arrowImage = new Image("main/resources/icons/arrow.png");
         ImageView arrowImageView = new ImageView(arrowImage);
         arrowImageView.setFitHeight(40);
         arrowImageView.setFitWidth(40);

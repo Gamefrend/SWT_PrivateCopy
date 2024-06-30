@@ -1,23 +1,27 @@
 @font-face {
     -fx-font-family: 'SuisseIntl-Medium';
-    src: url('main/resources/fonts/SuisseIntl-Medium.otf');
+    src: url('/main/resources/fonts/SuisseIntl-Medium.otf');
 }
 
 /*
 @font-face {
-    font-family: 'SuisseIntl-Regular';
+    -fx-font-family: 'SuisseIntl-Regular';
     src: url('main/resources/fonts/SuisseIntl-Regular.otf');
 }
 
 @font-face {
-    font-family: 'SuisseIntl-Light';
+    -fx-font-family: 'SuisseIntl-Light';
     src: url('main/resources/fonts/SuisseIntl-Light.ttf');
 }
 */
 
 .button {
     -fx-background-color: red;
-    -fx-font-size: 26px;
+    -fx-text-fill: black;
+    -fx-font-family: 'SuisseIntl-Medium';
+}
+.label{
+    -fx-font-size: 50px;
     -fx-text-fill: black;
     -fx-font-family: 'SuisseIntl-Medium';
 }

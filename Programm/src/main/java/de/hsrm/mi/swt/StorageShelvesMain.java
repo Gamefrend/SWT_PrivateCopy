@@ -2,7 +2,7 @@
 
 package main.java.de.hsrm.mi.swt;
 
-import de.hsrm.mi.swt.view.StorageShelvesApplication;
+import main.java.de.hsrm.mi.swt.view.StorageShelvesApplication;
 import javafx.application.Application;
 
 public class StorageShelvesMain {

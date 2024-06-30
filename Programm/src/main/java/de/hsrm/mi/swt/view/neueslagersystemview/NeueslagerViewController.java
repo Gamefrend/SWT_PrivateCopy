@@ -1,11 +1,12 @@
-package de.hsrm.mi.swt.view.neueslagersystemview;
+package main.java.de.hsrm.mi.swt.view.neueslagersystemview;
 
-import de.hsrm.mi.swt.view.PrimaryViewName;
-import de.hsrm.mi.swt.view.StorageShelvesApplication;
+import main.java.de.hsrm.mi.swt.view.PrimaryViewName;
+import main.java.de.hsrm.mi.swt.view.StorageShelvesApplication;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
+import main.java.de.hsrm.mi.swt.view.StorageShelvesApplication;
 
 public class NeueslagerViewController {
 
@@ -19,6 +20,7 @@ public class NeueslagerViewController {
         Hauptmenue = root.halloButton;
         initialize();
     }
+
 
     private void initialize() {
         Hauptmenue.setOnAction(new EventHandler<ActionEvent>() {

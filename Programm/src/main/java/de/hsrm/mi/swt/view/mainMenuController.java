@@ -1,4 +1,4 @@
-package de.hsrm.mi.swt.view;
+package main.java.de.hsrm.mi.swt.view;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

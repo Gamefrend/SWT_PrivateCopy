@@ -1,6 +1,6 @@
 // StorageShelvesApplication.java
 
-package de.hsrm.mi.swt.view;
+package main.java.de.hsrm.mi.swt.view;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -11,8 +11,8 @@ import javafx.stage.Stage;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.hsrm.mi.swt.view.neueslagersystemview.NeuesLagerSystemView;
-import de.hsrm.mi.swt.view.neueslagersystemview.NeueslagerViewController;
+import main.java.de.hsrm.mi.swt.view.neueslagersystemview.NeuesLagerSystemView;
+import main.java.de.hsrm.mi.swt.view.neueslagersystemview.NeueslagerViewController;
 
 public class StorageShelvesApplication extends Application {
 	private Stage primaryStage;
@@ -37,8 +37,8 @@ public class StorageShelvesApplication extends Application {
 		mainMenuView = Controller2.getRoot();
 		primaryViews.put(PrimaryViewName.Hauptmenue, mainMenuView);
 
-		scenes.putIfAbsent("FirstView", Controller.getRoot());
-		scenes.putIfAbsent("secondtView", Controller2.getRoot());
+		scenes.putIfAbsent("firstView", Controller.getRoot());
+		scenes.putIfAbsent("secondView", Controller2.getRoot());
 
 	}
 
@@ -52,7 +52,7 @@ public class StorageShelvesApplication extends Application {
 		Pane root = new Pane();
 
 		Scene scene = new Scene(root, 1440, 500);
-		scene.getStylesheets().add("Programm\\src\\main\\resources\\css\\style.css");
+		scene.getStylesheets().add("main/resources/css/style.css");
 		primaryStage.setScene(scene);
 		switchView(PrimaryViewName.NeuesLagerSystemView);
 

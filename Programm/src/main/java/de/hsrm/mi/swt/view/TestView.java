@@ -1,4 +1,4 @@
-package de.hsrm.mi.swt.view;
+package main.java.de.hsrm.mi.swt.view;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
