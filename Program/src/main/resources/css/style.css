@@ -29,7 +29,6 @@
 
 .header-label {
     -fx-font-family: "Suisse Int'l-Medium";
-    -fx-font-size: 30px;
     -fx-text-fill: -fx-black;
     -fx-font-weight: 500;
 }
@@ -50,9 +49,8 @@
     -fx-alignment: center-left;
 }
 
-.custom-button .label {
+.button-label {
     -fx-font-family: "Suisse Int'l-Bold";
-    -fx-font-size: 50px;
     -fx-text-fill: -fx-black;
     -fx-font-weight: 700;
 }
@@ -62,18 +60,18 @@
 }
 
 /* Responsive Anpassungen */
-.small-layout .header-label {
-    -fx-font-size: 24px;
-}
+.large-layout .header-label { -fx-font-size: 30px; }
+.large-layout .button-label { -fx-font-size: 50px; }
 
+.medium-layout .header-label { -fx-font-size: 24px; }
+.medium-layout .button-label { -fx-font-size: 40px; }
+.medium-layout .custom-button { -fx-padding: 15 40; }
+
+.small-layout .header-label { -fx-font-size: 18px; }
+.small-layout .button-label { -fx-font-size: 30px; }
 .small-layout .custom-button {
-    -fx-padding: 15 30;
+    -fx-padding: 10 30;
 }
-
-.small-layout .custom-button .label {
-    -fx-font-size: 30px;
-}
-
 .small-layout .custom-button .image-view {
     -fx-fit-height: 30;
     -fx-fit-width: 30;

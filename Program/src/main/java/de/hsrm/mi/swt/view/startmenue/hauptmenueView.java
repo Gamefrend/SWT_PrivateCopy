@@ -9,21 +9,22 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 
 public class hauptmenueView extends BorderPane {
 
     private Button newSystemButton;
     private Button loadProfileButton;
     private Button manageProfileButton;
+    private Label titleLabel;
+    private Label versionLabel;
 
     public hauptmenueView() {
-        // Header (unverändert)
-        Label titleLabel = new Label("STORAGESHELVES");
-        titleLabel.getStyleClass().add("header-label");
+        // Header
+        titleLabel = new Label("STORAGESHELVES");
+        titleLabel.getStyleClass().addAll("header-label", "title-label");
 
-        Label versionLabel = new Label("v1.0");
-        versionLabel.getStyleClass().add("header-label");
+        versionLabel = new Label("v1.0");
+        versionLabel.getStyleClass().addAll("header-label", "version-label");
 
         BorderPane header = new BorderPane();
         header.setLeft(titleLabel);
@@ -51,7 +52,10 @@ public class hauptmenueView extends BorderPane {
         String cssPath = getClass().getResource("/main/resources/css/style.css").toExternalForm();
         getStylesheets().add(cssPath);
 
-        // Fügen Sie einen Listener für Größenänderungen hinzu
+        // Initial Layout anpassen
+        adjustLayout(getWidth());
+
+        // Listener für Größenänderungen hinzufügen
         widthProperty().addListener((obs, oldVal, newVal) -> {
             adjustLayout(newVal.doubleValue());
         });
@@ -60,6 +64,7 @@ public class hauptmenueView extends BorderPane {
     private Button createButton(String text, Image image) {
         Button button = new Button();
         Label label = new Label(text);
+        label.getStyleClass().add("button-label");
         ImageView imageView = new ImageView(image);
         imageView.setFitHeight(40);
         imageView.setFitWidth(40);
@@ -74,10 +79,13 @@ public class hauptmenueView extends BorderPane {
     }
 
     private void adjustLayout(double width) {
+        getStyleClass().removeAll("small-layout", "medium-layout", "large-layout");
         if (width < 600) {
             getStyleClass().add("small-layout");
+        } else if (width < 1000) {
+            getStyleClass().add("medium-layout");
         } else {
-            getStyleClass().remove("small-layout");
+            getStyleClass().add("large-layout");
         }
     }
 
