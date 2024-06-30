@@ -1,4 +1,4 @@
-package main.java.de.hsrm.mi.swt.view;
+package main.java.de.hsrm.mi.swt.controller;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -7,34 +7,36 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import main.java.de.hsrm.mi.swt.view.startmenue.NeuesLagerOderProfilView;
+import main.java.de.hsrm.mi.swt.view.PrimaryViewName;
+import main.java.de.hsrm.mi.swt.app.StorageShelvesApplication;
+
 import java.util.HashMap;
 
-public class mainMenuController {
+public class NeuesLagerOderProfilController {
 
     private HashMap<PrimaryViewName, Pane> primaryViews;
     private Stage primaryStage;
     private StackPane rootContainer;
-    mainMenuView root;
-    Button NeuesLagerBtn;
+    NeuesLagerOderProfilView root;
+    Button neuesLagerBtn;
 
     private StorageShelvesApplication application;
 
-    public mainMenuController(StorageShelvesApplication application) {
+    public NeuesLagerOderProfilController(StorageShelvesApplication application) {
         this.application = application;
 
-        root = new mainMenuView();
+        root = new NeuesLagerOderProfilView();
         rootContainer = new StackPane();
-        NeuesLagerBtn = root.getNewSystemButton();
+        neuesLagerBtn = root.getNewSystemButton();
 
         initialize();
     }
 
-    // EventHandler als Anonyom Klasse
     public void initialize() {
-
-        NeuesLagerBtn.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
+        neuesLagerBtn.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
-                application.switchView(PrimaryViewName.NeuesLagerSystemView);
+                application.switchView(PrimaryViewName.StartmenueView);
             }
         });
 

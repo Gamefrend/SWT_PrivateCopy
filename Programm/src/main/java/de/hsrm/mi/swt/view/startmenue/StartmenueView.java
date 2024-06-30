@@ -1,4 +1,4 @@
-package main.java.de.hsrm.mi.swt.view.neueslagersystemview;
+package main.java.de.hsrm.mi.swt.view.startmenue;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -8,19 +8,19 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
-public class NeuesLagerSystemView extends BorderPane {
+public class StartmenueView extends BorderPane {
 
-	Button halloButton;
+	private Button zumHauptmenue;
 
-	public NeuesLagerSystemView() {
+	public StartmenueView() {
 		Label headerLabel = new Label("----------  Zur Hauptmenü  ----------");
 		this.setTop(headerLabel);
 		headerLabel.setTextFill(Color.WHITE);
 
-		halloButton = new Button("Hauptmenü");
+		zumHauptmenue = new Button("Hauptmenü");
 
 		VBox vbox = new VBox(10); // 10 ist der Abstand zwischen den Icons
-		vbox.getChildren().addAll(headerLabel, halloButton);
+		vbox.getChildren().addAll(headerLabel, zumHauptmenue);
 		vbox.setAlignment(Pos.CENTER);
 
 		// Füge die VBox zum Root (StackPane) hinzu
@@ -31,4 +31,7 @@ public class NeuesLagerSystemView extends BorderPane {
 		setCenter(root);
 	}
 
+	public Button getZumHauptmenue() {
+		return zumHauptmenue;
+	}
 }

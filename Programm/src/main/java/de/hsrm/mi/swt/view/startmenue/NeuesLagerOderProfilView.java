@@ -1,4 +1,4 @@
-package main.java.de.hsrm.mi.swt.view;
+package main.java.de.hsrm.mi.swt.view.startmenue;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -12,7 +12,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
-public class mainMenuView extends BorderPane {
+public class NeuesLagerOderProfilView extends BorderPane {
 
     private Button newSystemButton;
     private Button loadProfileButton;
@@ -20,7 +20,7 @@ public class mainMenuView extends BorderPane {
 
     private StackPane rootContainer;
 
-    public mainMenuView() {
+    public NeuesLagerOderProfilView() {
         // this.rootContainer = rootContainer;
 
         Label titleLabel = new Label("STORAGESHELVES");
@@ -75,11 +75,6 @@ public class mainMenuView extends BorderPane {
         return button;
     }
 
-    private void openTestView() {
-        TestView view = new TestView();
-        rootContainer.getChildren().clear();
-        rootContainer.getChildren().add(view);
-    }
 
     // Neuer Getter für newSystemButton
     public Button getNewSystemButton() {

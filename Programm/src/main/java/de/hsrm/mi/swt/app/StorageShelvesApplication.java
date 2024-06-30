@@ -1,18 +1,18 @@
 // StorageShelvesApplication.java
 
-package main.java.de.hsrm.mi.swt.view;
+package main.java.de.hsrm.mi.swt.app;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import java.util.HashMap;
 import java.util.Map;
 
-import main.java.de.hsrm.mi.swt.view.neueslagersystemview.NeuesLagerSystemView;
-import main.java.de.hsrm.mi.swt.view.neueslagersystemview.NeueslagerViewController;
+import main.java.de.hsrm.mi.swt.controller.NeuesLagerOderProfilController;
+import main.java.de.hsrm.mi.swt.controller.NeueslagerViewController;
+import main.java.de.hsrm.mi.swt.view.PrimaryViewName;
 
 public class StorageShelvesApplication extends Application {
 	private Stage primaryStage;
@@ -20,7 +20,7 @@ public class StorageShelvesApplication extends Application {
 	private HashMap<PrimaryViewName, Pane> primaryViews;
 	private Map<String, Pane> scenes;
 
-	Pane NeuesLagerSystemView;
+	Pane StartmenueView;
 	Pane mainMenuView;
 
 	@Override
@@ -30,12 +30,12 @@ public class StorageShelvesApplication extends Application {
 		primaryViews = new HashMap<>();
 
 		NeueslagerViewController Controller = new NeueslagerViewController(this);
-		NeuesLagerSystemView = Controller.getRoot();
-		primaryViews.put(PrimaryViewName.NeuesLagerSystemView, NeuesLagerSystemView);
+		StartmenueView = Controller.getRoot();
+		primaryViews.put(PrimaryViewName.StartmenueView, StartmenueView);
 
-		mainMenuController Controller2 = new mainMenuController(this);
+		NeuesLagerOderProfilController Controller2 = new NeuesLagerOderProfilController(this);
 		mainMenuView = Controller2.getRoot();
-		primaryViews.put(PrimaryViewName.Hauptmenue, mainMenuView);
+		primaryViews.put(PrimaryViewName.NeuesLagerOderProfilView, mainMenuView);
 
 		scenes.putIfAbsent("firstView", Controller.getRoot());
 		scenes.putIfAbsent("secondView", Controller2.getRoot());
@@ -54,7 +54,7 @@ public class StorageShelvesApplication extends Application {
 		Scene scene = new Scene(root, 1440, 500);
 		scene.getStylesheets().add("main/resources/css/style.css");
 		primaryStage.setScene(scene);
-		switchView(PrimaryViewName.NeuesLagerSystemView);
+		switchView(PrimaryViewName.StartmenueView);
 
 		primaryStage.setTitle("StorageShelves");
 		primaryStage.show();
