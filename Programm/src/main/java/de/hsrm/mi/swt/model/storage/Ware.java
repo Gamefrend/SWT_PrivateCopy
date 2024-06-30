@@ -1,4 +1,4 @@
-package de.hsrm.mi.swt.model.storage;
+package main.java.de.hsrm.mi.swt.model.storage;
 
 import java.util.Date;
 

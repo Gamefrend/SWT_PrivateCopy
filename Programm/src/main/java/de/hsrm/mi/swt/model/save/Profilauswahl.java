@@ -1,4 +1,4 @@
-package de.hsrm.mi.swt.model.save;
+package main.java.de.hsrm.mi.swt.model.save;
 
 import java.util.List;
 
@@ -7,5 +7,14 @@ public class Profilauswahl {
 
     public List<SpeicherProfil> getSpeicherProfile() {
         return this.speicherProfile;
+    }
+
+    public void addProfile(SpeicherProfil speicherProfil){
+        speicherProfile.add(speicherProfil);
+
+    }
+
+    public void delProfile(SpeicherProfil speicherProfil){
+        speicherProfile.remove(speicherProfil);
     }
 }

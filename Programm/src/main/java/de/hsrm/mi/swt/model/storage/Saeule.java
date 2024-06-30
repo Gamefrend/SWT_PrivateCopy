@@ -1,6 +1,4 @@
-package de.hsrm.mi.swt.model.storage;
-
-import java.util.List;
+package main.java.de.hsrm.mi.swt.model.storage;
 
 public class Saeule {
     private int positionX;

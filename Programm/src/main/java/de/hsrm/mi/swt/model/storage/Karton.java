@@ -1,6 +1,5 @@
-package de.hsrm.mi.swt.model.storage;
+package main.java.de.hsrm.mi.swt.model.storage;
 
-import java.util.List;
 
 public class Karton {
     private int gewicht;
