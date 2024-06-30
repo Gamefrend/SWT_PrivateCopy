@@ -76,3 +76,57 @@
     -fx-fit-height: 30;
     -fx-fit-width: 30;
 }
+
+/* ProfilLadenOverlayView */
+
+#overlay-background {
+    -fx-background-color: rgba(0, 0, 0, 0.6);
+}
+
+#overlay-white-box {
+    -fx-background-color: -fx-white;
+    -fx-padding: 40px; /* 2.5rem */
+    -fx-pref-height: 640px; /* 40rem */
+    -fx-max-width: 800px; /* Beispielwert, passen Sie dies nach Bedarf an */
+    -fx-spacing: 40px; /* 2.5rem */
+}
+
+#overlay-header {
+    -fx-alignment: center-left;
+    -fx-spacing: 10px;
+}
+
+.overlay-header-text {
+    -fx-font-family: "Suisse Int'l";
+    -fx-font-size: 20px; /* 1.25rem */
+    -fx-font-weight: 500;
+    -fx-text-fill: -fx-black;
+}
+
+#overlay-close-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-black;
+    -fx-font-family: "Suisse Int'l";
+    -fx-font-size: 20px; /* 1.25rem */
+    -fx-font-weight: 500;
+}
+
+.overlay-input {
+    -fx-background-color: -fx-offwhite;
+    -fx-pref-width: 100%;
+    -fx-font-family: "Suisse Int'l-Regular";
+    -fx-font-size: 20px; /* 1.25rem */
+    -fx-text-fill: -fx-black;
+    -fx-padding: 10px;
+}
+
+.overlay-laden-button {
+    -fx-background-color: -fx-offwhite;
+    -fx-pref-width: 100%;
+    -fx-padding: 22px 0px; /* 1.375rem 0rem */
+    -fx-font-family: "Suisse Int'l-Regular";
+    -fx-font-size: 20px; /* 1.25rem */
+    -fx-text-fill: -fx-black;
+    -fx-alignment: center;
+    -fx-effect: dropshadow(gaussian, -fx-primary, 0, 0, 10, 10);
+}
