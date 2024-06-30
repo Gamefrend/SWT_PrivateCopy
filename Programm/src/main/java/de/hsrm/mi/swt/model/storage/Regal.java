@@ -1,4 +1,5 @@
-package main.java.de.hsrm.mi.swt.model.storage;
+package de.hsrm.mi.swt.model.storage;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,12 +16,14 @@ public class Regal {
         this.saeulen.add(new Saeule(saulenPos2));
     }
 
-    public void addSaele(Saeule saeule){
+    public void addSaele(Saeule saeule) {
         saeulen.add(saeule);
     }
-    public void removeSaele(Saeule saeule){
+
+    public void removeSaele(Saeule saeule) {
         saeulen.remove(saeule);
     }
+
     public int getHoehe() {
         return hoehe;
     }

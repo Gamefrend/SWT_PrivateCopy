@@ -1,30 +1,72 @@
 // StorageShelvesApplication.java
 
-package main.java.de.hsrm.mi.swt.view;
+package de.hsrm.mi.swt.view;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import java.util.HashMap;
+import java.util.Map;
+
+import de.hsrm.mi.swt.view.neueslagersystemview.NeuesLagerSystemView;
+import de.hsrm.mi.swt.view.neueslagersystemview.NeueslagerViewController;
 
 public class StorageShelvesApplication extends Application {
+	private Stage primaryStage;
 	private StackPane rootContainer;
+	private HashMap<PrimaryViewName, Pane> primaryViews;
+	private Map<String, Pane> scenes;
+
+	Pane NeuesLagerSystemView;
+	Pane mainMenuView;
+
+	@Override
+	public void init() {
+
+		scenes = new HashMap<>();
+		primaryViews = new HashMap<>();
+
+		NeueslagerViewController Controller = new NeueslagerViewController(this);
+		NeuesLagerSystemView = Controller.getRoot();
+		primaryViews.put(PrimaryViewName.NeuesLagerSystemView, NeuesLagerSystemView);
+
+		mainMenuController Controller2 = new mainMenuController(this);
+		mainMenuView = Controller2.getRoot();
+		primaryViews.put(PrimaryViewName.Hauptmenue, mainMenuView);
+
+		scenes.putIfAbsent("FirstView", Controller.getRoot());
+		scenes.putIfAbsent("secondtView", Controller2.getRoot());
+
+	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		this.primaryStage = primaryStage;
 		this.rootContainer = new StackPane();
-		mainMenuView buttons = new mainMenuView(rootContainer);
+		// mainMenuView buttons = new mainMenuView(rootContainer);
 
-		VBox vbox = new VBox(10); // 10 Pixel Abstand zwischen den Elementen
-		vbox.getChildren().addAll(buttons); // Fügen Sie die Header-HBox zur VBox hinzu
+		// Fügen Sie die Header-HBox zur VBox hinzu
+		Pane root = new Pane();
 
-		Scene scene = new Scene(vbox, 1440, 1024);
-		scene.getStylesheets().add("main/resources/css/style.css");
+		Scene scene = new Scene(root, 1440, 500);
+		scene.getStylesheets().add("Programm\\src\\main\\resources\\css\\style.css");
+		primaryStage.setScene(scene);
+		switchView(PrimaryViewName.NeuesLagerSystemView);
 
 		primaryStage.setTitle("StorageShelves");
-		primaryStage.setScene(scene);
 		primaryStage.show();
+	}
+
+	public void switchView(PrimaryViewName viewName) {
+		Scene currentScene = primaryStage.getScene();
+
+		Pane nextView = primaryViews.get(viewName);
+		if (nextView != null) {
+			currentScene.setRoot(nextView);
+		}
 	}
 
 	public static void main(String[] args) {

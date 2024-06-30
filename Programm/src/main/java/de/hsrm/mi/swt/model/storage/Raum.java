@@ -1,10 +1,9 @@
-package main.java.de.hsrm.mi.swt.model.storage;
+package de.hsrm.mi.swt.model.storage;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Raum {
-
 
     private int hoehe;
     private int breite;
@@ -16,10 +15,11 @@ public class Raum {
         this.regale = new ArrayList<>();
     }
 
-    public void addRegal(Regal regal){
+    public void addRegal(Regal regal) {
         regale.add(regal);
     }
-    public void removeRegal(Regal regal){
+
+    public void removeRegal(Regal regal) {
         regale.remove(regal);
     }
 
