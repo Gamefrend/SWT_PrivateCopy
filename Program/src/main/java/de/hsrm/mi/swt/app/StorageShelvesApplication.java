@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import main.java.de.hsrm.mi.swt.view.PrimaryViewName;
+import main.java.de.hsrm.mi.swt.view.profilmanager.ProfilManagerView;
 import main.java.de.hsrm.mi.swt.view.startmenue.hauptmenueView;
 import main.java.de.hsrm.mi.swt.view.startmenue.ProfilLadenOverlayView;
 
@@ -22,6 +23,9 @@ public class StorageShelvesApplication extends Application {
 		hauptmenueView mainMenuView = new hauptmenueView();
 		primaryViews.put(PrimaryViewName.StartmenueView, mainMenuView);
 
+		ProfilManagerView profilManagerView = new ProfilManagerView();
+		primaryViews.put(PrimaryViewName.ProfilLadenView, profilManagerView);
+
 		ProfilLadenOverlayView overlayView = new ProfilLadenOverlayView();
 		mainMenuView.setOverlay(overlayView);
 
@@ -32,11 +36,11 @@ public class StorageShelvesApplication extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		this.primaryStage = primaryStage;
 
-		Scene scene = new Scene(new Pane(), 1440, 1024);
-		scene.getStylesheets().add("main/resources/css/style.css");
+		Scene scene = new Scene(new Pane(), 1440, 1000);
+		scene.getStylesheets().add("/css/style.css");
 		primaryStage.setScene(scene);
 
-		switchView(PrimaryViewName.StartmenueView);
+		switchView(PrimaryViewName.ProfilLadenView);
 
 		primaryStage.setTitle("StorageShelves");
 		primaryStage.show();

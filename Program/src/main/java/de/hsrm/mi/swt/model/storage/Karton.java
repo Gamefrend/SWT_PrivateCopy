@@ -1,6 +1,5 @@
 package main.java.de.hsrm.mi.swt.model.storage;
 
-
 public class Karton {
     private int gewicht;
     private int breite;

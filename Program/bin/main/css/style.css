@@ -1,23 +1,132 @@
+/* style.css */
+
 @font-face {
     -fx-font-family: 'SuisseIntl-Medium';
-    src: url('main/resources/fonts/SuisseIntl-Medium.otf');
-}
-
-/*
-@font-face {
-    font-family: 'SuisseIntl-Regular';
-    src: url('main/resources/fonts/SuisseIntl-Regular.otf');
+    src: url('../fonts/SuisseIntl-Medium.otf');
 }
 
 @font-face {
-    font-family: 'SuisseIntl-Light';
-    src: url('main/resources/fonts/SuisseIntl-Light.ttf');
+    -fx-font-family: 'SuisseIntl-Bold';
+    src: url('../fonts/SuisseIntl-Bold.otf');
 }
-*/
 
-.button {
-    -fx-background-color: red;
-    -fx-font-size: 26px;
-    -fx-text-fill: black;
-    -fx-font-family: 'SuisseIntl-Medium';
+@font-face {
+    -fx-font-family: 'SuisseIntl-Regular';
+    src: url('../fonts/SuisseIntl-Regular.otf');
+}
+
+@font-face {
+    -fx-font-family: 'SuisseIntl-Light';
+    src: url('../fonts/SuisseIntl-Light.ttf');
+}
+
+.root {
+    -fx-primary: #0029FF;
+    -fx-offwhite: #EBEBEB;
+    -fx-black: #000000;
+    -fx-white: #FFFFFF;
+}
+
+.header-label {
+    -fx-font-family: "Suisse Int'l-Medium";
+    -fx-text-fill: -fx-black;
+    -fx-font-weight: 500;
+}
+
+.button-container {
+    -fx-spacing: 50;
+    -fx-alignment: center-left;
+}
+
+.custom-button {
+    -fx-background-color: -fx-offwhite;
+    -fx-padding: 20 50;
+    -fx-effect: dropshadow(gaussian, -fx-primary, 0, 0, 10, 10);
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+    -fx-alignment: center-left;
+}
+
+.button-label {
+    -fx-font-family: "Suisse Int'l-Bold";
+    -fx-text-fill: -fx-black;
+    -fx-font-weight: 700;
+}
+
+.custom-button .image-view {
+    -fx-translate-x: 10;
+}
+
+/* Responsive Anpassungen */
+.large-layout .header-label { -fx-font-size: 30px; }
+.large-layout .button-label { -fx-font-size: 50px; }
+
+.medium-layout .header-label { -fx-font-size: 24px; }
+.medium-layout .button-label { -fx-font-size: 40px; }
+.medium-layout .custom-button { -fx-padding: 15 40; }
+
+.small-layout .header-label { -fx-font-size: 18px; }
+.small-layout .button-label { -fx-font-size: 30px; }
+.small-layout .custom-button {
+    -fx-padding: 10 30;
+}
+.small-layout .custom-button .image-view {
+    -fx-fit-height: 30;
+    -fx-fit-width: 30;
+}
+
+/* ProfilLadenOverlayView */
+
+#overlay-background {
+    -fx-background-color: rgba(0, 0, 0, 0.6);
+}
+
+#overlay-white-box {
+    -fx-background-color: -fx-white;
+    -fx-padding: 40px; /* 2.5rem */
+    -fx-pref-height: 640px; /* 40rem */
+    -fx-max-width: 800px; /* Beispielwert, passen Sie dies nach Bedarf an */
+    -fx-spacing: 40px; /* 2.5rem */
+}
+
+#overlay-header {
+    -fx-alignment: center-left;
+    -fx-spacing: 10px;
+}
+
+.overlay-header-text {
+    -fx-font-family: "Suisse Int'l";
+    -fx-font-size: 20px; /* 1.25rem */
+    -fx-font-weight: 500;
+    -fx-text-fill: -fx-black;
+}
+
+#overlay-close-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-black;
+    -fx-font-family: "Suisse Int'l";
+    -fx-font-size: 20px; /* 1.25rem */
+    -fx-font-weight: 500;
+}
+
+.overlay-input {
+    -fx-background-color: -fx-offwhite;
+    -fx-pref-width: 100%;
+    -fx-font-family: "Suisse Int'l-Regular";
+    -fx-font-size: 20px; /* 1.25rem */
+    -fx-text-fill: -fx-black;
+    -fx-padding: 10px;
+}
+
+.overlay-laden-button {
+    -fx-background-color: -fx-offwhite;
+    -fx-pref-width: 100%;
+    -fx-padding: 22px 0px; /* 1.375rem 0rem */
+    -fx-font-family: "Suisse Int'l-Regular";
+    -fx-font-size: 20px; /* 1.25rem */
+    -fx-text-fill: -fx-black;
+    -fx-alignment: center;
+    -fx-effect: dropshadow(gaussian, -fx-primary, 0, 0, 10, 10);
 }

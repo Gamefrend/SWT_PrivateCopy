@@ -4,7 +4,7 @@ import main.java.de.hsrm.mi.swt.model.storage.Raum;
 
 import java.io.*;
 
-public class SpeicherProfil{
+public class SpeicherProfil {
     private String saveName;
 
     private File gespeicherteProfile;
@@ -28,9 +28,9 @@ public class SpeicherProfil{
         this.saveName = saveName;
     }
 
-    public void save(Raum speichrRaum){
+    public void save(Raum speichrRaum) {
         try {
-            gespeicherteProfile = new File("Program/src/main/resources/saves/"+saveName+".StorageShelves");
+            gespeicherteProfile = new File("Program/src/main/resources/saves/" + saveName + ".StorageShelves");
             System.out.println(gespeicherteProfile.getAbsolutePath());
             fileOutputStream = new FileOutputStream(gespeicherteProfile);
             objectOutputStream = new ObjectOutputStream(fileOutputStream);
@@ -44,9 +44,9 @@ public class SpeicherProfil{
         }
     }
 
-    public Raum load(){
+    public Raum load() {
         try {
-            gespeicherteProfile = new File("Program/src/main/resources/saves/"+saveName+".StorageShelves");
+            gespeicherteProfile = new File("Program/src/main/resources/saves/" + saveName + ".StorageShelves");
             fileInputStream = new FileInputStream(gespeicherteProfile);
             objectInputstream = new ObjectInputStream(fileInputStream);
             raum = (Raum) objectInputstream.readObject();
@@ -62,11 +62,11 @@ public class SpeicherProfil{
         return raum;
     }
 
-    public static void main(String []args){
+    public static void main(String[] args) {
         SpeicherProfil sp1 = new SpeicherProfil();
         SpeicherProfil sp2 = new SpeicherProfil();
-        Raum r1 = new Raum(2,1);
-        Raum r2 = new Raum(10,20);
+        Raum r1 = new Raum(2, 1);
+        Raum r2 = new Raum(10, 20);
         sp1.setSaveName("1");
         sp2.setSaveName("2");
         sp1.save(r1);

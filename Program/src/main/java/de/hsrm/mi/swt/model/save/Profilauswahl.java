@@ -9,12 +9,12 @@ public class Profilauswahl {
         return this.speicherProfile;
     }
 
-    public void addProfile(SpeicherProfil speicherProfil){
+    public void addProfile(SpeicherProfil speicherProfil) {
         speicherProfile.add(speicherProfil);
 
     }
 
-    public void delProfile(SpeicherProfil speicherProfil){
+    public void delProfile(SpeicherProfil speicherProfil) {
         speicherProfile.remove(speicherProfil);
     }
 }

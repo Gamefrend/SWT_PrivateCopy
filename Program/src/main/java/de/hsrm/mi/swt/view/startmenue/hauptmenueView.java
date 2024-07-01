@@ -36,8 +36,7 @@ public class hauptmenueView extends BorderPane {
         buttonBox.setAlignment(Pos.CENTER_LEFT);
         buttonBox.getStyleClass().add("button-container");
 
-        Image arrowImage = new Image(getClass().getResourceAsStream("/main/resources/icons/arrow.png"));
-
+        Image arrowImage = new Image(getClass().getResourceAsStream("main/resources/icons/arrow.png"));
         newSystemButton = createButton("NEUES LAGERSYSTEM", arrowImage);
 
         loadProfileButton = createButton("PROFIL LADEN", arrowImage);
@@ -53,7 +52,7 @@ public class hauptmenueView extends BorderPane {
         setPadding(new Insets(40));
 
         // CSS laden
-        String cssPath = getClass().getResource("/main/resources/css/style.css").toExternalForm();
+        String cssPath = getClass().getResource("main/resources/css/style.css").toExternalForm();
         getStylesheets().add(cssPath);
 
         // Initial Layout anpassen

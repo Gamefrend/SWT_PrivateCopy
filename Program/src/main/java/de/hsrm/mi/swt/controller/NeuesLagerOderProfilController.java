@@ -1,4 +1,4 @@
-package main.java.de.hsrm.mi.swt.controller;
+package main.java.de.hsrm.mi.swt.controller; //main.java.
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -7,7 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import main.java.de.hsrm.mi.swt.view.startmenue.hauptmenueView;
+import main.java.de.hsrm.mi.swt.view.startmenue.hauptmenueView; //main.java.
 import main.java.de.hsrm.mi.swt.view.PrimaryViewName;
 import main.java.de.hsrm.mi.swt.app.StorageShelvesApplication;
 
