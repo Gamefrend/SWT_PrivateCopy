@@ -10,6 +10,9 @@ import javafx.scene.layout.VBox;
 
 public class ProfilLadenOverlayView extends StackPane {
 
+    private TextField inputField;
+    private Button ladenButton;
+
     public ProfilLadenOverlayView() {
         // Hintergrund mit 60% Opazität
         setId("overlay-background");
@@ -35,12 +38,12 @@ public class ProfilLadenOverlayView extends StackPane {
         HBox.setHgrow(titleLabel, javafx.scene.layout.Priority.ALWAYS);
 
         // Input Feld
-        TextField inputField = new TextField();
+        inputField = new TextField();
         inputField.setPromptText("Eingabe hier...");
         inputField.getStyleClass().add("overlay-input");
 
         // Laden Button
-        Button ladenButton = new Button("Laden");
+        ladenButton = new Button("Laden");
         ladenButton.getStyleClass().add("overlay-laden-button");
 
         // Fügen Sie alle Elemente zum weißen Kasten hinzu
@@ -54,5 +57,13 @@ public class ProfilLadenOverlayView extends StackPane {
 
         // Overlay initial unsichtbar machen
         setVisible(false);
+    }
+
+    public Button getLadenButton() {
+        return ladenButton;
+    }
+
+    public TextField getInputField() {
+        return inputField;
     }
 }

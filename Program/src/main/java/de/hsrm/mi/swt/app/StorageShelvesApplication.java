@@ -11,6 +11,7 @@ import main.java.de.hsrm.mi.swt.view.PrimaryViewName;
 import main.java.de.hsrm.mi.swt.view.profilmanager.ProfilManagerView;
 import main.java.de.hsrm.mi.swt.view.startmenue.hauptmenueView;
 import main.java.de.hsrm.mi.swt.view.startmenue.ProfilLadenOverlayView;
+import main.java.de.hsrm.mi.swt.view.startmenue.LagerView;
 
 public class StorageShelvesApplication extends Application {
 	private Stage primaryStage;
@@ -28,6 +29,9 @@ public class StorageShelvesApplication extends Application {
 
 		ProfilLadenOverlayView overlayView = new ProfilLadenOverlayView();
 		mainMenuView.setOverlay(overlayView);
+
+		LagerView lagerView = new LagerView();
+		primaryViews.put(PrimaryViewName.LagerView, lagerView);
 
 		// Andere Views hier hinzufügen...
 	}
