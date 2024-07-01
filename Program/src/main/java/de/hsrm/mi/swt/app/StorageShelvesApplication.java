@@ -44,7 +44,7 @@ public class StorageShelvesApplication extends Application {
 		scene.getStylesheets().add("/css/style.css");
 		primaryStage.setScene(scene);
 
-		switchView(PrimaryViewName.ProfilLadenView);
+		switchView(PrimaryViewName.StartmenueView);
 
 		primaryStage.setTitle("StorageShelves");
 		primaryStage.show();
