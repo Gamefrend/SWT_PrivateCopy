@@ -17,5 +17,6 @@ hs_err_pid*log
 /out/
 /libs/
 
-/saves/*
-!/saves/.gitfiller
+
+/src/main/resources/saves/*
+
