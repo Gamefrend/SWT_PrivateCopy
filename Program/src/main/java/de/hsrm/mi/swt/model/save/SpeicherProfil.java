@@ -87,6 +87,7 @@ public class SpeicherProfil {
         Raum r2 = new Raum(10, 20);
         sp1.setSaveName("1");
         sp2.setSaveName("2");
+
     }
 
 }

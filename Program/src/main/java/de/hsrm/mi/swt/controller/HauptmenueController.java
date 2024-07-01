@@ -13,7 +13,7 @@ import main.java.de.hsrm.mi.swt.app.StorageShelvesApplication;
 
 import java.util.HashMap;
 
-public class NeuesLagerOderProfilController {
+public class HauptmenueController {
 
     private HashMap<PrimaryViewName, Pane> primaryViews;
     private Stage primaryStage;
@@ -23,7 +23,7 @@ public class NeuesLagerOderProfilController {
 
     private StorageShelvesApplication application;
 
-    public NeuesLagerOderProfilController(StorageShelvesApplication application) {
+    public HauptmenueController(StorageShelvesApplication application) {
         this.application = application;
 
         root = new hauptmenueView();
