@@ -49,8 +49,8 @@ public class ProfilManagerController {
 
     private void loadProfiles() {
         // Hier werden gespeicherte Profile geladen
-        SpeicherProfil sp1 = new SpeicherProfil();
-        SpeicherProfil sp2 = new SpeicherProfil();
+        SpeicherProfil sp1 = new SpeicherProfil("1");
+        SpeicherProfil sp2 = new SpeicherProfil("2");
         sp1.setSaveName("1");
         sp2.setSaveName("2");
         profiles.add(sp1);
