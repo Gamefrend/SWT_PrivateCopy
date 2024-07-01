@@ -3,7 +3,6 @@ plugins {
     id "org.openjfx.javafxplugin" version "0.1.0"
 }
 
-
 application {
     mainClass = "main.java.de.hsrm.mi.swt.app.StorageShelvesMain"
 }
@@ -19,8 +18,8 @@ javafx {
 }
 
 // Abzufragendes Internet-Repository für Bibliotheken (z.B. JavaFX)
-repositories { 
-    mavenCentral() 
+repositories {
+    mavenCentral()
 }
 
 // Abhängigkeiten (benötigte und einzubindende Bibliotheken)
@@ -32,6 +31,26 @@ dependencies {
 // Initialisierung für JUnit-Testing
 test {
     useJUnitPlatform()
+}
+
+// Konfiguration der Quellen
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java']
+        }
+        resources {
+            srcDirs = ['src/main/resources']
+        }
+    }
+    test {
+        java {
+            srcDirs = ['src/test/java']
+        }
+        resources {
+            srcDirs = ['src/test/resources']
+        }
+    }
 }
 
 /* ./gradlew fatJar erzeugt Standalone-JAR (App incl. benoetigter Bibliotheken)
@@ -50,4 +69,3 @@ task fatJar(type: Jar) {
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
 }
-
