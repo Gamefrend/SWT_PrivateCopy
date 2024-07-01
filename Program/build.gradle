@@ -5,7 +5,7 @@ plugins {
 
 
 application {
-    mainClass = "de.hsrm.mi.swt.AmpelMain"
+    mainClass = "main.java.de.hsrm.mi.swt.app.StorageShelvesMain"
 }
 
 java {
