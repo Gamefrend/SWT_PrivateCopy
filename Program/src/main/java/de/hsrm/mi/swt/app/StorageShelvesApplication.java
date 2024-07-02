@@ -7,6 +7,8 @@ import javafx.stage.Stage;
 import java.util.HashMap;
 import java.util.Map;
 
+import main.java.de.hsrm.mi.swt.controller.LagerController;
+import main.java.de.hsrm.mi.swt.model.save.SpeicherProfil;
 import main.java.de.hsrm.mi.swt.view.PrimaryViewName;
 import main.java.de.hsrm.mi.swt.view.profilmanager.ProfilManagerView;
 import main.java.de.hsrm.mi.swt.view.startmenue.hauptmenueView;
@@ -30,7 +32,13 @@ public class StorageShelvesApplication extends Application {
 		ProfilLadenOverlayView overlayView = new ProfilLadenOverlayView();
 		mainMenuView.setOverlay(overlayView);
 
+		// LagerView lagerView = new LagerView();
+		// primaryViews.put(PrimaryViewName.LagerView, lagerView);
+		//----
+
 		LagerView lagerView = new LagerView();
+		SpeicherProfil speicherProfil = new SpeicherProfil("1");
+		LagerController lagerController = new LagerController(lagerView, speicherProfil);
 		primaryViews.put(PrimaryViewName.LagerView, lagerView);
 
 		// Andere Views hier hinzufügen...
@@ -44,7 +52,7 @@ public class StorageShelvesApplication extends Application {
 		scene.getStylesheets().add("/css/style.css");
 		primaryStage.setScene(scene);
 
-		switchView(PrimaryViewName.StartmenueView);
+		switchView(PrimaryViewName.LagerView);
 
 		primaryStage.setTitle("StorageShelves");
 		primaryStage.show();
