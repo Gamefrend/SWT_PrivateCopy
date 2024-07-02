@@ -11,7 +11,7 @@ import main.java.de.hsrm.mi.swt.view.PrimaryViewName;
 import main.java.de.hsrm.mi.swt.view.profilmanager.ProfilManagerView;
 import main.java.de.hsrm.mi.swt.view.startmenue.hauptmenueView;
 import main.java.de.hsrm.mi.swt.view.startmenue.ProfilLadenOverlayView;
-import main.java.de.hsrm.mi.swt.view.startmenue.LagerView;
+import main.java.de.hsrm.mi.swt.view.lager.LagerView;
 
 public class StorageShelvesApplication extends Application {
 	private Stage primaryStage;
