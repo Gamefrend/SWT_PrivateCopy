@@ -40,7 +40,7 @@ public class StorageShelvesApplication extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		this.primaryStage = primaryStage;
 
-		Scene scene = new Scene(new Pane(), 1440, 1000);
+		Scene scene = new Scene(new Pane(), 1440, 1024);
 		scene.getStylesheets().add("/css/style.css");
 		primaryStage.setScene(scene);
 
