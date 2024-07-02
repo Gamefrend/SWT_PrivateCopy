@@ -1,7 +1,6 @@
 package main.java.de.hsrm.mi.swt.controller;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+
 import main.java.de.hsrm.mi.swt.model.save.SpeicherProfil;
 import main.java.de.hsrm.mi.swt.model.storage.Raum;
 import main.java.de.hsrm.mi.swt.view.lager.LagerView;
