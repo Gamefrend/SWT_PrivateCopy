@@ -19,7 +19,7 @@ public class LagerController {
 
     private void initialize() {
         // Raum laden
-        Raum raum = speicherProfil.load();
+       // Raum raum = speicherProfil.load();
 
         // Beispiel: Anzeigen der Raumdetails in der View
         lagerView.getProfileNameField().setText(speicherProfil.getSaveName());

@@ -25,10 +25,10 @@ public class ProfilManagerController {
     ProfilManagerView root;
     private ObservableList<SpeicherProfil> profiles;
 
-    public ProfilManagerController(StorageShelvesApplication application) {
+    public ProfilManagerController(StorageShelvesApplication application, ProfilManagerView profilManagerView) {
         this.application = application;
         rootContainer = new StackPane();
-        root = new ProfilManagerView();
+        root = profilManagerView;
         profileView = root.getProfileView();
         profiles = FXCollections.observableArrayList();
 

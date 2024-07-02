@@ -7,7 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import main.java.de.hsrm.mi.swt.view.startmenue.hauptmenueView; //main.java.
+import main.java.de.hsrm.mi.swt.view.startmenue.HauptmenueView; //main.java.
 import main.java.de.hsrm.mi.swt.view.PrimaryViewName;
 import main.java.de.hsrm.mi.swt.app.StorageShelvesApplication;
 
@@ -18,15 +18,15 @@ public class HauptmenueController {
     private HashMap<PrimaryViewName, Pane> primaryViews;
     private Stage primaryStage;
     private StackPane rootContainer;
-    hauptmenueView root;
+    HauptmenueView root;
     Button neuesLagerBtn;
 
     private StorageShelvesApplication application;
 
-    public HauptmenueController(StorageShelvesApplication application) {
+    public HauptmenueController(StorageShelvesApplication application, HauptmenueView hauptmenueView) {
         this.application = application;
 
-        root = new hauptmenueView();
+        root = hauptmenueView;
         rootContainer = new StackPane();
         neuesLagerBtn = root.getNewSystemButton();
 
