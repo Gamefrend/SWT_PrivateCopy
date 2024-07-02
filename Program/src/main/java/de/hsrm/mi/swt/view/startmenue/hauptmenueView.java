@@ -39,8 +39,7 @@ public class hauptmenueView extends BorderPane {
         Image arrowImage = new Image(getClass().getResourceAsStream("/main/resources/icons/arrow.png"));
         newSystemButton = createButton("NEUES LAGERSYSTEM", arrowImage);
 
-        loadProfileButton = createButton("PROFIL LADEN", arrowImage);
-        loadProfileButton.setOnAction(e -> showOverlay());
+        loadProfileButton = createButton("LETZTES PROFIL LADEN", arrowImage);
 
         manageProfileButton = createButton("PROFILMANAGER", arrowImage);
 
