@@ -18,7 +18,7 @@ public class HauptmenueController {
     private HashMap<PrimaryViewName, Pane> primaryViews;
     private Stage primaryStage;
     private StackPane rootContainer;
-    HauptmenueView root;
+    HauptmenueView hauptmenueView;
     Button neuesLagerBtn;
 
     Button manageProfileButton;
@@ -26,12 +26,12 @@ public class HauptmenueController {
     private StorageShelvesApplication application;
 
     public HauptmenueController(StorageShelvesApplication application, HauptmenueView hauptmenueView) {
-        this.application = application;
 
-        root = hauptmenueView;
+        this.application = application;
+        this.hauptmenueView = hauptmenueView;
         rootContainer = new StackPane();
-        neuesLagerBtn = root.getNewSystemButton();
-        manageProfileButton = root.getManageProfileButton();
+        neuesLagerBtn = hauptmenueView.getNewSystemButton();
+        manageProfileButton = hauptmenueView.getManageProfileButton();
 
         initialize();
     }
@@ -41,18 +41,4 @@ public class HauptmenueController {
         manageProfileButton.addEventHandler(ActionEvent.ACTION, e -> application.switchView(PrimaryViewName.ProfilLadenView));
 
     }
-
-    public void switchView(PrimaryViewName viewName) {
-        Scene currentScene = primaryStage.getScene();
-
-        Pane nextView = primaryViews.get(viewName);
-        if (nextView != null) {
-            currentScene.setRoot(nextView);
-        }
-    }
-
-    public Pane getRoot() {
-        return root;
-    }
-
 }
