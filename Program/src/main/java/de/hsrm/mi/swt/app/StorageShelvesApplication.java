@@ -21,6 +21,7 @@ public class StorageShelvesApplication extends Application {
 	private Stage primaryStage;
 	private Map<PrimaryViewName, Pane> primaryViews;
 
+
 	@Override
 	public void init() {
 		primaryViews = new HashMap<>();
@@ -42,7 +43,7 @@ public class StorageShelvesApplication extends Application {
 
 		LagerView lagerView = new LagerView();
 		SpeicherProfil speicherProfil = new SpeicherProfil("1");
-		//LagerController lagerController = new LagerController(lagerView, speicherProfil);
+		LagerController lagerController = new LagerController(lagerView, speicherProfil , primaryStage , primaryViews);
 		primaryViews.put(PrimaryViewName.LagerView, lagerView);
 
 		// Andere Views hier hinzufügen...

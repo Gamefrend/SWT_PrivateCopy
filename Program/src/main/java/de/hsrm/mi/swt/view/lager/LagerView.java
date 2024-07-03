@@ -4,11 +4,11 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import main.java.de.hsrm.mi.swt.model.save.SpeicherProfil;
 
 public class LagerView extends StackPane {
 
@@ -30,7 +30,7 @@ public class LagerView extends StackPane {
         setId("lager-view");
         setPadding(new Insets(20));
 
-        // Textfeld fÃ¼r den Profilnamen
+        // Textfeld für den Profilnamen
         profileNameField = new Label("Profilname eingeben");
         profileNameField.setMinWidth(200);
 
@@ -42,14 +42,13 @@ public class LagerView extends StackPane {
         menuButton = new Button("Menu");
 
         // Buttons in einer HBox anordnen
-        HBox  unAndRedoBox= new HBox(10, undoButton, redoButton);
-        HBox saveAndSettingsBox= new HBox(10, saveButton, settingsButton);
-        HBox buttonBox = new HBox(100, unAndRedoBox , saveAndSettingsBox);
+        HBox unAndRedoBox = new HBox(10, undoButton, redoButton);
+        HBox saveAndSettingsBox = new HBox(10, saveButton, settingsButton);
+        HBox buttonBox = new HBox(100, unAndRedoBox, saveAndSettingsBox);
         buttonBox.setAlignment(Pos.CENTER);
 
         HBox headerBox = new HBox(300, menuButton, profileNameField, buttonBox);
         headerBox.setAlignment(Pos.CENTER);
-
 
         // Zentrum
         centerArea = new Pane();
@@ -69,24 +68,21 @@ public class LagerView extends StackPane {
         skalierenButton = new Button("Skalieren");
         moveButton = new Button("Move");
 
-        VBox toolBox = new VBox(brettButton,saueleButton,skalierenButton,moveButton);
+        VBox toolBox = new VBox(brettButton, saueleButton, skalierenButton, moveButton);
         toolBox.setAlignment(Pos.CENTER);
         toolBox.setPadding(new Insets(10));
         toolBox.setSpacing(10);
 
-
-        VBox preMainLayout = new VBox(180,headerBox, centerArea, inventoryBox);
+        VBox preMainLayout = new VBox(180, headerBox, centerArea, inventoryBox);
         preMainLayout.setAlignment(Pos.CENTER);
 
         // Hauptlayout
         HBox mainLayout = new HBox(toolBox, preMainLayout);
 
         getChildren().add(mainLayout);
-
-
     }
 
-    public void setProfilname(String name){
+    public void setProfilname(String name) {
         this.profileNameField.setText(name);
     }
 
@@ -117,8 +113,12 @@ public class LagerView extends StackPane {
     public Button getSettingsButton() {
         return settingsButton;
     }
+
     public Label getInventarTextField() {
         return inventarTextField;
     }
 
+    public Button getMenuButton() {
+        return menuButton;
+    }
 }

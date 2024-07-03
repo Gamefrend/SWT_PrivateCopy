@@ -1,25 +1,35 @@
 package main.java.de.hsrm.mi.swt.controller;
 
-
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import main.java.de.hsrm.mi.swt.model.save.SpeicherProfil;
 import main.java.de.hsrm.mi.swt.model.storage.Raum;
+import main.java.de.hsrm.mi.swt.view.PrimaryViewName;
 import main.java.de.hsrm.mi.swt.view.lager.LagerView;
+import javafx.event.ActionEvent;
+import java.util.Map;
 
 public class LagerController {
+
+    private Map<PrimaryViewName, Pane> primaryViews;
+    private Stage primaryStage;
 
     private LagerView lagerView;
     private SpeicherProfil speicherProfil;
 
-    public LagerController(LagerView lagerView, SpeicherProfil speicherProfil) {
+    public LagerController(LagerView lagerView, SpeicherProfil speicherProfil, Stage primaryStage, Map<PrimaryViewName, Pane> primaryViews) {
         this.lagerView = lagerView;
         this.speicherProfil = speicherProfil;
+        this.primaryStage = primaryStage;
+        this.primaryViews = primaryViews;
 
         initialize();
     }
 
     private void initialize() {
         // Raum laden
-       // Raum raum = speicherProfil.load();
+        // Raum raum = speicherProfil.load();
 
         // Beispiel: Anzeigen der Raumdetails in der View
         lagerView.getProfileNameField().setText(speicherProfil.getSaveName());
@@ -29,9 +39,7 @@ public class LagerController {
         lagerView.getRedoButton().setOnAction(e -> handleRedo());
         lagerView.getSaveButton().setOnAction(e -> handleSave());
         lagerView.getSettingsButton().setOnAction(e -> handleSettings());
-
-
-
+        lagerView.getMenuButton().addEventHandler(ActionEvent.ACTION, e -> handleMenuButton());
     }
 
     private void handleUndo() {
@@ -53,21 +61,18 @@ public class LagerController {
         System.out.println("Settings button clicked");
     }
 
-    private void handleBrett(){
-        System.out.println("Brett");
+    private void handleMenuButton() {
+        System.out.println("Menu button clicked"); // Debugging-Output
+        Scene currentScene = primaryStage.getScene();
+        Pane nextView = primaryViews.get(PrimaryViewName.StartmenueView);
+        if (nextView != null) {
+            currentScene.setRoot(nextView);
+        } else {
+            System.err.println("StartmenueView not found"); // Debugging-Output
+        }
     }
 
-    private void handleSaule(){
-        System.out.println("Saule");
+    public Pane getRoot() {
+        return lagerView;
     }
-
-    private void handleSkalieren(){
-
-    }
-
-    private void handleMove(){
-
-    }
-
-
 }
