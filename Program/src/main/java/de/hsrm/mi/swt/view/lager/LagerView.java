@@ -18,6 +18,11 @@ public class LagerView extends StackPane {
     private Button redoButton;
     private Button saveButton;
     private Button settingsButton;
+    private Button menuButton;
+    private Button brettButton;
+    private Button saueleButton;
+    private Button skalierenButton;
+    private Button moveButton;
     private TextField inventarTextField;
 
     public LagerView() {
@@ -34,6 +39,7 @@ public class LagerView extends StackPane {
         redoButton = new Button("Redo");
         saveButton = new Button("Speichern");
         settingsButton = new Button("Einstellungen");
+        menuButton = new Button("Menu");
 
         // Buttons in einer HBox anordnen
         HBox  unAndRedoBox= new HBox(10, undoButton, redoButton);
@@ -41,7 +47,7 @@ public class LagerView extends StackPane {
         HBox buttonBox = new HBox(100, unAndRedoBox , saveAndSettingsBox);
         buttonBox.setAlignment(Pos.CENTER);
 
-        HBox headerBox = new HBox(300, profileNameField, buttonBox);
+        HBox headerBox = new HBox(300, menuButton, profileNameField, buttonBox);
         headerBox.setAlignment(Pos.CENTER);
 
 
@@ -58,9 +64,22 @@ public class LagerView extends StackPane {
         inventoryBox.setPadding(new Insets(10));
         inventoryBox.setStyle("-fx-background-color: #f0f0f0; -fx-border-color: black;");
 
+        brettButton = new Button("Brett");
+        saueleButton = new Button("Sauele");
+        skalierenButton = new Button("Skalieren");
+        moveButton = new Button("Move");
+
+        VBox toolBox = new VBox(brettButton,saueleButton,skalierenButton,moveButton);
+        toolBox.setAlignment(Pos.CENTER);
+        toolBox.setPadding(new Insets(10));
+        toolBox.setSpacing(10);
+
+
+        VBox preMainLayout = new VBox(180,headerBox, centerArea, inventoryBox);
+        preMainLayout.setAlignment(Pos.CENTER);
+
         // Hauptlayout
-        VBox mainLayout = new VBox(180,headerBox, centerArea, inventoryBox);
-        mainLayout.setAlignment(Pos.CENTER);
+        HBox mainLayout = new HBox(toolBox, preMainLayout);
 
         getChildren().add(mainLayout);
 

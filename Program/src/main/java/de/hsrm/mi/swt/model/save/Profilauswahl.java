@@ -10,7 +10,7 @@ public class Profilauswahl {
     List<SpeicherProfil> speicherProfile;
 
     public Profilauswahl() {
-        //Hier können Testspeichprofile erstellt werden
+        //Hier können Testspeicherprofile erstellt werden
         /*
         SpeicherProfil sp1 = new SpeicherProfil("Test_1");
         SpeicherProfil sp2 = new SpeicherProfil("Test_2");
