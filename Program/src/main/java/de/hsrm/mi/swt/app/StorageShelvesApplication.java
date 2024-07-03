@@ -38,7 +38,7 @@ public class StorageShelvesApplication extends Application {
 
 		LagerView lagerView = new LagerView();
 		SpeicherProfil speicherProfil = new SpeicherProfil("1");
-		LagerController lagerController = new LagerController(lagerView, speicherProfil);
+		//LagerController lagerController = new LagerController(lagerView, speicherProfil);
 		primaryViews.put(PrimaryViewName.LagerView, lagerView);
 
 		// Andere Views hier hinzufügen...
@@ -52,7 +52,7 @@ public class StorageShelvesApplication extends Application {
 		scene.getStylesheets().add("/css/style.css");
 		primaryStage.setScene(scene);
 
-		switchView(PrimaryViewName.StartmenueView);
+		switchView(PrimaryViewName.LagerView);
 
 		primaryStage.setTitle("StorageShelves");
 		primaryStage.show();
