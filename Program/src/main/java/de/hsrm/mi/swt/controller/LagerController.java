@@ -1,8 +1,11 @@
 package main.java.de.hsrm.mi.swt.controller;
 
+import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import main.java.de.hsrm.mi.swt.app.StorageShelvesApplication;
 import main.java.de.hsrm.mi.swt.model.save.SpeicherProfil;
 import main.java.de.hsrm.mi.swt.model.storage.Raum;
 import main.java.de.hsrm.mi.swt.view.PrimaryViewName;
@@ -18,28 +21,24 @@ public class LagerController {
     private LagerView lagerView;
     private SpeicherProfil speicherProfil;
 
-    public LagerController(LagerView lagerView, SpeicherProfil speicherProfil, Stage primaryStage, Map<PrimaryViewName, Pane> primaryViews) {
+    private StorageShelvesApplication application;
+    private Button menuButton;
+
+    public LagerController(StorageShelvesApplication application, LagerView lagerView) {
+        this.application = application;
         this.lagerView = lagerView;
-        this.speicherProfil = speicherProfil;
-        this.primaryStage = primaryStage;
-        this.primaryViews = primaryViews;
+        menuButton = lagerView.getMenuButton();
 
         initialize();
     }
 
     private void initialize() {
-        // Raum laden
-        // Raum raum = speicherProfil.load();
-
-        // Beispiel: Anzeigen der Raumdetails in der View
-        lagerView.getProfileNameField().setText(speicherProfil.getSaveName());
-
         // Button-Events festlegen
         lagerView.getUndoButton().setOnAction(e -> handleUndo());
         lagerView.getRedoButton().setOnAction(e -> handleRedo());
         lagerView.getSaveButton().setOnAction(e -> handleSave());
         lagerView.getSettingsButton().setOnAction(e -> handleSettings());
-        lagerView.getMenuButton().addEventHandler(ActionEvent.ACTION, e -> handleMenuButton());
+        menuButton.addEventHandler(ActionEvent.ACTION, e -> application.switchView(PrimaryViewName.StartmenueView));
     }
 
     private void handleUndo() {
@@ -59,17 +58,6 @@ public class LagerController {
 
     private void handleSettings() {
         System.out.println("Settings button clicked");
-    }
-
-    private void handleMenuButton() {
-        System.out.println("Menu button clicked"); // Debugging-Output
-        Scene currentScene = primaryStage.getScene();
-        Pane nextView = primaryViews.get(PrimaryViewName.StartmenueView);
-        if (nextView != null) {
-            currentScene.setRoot(nextView);
-        } else {
-            System.err.println("StartmenueView not found"); // Debugging-Output
-        }
     }
 
     public Pane getRoot() {

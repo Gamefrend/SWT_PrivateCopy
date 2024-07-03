@@ -43,7 +43,7 @@ public class StorageShelvesApplication extends Application {
 
 		LagerView lagerView = new LagerView();
 		SpeicherProfil speicherProfil = new SpeicherProfil("1");
-		LagerController lagerController = new LagerController(lagerView, speicherProfil , primaryStage , primaryViews);
+		LagerController lagerController = new LagerController(this, lagerView);
 		primaryViews.put(PrimaryViewName.LagerView, lagerView);
 
 		// Andere Views hier hinzufügen...
