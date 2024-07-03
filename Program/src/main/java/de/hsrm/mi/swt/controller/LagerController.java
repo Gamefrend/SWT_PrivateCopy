@@ -24,20 +24,31 @@ public class LagerController {
     private StorageShelvesApplication application;
     private Button menuButton;
 
+    private Button undoButton;
+
+    private Button redoButton;
+
+    private Button saveButton;
+
+    private Button settingsButton;
+
     public LagerController(StorageShelvesApplication application, LagerView lagerView) {
         this.application = application;
         this.lagerView = lagerView;
         menuButton = lagerView.getMenuButton();
+        undoButton = lagerView.getUndoButton();
+        redoButton = lagerView.getRedoButton();
+        saveButton = lagerView.getSaveButton();
+        settingsButton = lagerView.getSettingsButton();
 
         initialize();
     }
 
     private void initialize() {
-        // Button-Events festlegen
-        lagerView.getUndoButton().setOnAction(e -> handleUndo());
-        lagerView.getRedoButton().setOnAction(e -> handleRedo());
-        lagerView.getSaveButton().setOnAction(e -> handleSave());
-        lagerView.getSettingsButton().setOnAction(e -> handleSettings());
+        undoButton.setOnAction(e -> handleUndo());
+        redoButton.setOnAction(e -> handleRedo());
+        saveButton.setOnAction(e -> handleSave());
+        settingsButton.setOnAction(e -> handleSettings());
         menuButton.addEventHandler(ActionEvent.ACTION, e -> application.switchView(PrimaryViewName.StartmenueView));
     }
 
