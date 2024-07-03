@@ -3,6 +3,7 @@ package main.java.de.hsrm.mi.swt.view.lager;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -13,7 +14,7 @@ public class LagerView extends StackPane {
 
     private Pane centerArea;
     private HBox inventoryBox;
-    private TextField profileNameField;
+    private Label profileNameField;
     private Button undoButton;
     private Button redoButton;
     private Button saveButton;
@@ -23,15 +24,14 @@ public class LagerView extends StackPane {
     private Button saueleButton;
     private Button skalierenButton;
     private Button moveButton;
-    private TextField inventarTextField;
+    private Label inventarTextField;
 
     public LagerView() {
         setId("lager-view");
         setPadding(new Insets(20));
 
         // Textfeld fÃ¼r den Profilnamen
-        profileNameField = new TextField();
-        profileNameField.setPromptText("Profilname eingeben");
+        profileNameField = new Label("Profilname eingeben");
         profileNameField.setMinWidth(200);
 
         // Buttons
@@ -57,7 +57,7 @@ public class LagerView extends StackPane {
         centerArea.setStyle("-fx-border-color: black; -fx-background-color: white; -fx-min-height: 400px;");
 
         // Inventar-Bereich
-        inventarTextField = new TextField("Inventar");
+        inventarTextField = new Label("Inventar");
         inventoryBox = new HBox(10);
         inventoryBox.setId("inventory-box");
         inventoryBox.setAlignment(Pos.CENTER);
@@ -86,6 +86,10 @@ public class LagerView extends StackPane {
 
     }
 
+    public void setProfilname(String name){
+        this.profileNameField.setText(name);
+    }
+
     public Pane getCenterArea() {
         return centerArea;
     }
@@ -94,7 +98,7 @@ public class LagerView extends StackPane {
         return inventoryBox;
     }
 
-    public TextField getProfileNameField() {
+    public Label getProfileNameField() {
         return profileNameField;
     }
 
@@ -113,7 +117,7 @@ public class LagerView extends StackPane {
     public Button getSettingsButton() {
         return settingsButton;
     }
-    public TextField getInventarTextField() {
+    public Label getInventarTextField() {
         return inventarTextField;
     }
 

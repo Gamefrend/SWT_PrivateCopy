@@ -31,6 +31,7 @@ public class LagerController {
         lagerView.getSettingsButton().setOnAction(e -> handleSettings());
 
 
+
     }
 
     private void handleUndo() {
@@ -51,4 +52,22 @@ public class LagerController {
     private void handleSettings() {
         System.out.println("Settings button clicked");
     }
+
+    private void handleBrett(){
+        System.out.println("Brett");
+    }
+
+    private void handleSaule(){
+        System.out.println("Saule");
+    }
+
+    private void handleSkalieren(){
+
+    }
+
+    private void handleMove(){
+
+    }
+
+
 }
