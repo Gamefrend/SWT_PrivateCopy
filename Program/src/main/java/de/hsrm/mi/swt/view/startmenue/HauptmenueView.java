@@ -10,7 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
-public class hauptmenueView extends BorderPane {
+public class HauptmenueView extends BorderPane {
 
     private ProfilLadenOverlayView overlay;
     private Button newSystemButton;
@@ -19,7 +19,7 @@ public class hauptmenueView extends BorderPane {
     private Label titleLabel;
     private Label versionLabel;
 
-    public hauptmenueView() {
+    public HauptmenueView() {
         // Header
         titleLabel = new Label("STORAGESHELVES");
         titleLabel.getStyleClass().addAll("header-label", "title-label");
@@ -104,5 +104,9 @@ public class hauptmenueView extends BorderPane {
 
     public Button getNewSystemButton() {
         return newSystemButton;
+    }
+
+    public Button getManageProfileButton(){
+        return manageProfileButton;
     }
 }

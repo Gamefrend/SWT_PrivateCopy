@@ -7,11 +7,13 @@ import javafx.stage.Stage;
 import java.util.HashMap;
 import java.util.Map;
 
+import main.java.de.hsrm.mi.swt.controller.HauptmenueController;
 import main.java.de.hsrm.mi.swt.controller.LagerController;
+import main.java.de.hsrm.mi.swt.controller.ProfilManagerController;
 import main.java.de.hsrm.mi.swt.model.save.SpeicherProfil;
 import main.java.de.hsrm.mi.swt.view.PrimaryViewName;
 import main.java.de.hsrm.mi.swt.view.profilmanager.ProfilManagerView;
-import main.java.de.hsrm.mi.swt.view.startmenue.hauptmenueView;
+import main.java.de.hsrm.mi.swt.view.startmenue.HauptmenueView;
 import main.java.de.hsrm.mi.swt.view.startmenue.ProfilLadenOverlayView;
 import main.java.de.hsrm.mi.swt.view.lager.LagerView;
 
@@ -23,10 +25,12 @@ public class StorageShelvesApplication extends Application {
 	public void init() {
 		primaryViews = new HashMap<>();
 
-		hauptmenueView mainMenuView = new hauptmenueView();
+		HauptmenueView mainMenuView = new HauptmenueView();
+		HauptmenueController hauptmenueController = new HauptmenueController(this, mainMenuView);
 		primaryViews.put(PrimaryViewName.StartmenueView, mainMenuView);
 
 		ProfilManagerView profilManagerView = new ProfilManagerView();
+		ProfilManagerController profilManagerController = new ProfilManagerController(this, profilManagerView);
 		primaryViews.put(PrimaryViewName.ProfilLadenView, profilManagerView);
 
 		ProfilLadenOverlayView overlayView = new ProfilLadenOverlayView();
