@@ -24,7 +24,7 @@ public class LagerView extends StackPane {
         setId("lager-view");
         setPadding(new Insets(20));
 
-        // Textfeld für den Profilnamen
+        // Textfeld fÃ¼r den Profilnamen
         profileNameField = new TextField();
         profileNameField.setPromptText("Profilname eingeben");
         profileNameField.setMinWidth(200);
@@ -36,8 +36,14 @@ public class LagerView extends StackPane {
         settingsButton = new Button("Einstellungen");
 
         // Buttons in einer HBox anordnen
-        HBox buttonBox = new HBox(10, undoButton, redoButton, saveButton, settingsButton);
+        HBox  unAndRedoBox= new HBox(10, undoButton, redoButton);
+        HBox saveAndSettingsBox= new HBox(10, saveButton, settingsButton);
+        HBox buttonBox = new HBox(100, unAndRedoBox , saveAndSettingsBox);
         buttonBox.setAlignment(Pos.CENTER);
+
+        HBox headerBox = new HBox(300, profileNameField, buttonBox);
+        headerBox.setAlignment(Pos.CENTER);
+
 
         // Zentrum
         centerArea = new Pane();
@@ -53,7 +59,7 @@ public class LagerView extends StackPane {
         inventoryBox.setStyle("-fx-background-color: #f0f0f0; -fx-border-color: black;");
 
         // Hauptlayout
-        VBox mainLayout = new VBox(20, profileNameField, buttonBox, centerArea, inventoryBox);
+        VBox mainLayout = new VBox(180,headerBox, centerArea, inventoryBox);
         mainLayout.setAlignment(Pos.CENTER);
 
         getChildren().add(mainLayout);
