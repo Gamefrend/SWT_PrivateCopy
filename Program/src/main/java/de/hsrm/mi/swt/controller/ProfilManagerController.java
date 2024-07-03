@@ -1,6 +1,7 @@
 package main.java.de.hsrm.mi.swt.controller;
 
 import main.java.de.hsrm.mi.swt.app.StorageShelvesApplication;
+import main.java.de.hsrm.mi.swt.model.save.Profilauswahl;
 import main.java.de.hsrm.mi.swt.model.save.SpeicherProfil;
 import main.java.de.hsrm.mi.swt.model.storage.Raum;
 import main.java.de.hsrm.mi.swt.view.PrimaryViewName;
@@ -21,6 +22,8 @@ public class ProfilManagerController {
     private StackPane rootContainer;
     private StorageShelvesApplication application;
 
+    private Profilauswahl profilauswahl;
+
     ListView<SpeicherProfil> profileView;
     ProfilManagerView root;
     private ObservableList<SpeicherProfil> profiles;
@@ -36,6 +39,8 @@ public class ProfilManagerController {
     }
 
     public void initialize() {
+        profilauswahl = new Profilauswahl();
+        profiles.addAll(profilauswahl.getSpeicherProfile());
         profileView.setItems(profiles);
         profileView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
@@ -44,18 +49,8 @@ public class ProfilManagerController {
                 System.out.println("Raum: " + raum.getHoehe() + " | " + raum.getBreite());
             }
         });
-        loadProfiles();
     }
 
-    private void loadProfiles() {
-        // Hier werden gespeicherte Profile geladen
-        SpeicherProfil sp1 = new SpeicherProfil("1");
-        SpeicherProfil sp2 = new SpeicherProfil("2");
-        sp1.setSaveName("1");
-        sp2.setSaveName("2");
-        profiles.add(sp1);
-        profiles.add(sp2);
-    }
 
     public void switchView(PrimaryViewName viewName) {
         Scene currentScene = primaryStage.getScene();

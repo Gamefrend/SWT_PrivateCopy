@@ -21,6 +21,8 @@ public class HauptmenueController {
     HauptmenueView root;
     Button neuesLagerBtn;
 
+    Button manageProfileButton;
+
     private StorageShelvesApplication application;
 
     public HauptmenueController(StorageShelvesApplication application, HauptmenueView hauptmenueView) {
@@ -29,16 +31,14 @@ public class HauptmenueController {
         root = hauptmenueView;
         rootContainer = new StackPane();
         neuesLagerBtn = root.getNewSystemButton();
+        manageProfileButton = root.getManageProfileButton();
 
         initialize();
     }
 
     public void initialize() {
-        neuesLagerBtn.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent e) {
-                application.switchView(PrimaryViewName.StartmenueView);
-            }
-        });
+        neuesLagerBtn.addEventHandler(ActionEvent.ACTION, e -> application.switchView(PrimaryViewName.LagerView));
+        manageProfileButton.addEventHandler(ActionEvent.ACTION, e -> application.switchView(PrimaryViewName.ProfilLadenView));
 
     }
 

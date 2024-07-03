@@ -32,7 +32,7 @@ public class ProfilCell extends ListCell<SpeicherProfil> {
             setGraphic(null);
         } else {
             name.setText(item.getSaveName());
-            datum.setText("Some date here"); // Datum kann entsprechend angepasst werden
+            datum.setText(item.getDatum().toString()); // Datum kann entsprechend angepasst werden
             setGraphic(root);
         }
     }

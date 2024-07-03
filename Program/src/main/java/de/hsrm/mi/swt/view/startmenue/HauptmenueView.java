@@ -105,4 +105,8 @@ public class HauptmenueView extends BorderPane {
     public Button getNewSystemButton() {
         return newSystemButton;
     }
+
+    public Button getManageProfileButton(){
+        return manageProfileButton;
+    }
 }
