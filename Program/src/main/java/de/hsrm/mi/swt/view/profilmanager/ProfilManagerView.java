@@ -15,7 +15,6 @@ public class ProfilManagerView extends BorderPane {
 
     public ProfilManagerView() {
         headerLabel = new Label("Profile");
-
         profileView = new ListView<>();
         profileView.setCellFactory(param -> new ProfilCell());
         this.setCenter(profileView);

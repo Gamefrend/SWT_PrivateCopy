@@ -10,7 +10,9 @@ import java.util.Map;
 import main.java.de.hsrm.mi.swt.controller.HauptmenueController;
 import main.java.de.hsrm.mi.swt.controller.LagerController;
 import main.java.de.hsrm.mi.swt.controller.ProfilManagerController;
+import main.java.de.hsrm.mi.swt.model.save.Profilauswahl;
 import main.java.de.hsrm.mi.swt.model.save.SpeicherProfil;
+import main.java.de.hsrm.mi.swt.model.storage.Raum;
 import main.java.de.hsrm.mi.swt.view.PrimaryViewName;
 import main.java.de.hsrm.mi.swt.view.profilmanager.ProfilManagerView;
 import main.java.de.hsrm.mi.swt.view.startmenue.HauptmenueView;
@@ -21,10 +23,16 @@ public class StorageShelvesApplication extends Application {
 	private Stage primaryStage;
 	private Map<PrimaryViewName, Pane> primaryViews;
 
+	private Raum aktuellerRaum;
+
+	private SpeicherProfil aktuellesSpeicherprofil;
+
+	private Profilauswahl profilauswahl;
 
 	@Override
 	public void init() {
 		primaryViews = new HashMap<>();
+		profilauswahl = new Profilauswahl();
 
 		HauptmenueView mainMenuView = new HauptmenueView();
 		HauptmenueController hauptmenueController = new HauptmenueController(this, mainMenuView);
@@ -69,6 +77,27 @@ public class StorageShelvesApplication extends Application {
 		if (nextView != null) {
 			currentScene.setRoot(nextView);
 		}
+	}
+
+	public Raum getAktuellerRaum() {
+		return aktuellerRaum;
+	}
+
+	public void setAktuellerRaum(Raum aktuellerRaum) {
+		this.aktuellerRaum = aktuellerRaum;
+	}
+
+	public SpeicherProfil getAktuellesSpeicherprofil() {
+		return aktuellesSpeicherprofil;
+	}
+
+	public void setAktuellesSpeicherprofil(SpeicherProfil aktuellesSpeicherprofil) {
+		this.aktuellesSpeicherprofil = aktuellesSpeicherprofil;
+	}
+
+	public void ladeNeustesSpeicherprofil(){
+		aktuellesSpeicherprofil = profilauswahl.getNeustesProfil();
+		aktuellerRaum = aktuellesSpeicherprofil.load();
 	}
 
 	public static void main(String[] args) {

@@ -3,8 +3,7 @@ package main.java.de.hsrm.mi.swt.model.save;
 import main.java.de.hsrm.mi.swt.model.storage.Raum;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Profilauswahl {
     List<SpeicherProfil> speicherProfile;
@@ -42,6 +41,10 @@ public class Profilauswahl {
     public void addProfile(SpeicherProfil speicherProfil) {
         speicherProfile.add(speicherProfil);
 
+    }
+
+    public SpeicherProfil getNeustesProfil(){
+        return Collections.max(speicherProfile, Comparator.comparing(SpeicherProfil::getDatum));
     }
 
     public void delProfile(SpeicherProfil speicherProfil) {

@@ -95,7 +95,6 @@ public class HauptmenueView extends BorderPane {
         this.overlay = overlay;
         getChildren().add(overlay);
     }
-
     private void showOverlay() {
         if (overlay != null) {
             overlay.setVisible(true);
@@ -106,7 +105,11 @@ public class HauptmenueView extends BorderPane {
         return newSystemButton;
     }
 
-    public Button getManageProfileButton(){
+    public Button getManageProfileButton() {
         return manageProfileButton;
+    }
+
+    public Button getLoadProfileButton() {
+        return loadProfileButton;
     }
 }

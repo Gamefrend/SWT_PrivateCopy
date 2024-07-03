@@ -1,7 +1,5 @@
 package main.java.de.hsrm.mi.swt.controller;
 
-import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -19,8 +17,8 @@ public class LagerController {
     private Stage primaryStage;
 
     private LagerView lagerView;
-    private SpeicherProfil speicherProfil;
-
+    private Raum aktuellerRaum;
+    private SpeicherProfil aktuellesSpeicherprofil;
     private StorageShelvesApplication application;
     private Button menuButton;
 
@@ -45,6 +43,15 @@ public class LagerController {
     }
 
     private void initialize() {
+        this.aktuellerRaum = application.getAktuellerRaum();
+        if(application.getAktuellesSpeicherprofil()!=null){
+            this.aktuellesSpeicherprofil = application.getAktuellesSpeicherprofil();
+        }else{
+            System.out.println("Hier kommt Logik hin die ein neuen Raum erstellt");
+            aktuellerRaum = new Raum(2,3);
+            application.setAktuellerRaum(aktuellerRaum);
+            aktuellesSpeicherprofil = new SpeicherProfil("TestProfil1");
+        }
         undoButton.setOnAction(e -> handleUndo());
         redoButton.setOnAction(e -> handleRedo());
         saveButton.setOnAction(e -> handleSave());
@@ -63,7 +70,7 @@ public class LagerController {
     }
 
     private void handleSave() {
-        speicherProfil.save(new Raum(2, 2)); // Beispiel: speichert einen Raum mit 2x2 Größe
+        aktuellesSpeicherprofil.save(aktuellerRaum);
         System.out.println("Save button clicked");
     }
 

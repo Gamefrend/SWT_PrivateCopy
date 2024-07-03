@@ -1,8 +1,6 @@
 package main.java.de.hsrm.mi.swt.controller; //main.java.
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -21,6 +19,7 @@ public class HauptmenueController {
     HauptmenueView hauptmenueView;
     Button neuesLagerBtn;
 
+    Button loadProfileButton;
     Button manageProfileButton;
 
     private StorageShelvesApplication application;
@@ -32,6 +31,7 @@ public class HauptmenueController {
         rootContainer = new StackPane();
         neuesLagerBtn = hauptmenueView.getNewSystemButton();
         manageProfileButton = hauptmenueView.getManageProfileButton();
+        loadProfileButton = hauptmenueView.getLoadProfileButton();
 
         initialize();
     }
@@ -39,6 +39,9 @@ public class HauptmenueController {
     public void initialize() {
         neuesLagerBtn.addEventHandler(ActionEvent.ACTION, e -> application.switchView(PrimaryViewName.LagerView));
         manageProfileButton.addEventHandler(ActionEvent.ACTION, e -> application.switchView(PrimaryViewName.ProfilLadenView));
+        loadProfileButton.addEventHandler(ActionEvent.ACTION, e ->{
+                application.ladeNeustesSpeicherprofil();
+                application.switchView(PrimaryViewName.ProfilLadenView);});
 
     }
 }
