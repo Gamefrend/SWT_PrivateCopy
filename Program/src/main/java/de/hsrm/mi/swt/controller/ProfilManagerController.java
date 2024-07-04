@@ -6,39 +6,30 @@ import main.java.de.hsrm.mi.swt.app.StorageShelvesApplication;
 import main.java.de.hsrm.mi.swt.model.save.Profilauswahl;
 import main.java.de.hsrm.mi.swt.model.save.SpeicherProfil;
 import main.java.de.hsrm.mi.swt.model.storage.Raum;
-import main.java.de.hsrm.mi.swt.view.PrimaryViewName;
 import main.java.de.hsrm.mi.swt.view.profilmanager.ProfilManagerView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.Scene;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-
-import java.util.HashMap;
+import javafx.stage.Popup;
+import javafx.stage.Window;
 
 public class ProfilManagerController {
-    private HashMap<PrimaryViewName, Pane> primaryViews;
-    private Stage primaryStage;
-    private StackPane rootContainer;
     private StorageShelvesApplication application;
-
-    private Profilauswahl profilauswahl;
-
-    private ListView<SpeicherProfil> profileView;
     private ProfilManagerView profilManagerView;
+    private Popup popup;
+    private Profilauswahl profilauswahl;
+    private ListView<SpeicherProfil> profileView;
     private ObservableList<SpeicherProfil> profiles;
-
     private Button menueButton;
 
-    public ProfilManagerController(StorageShelvesApplication application, ProfilManagerView profilManagerView) {
+    public ProfilManagerController(StorageShelvesApplication application) {
         this.application = application;
-        rootContainer = new StackPane();
-        this.profilManagerView = profilManagerView;
-        profileView = profilManagerView.getProfileView();
-        profiles = FXCollections.observableArrayList();
-        menueButton = profilManagerView.getMenueButton();
+        this.profilManagerView = new ProfilManagerView();
+        this.popup = new Popup();
+        this.popup.getContent().add(profilManagerView);
+        this.profileView = profilManagerView.getProfileView();
+        this.profiles = FXCollections.observableArrayList();
+        this.menueButton = profilManagerView.getMenueButton();
         initialize();
     }
 
@@ -49,23 +40,22 @@ public class ProfilManagerController {
         profileView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 Raum raum = newValue.load();
-                // Hier können wir den Raum zurückgeben oder weiterverarbeiten
                 System.out.println("Raum: " + raum.getHoehe() + " | " + raum.getBreite());
+                application.setAktuellerRaum(raum);
+                application.setAktuellesSpeicherprofil(newValue);
+                hidePopup();
             }
         });
-        menueButton.addEventHandler(ActionEvent.ACTION, e -> application.switchView(PrimaryViewName.StartmenueView));;
+        menueButton.addEventHandler(ActionEvent.ACTION, e -> hidePopup());
     }
 
-
-    public void switchView(PrimaryViewName viewName) {
-        Scene currentScene = primaryStage.getScene();
-        Pane nextView = primaryViews.get(viewName);
-        if (nextView != null) {
-            currentScene.setRoot(nextView);
+    public void showPopup(Window owner) {
+        if (!popup.isShowing()) {
+            popup.show(owner);
         }
     }
 
-    public Pane getProfilManagerView() {
-        return profilManagerView;
+    public void hidePopup() {
+        popup.hide();
     }
 }

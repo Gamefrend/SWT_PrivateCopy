@@ -28,6 +28,7 @@ public class StorageShelvesApplication extends Application {
 	private SpeicherProfil aktuellesSpeicherprofil;
 
 	private Profilauswahl profilauswahl;
+	private ProfilManagerController profilManagerController;
 
 	@Override
 	public void init() {
@@ -39,7 +40,7 @@ public class StorageShelvesApplication extends Application {
 		primaryViews.put(PrimaryViewName.StartmenueView, mainMenuView);
 
 		ProfilManagerView profilManagerView = new ProfilManagerView();
-		ProfilManagerController profilManagerController = new ProfilManagerController(this, profilManagerView);
+		profilManagerController = new ProfilManagerController(this);
 		primaryViews.put(PrimaryViewName.ProfilLadenView, profilManagerView);
 
 		ProfilLadenOverlayView overlayView = new ProfilLadenOverlayView();
@@ -98,6 +99,10 @@ public class StorageShelvesApplication extends Application {
 	public void ladeNeustesSpeicherprofil(){
 		aktuellesSpeicherprofil = profilauswahl.getNeustesProfil();
 		aktuellerRaum = aktuellesSpeicherprofil.load();
+	}
+
+	public void showProfilManager() {
+		profilManagerController.showPopup(primaryStage);
 	}
 
 	public static void main(String[] args) {

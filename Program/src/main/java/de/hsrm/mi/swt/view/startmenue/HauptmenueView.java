@@ -31,7 +31,6 @@ public class HauptmenueView extends BorderPane {
         header.setLeft(titleLabel);
         header.setRight(versionLabel);
 
-        // Buttons
         VBox buttonBox = new VBox(50);
         buttonBox.setAlignment(Pos.CENTER_LEFT);
         buttonBox.getStyleClass().add("button-container");
@@ -45,7 +44,6 @@ public class HauptmenueView extends BorderPane {
 
         buttonBox.getChildren().addAll(newSystemButton, loadProfileButton, manageProfileButton);
 
-        // Layout
         setTop(header);
         setCenter(buttonBox);
         setPadding(new Insets(40));
@@ -54,10 +52,8 @@ public class HauptmenueView extends BorderPane {
         String cssPath = getClass().getResource("/main/resources/css/style.css").toExternalForm();
         getStylesheets().add(cssPath);
 
-        // Initial Layout anpassen
         adjustLayout(getWidth());
 
-        // Listener für Größenänderungen hinzufügen
         widthProperty().addListener((obs, oldVal, newVal) -> {
             adjustLayout(newVal.doubleValue());
         });
