@@ -16,9 +16,13 @@ javafx {
     version = "21.0.3"
     modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
-
+sourceSets {
+    test {
+        java.srcDirs = ['src/test/java']
+    }
+}
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
@@ -31,12 +35,7 @@ test {
     useJUnitPlatform()
 }
 
-/* ./gradlew fatJar erzeugt Standalone-JAR (App incl. benoetigter Bibliotheken)
- * Datei wird in Ordner build/libs angelegt
- * Dateiname ist letzte Komponente von application.mainClass (s.o.) + Endung ".jar"
- * Ausfuehrung mit java -jar <dateiname>
- * Mehr Infos: https://www.baeldung.com/gradle-fat-jar
- */
+
 task fatJar(type: Jar) {
     manifest {
         attributes 'Main-Class': application.mainClass

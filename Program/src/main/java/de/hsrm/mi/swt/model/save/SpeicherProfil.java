@@ -62,8 +62,11 @@ public class SpeicherProfil {
     public Raum load() {
         try {
             gespeicherteProfile = new File(getClass().getResource("/saves/" + saveName + ".StorageShelves").getFile());
+            System.out.println(gespeicherteProfile.getAbsolutePath());
             fileInputStream = new FileInputStream(gespeicherteProfile);
+            System.out.println("Geht 1");
             objectInputstream = new ObjectInputStream(fileInputStream);
+            System.out.println("Geht 2");
             raum = (Raum) objectInputstream.readObject();
             objectInputstream.close();
             fileInputStream.close();
