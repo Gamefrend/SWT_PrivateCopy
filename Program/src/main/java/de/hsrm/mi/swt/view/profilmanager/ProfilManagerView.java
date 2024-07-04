@@ -44,8 +44,8 @@ public class ProfilManagerView extends VBox {
         setPadding(new Insets(40));
         setPrefSize(800, 500);
 
-        getStylesheets().add(getClass().getResource("/main/resources/css/globals.css").toExternalForm());
-        getStylesheets().add(getClass().getResource("/main/resources/css/profilmanager.css").toExternalForm());
+        getStylesheets().add(getClass().getResource("/css/globals.css").toExternalForm());
+        getStylesheets().add(getClass().getResource("/css/profilmanager.css").toExternalForm());
     }
 
     public ListView<SpeicherProfil> getProfileView() {

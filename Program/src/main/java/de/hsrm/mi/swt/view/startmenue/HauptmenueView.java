@@ -49,8 +49,12 @@ public class HauptmenueView extends BorderPane {
         setPadding(new Insets(40));
 
         // CSS laden
-        String cssPath = getClass().getResource("/css/style.css").toExternalForm();
-        getStylesheets().add(cssPath);
+        String globals = getClass().getResource("/css/globals.css").toExternalForm();
+        String hauptmenue = getClass().getResource("/css/hauptmenue.css").toExternalForm();
+
+        getStylesheets().add(globals);
+        getStylesheets().add(hauptmenue);
+
 
         adjustLayout(getWidth());
 
