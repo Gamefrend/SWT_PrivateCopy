@@ -1,12 +1,13 @@
-package main.java.de.hsrm.mi.swt.controller;
+package de.hsrm.mi.swt.controller;
 
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
-import main.java.de.hsrm.mi.swt.app.StorageShelvesApplication;
-import main.java.de.hsrm.mi.swt.model.save.Profilauswahl;
-import main.java.de.hsrm.mi.swt.model.save.SpeicherProfil;
-import main.java.de.hsrm.mi.swt.model.storage.Raum;
-import main.java.de.hsrm.mi.swt.view.profilmanager.ProfilManagerView;
+import de.hsrm.mi.swt.app.StorageShelvesApplication;
+import de.hsrm.mi.swt.model.save.Profilauswahl;
+import de.hsrm.mi.swt.model.save.SpeicherProfil;
+import de.hsrm.mi.swt.model.storage.Raum;
+import de.hsrm.mi.swt.view.PrimaryViewName;
+import de.hsrm.mi.swt.view.profilmanager.ProfilManagerView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;

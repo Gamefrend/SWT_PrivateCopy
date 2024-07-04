@@ -1,6 +1,6 @@
-package main.java.de.hsrm.mi.swt.model.save;
+package de.hsrm.mi.swt.model.save;
 
-import main.java.de.hsrm.mi.swt.model.storage.Raum;
+import de.hsrm.mi.swt.model.storage.Raum;
 
 import java.io.*;
 import java.time.LocalDateTime;
@@ -46,10 +46,7 @@ public class SpeicherProfil {
     public void save(Raum speichrRaum) {
         try {
 
-            gespeicherteProfile = new File("Program/src/main/resources/saves/" + saveName + ".StorageShelves");
-            // mit 2024swto4 starten bei Dominik
-            gespeicherteProfile = new File("Program/src/main/resources/saves/"+saveName+".StorageShelves");
-            System.out.println(gespeicherteProfile.getAbsolutePath());
+            gespeicherteProfile = new File(getClass().getResource("/saves/" + saveName + ".StorageShelves").getFile());
             fileOutputStream = new FileOutputStream(gespeicherteProfile);
             objectOutputStream = new ObjectOutputStream(fileOutputStream);
             objectOutputStream.writeObject(speichrRaum);
@@ -64,7 +61,7 @@ public class SpeicherProfil {
 
     public Raum load() {
         try {
-            gespeicherteProfile = new File("Program/src/main/resources/saves/" + saveName + ".StorageShelves");
+            gespeicherteProfile = new File(getClass().getResource("/saves/" + saveName + ".StorageShelves").getFile());
             fileInputStream = new FileInputStream(gespeicherteProfile);
             objectInputstream = new ObjectInputStream(fileInputStream);
             raum = (Raum) objectInputstream.readObject();

@@ -1,6 +1,6 @@
-package main.java.de.hsrm.mi.swt.view.profilmanager;
+package de.hsrm.mi.swt.view.profilmanager;
 
-import main.java.de.hsrm.mi.swt.model.save.SpeicherProfil;
+import de.hsrm.mi.swt.model.save.SpeicherProfil;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.HBox;

@@ -1,7 +1,7 @@
-package main.java.de.hsrm.mi.swt.view.profilmanager;
+package de.hsrm.mi.swt.view.profilmanager;
 
 import javafx.scene.control.Button;
-import main.java.de.hsrm.mi.swt.model.save.SpeicherProfil;
+import de.hsrm.mi.swt.model.save.SpeicherProfil;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
