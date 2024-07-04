@@ -1,4 +1,4 @@
-package main.java.de.hsrm.mi.swt.app;
+package de.hsrm.mi.swt.app;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -7,17 +7,17 @@ import javafx.stage.Stage;
 import java.util.HashMap;
 import java.util.Map;
 
-import main.java.de.hsrm.mi.swt.controller.HauptmenueController;
-import main.java.de.hsrm.mi.swt.controller.LagerController;
-import main.java.de.hsrm.mi.swt.controller.ProfilManagerController;
-import main.java.de.hsrm.mi.swt.model.save.Profilauswahl;
-import main.java.de.hsrm.mi.swt.model.save.SpeicherProfil;
-import main.java.de.hsrm.mi.swt.model.storage.Raum;
-import main.java.de.hsrm.mi.swt.view.PrimaryViewName;
-import main.java.de.hsrm.mi.swt.view.profilmanager.ProfilManagerView;
-import main.java.de.hsrm.mi.swt.view.startmenue.HauptmenueView;
-import main.java.de.hsrm.mi.swt.view.startmenue.ProfilLadenOverlayView;
-import main.java.de.hsrm.mi.swt.view.lager.LagerView;
+import de.hsrm.mi.swt.controller.HauptmenueController;
+import de.hsrm.mi.swt.controller.LagerController;
+import de.hsrm.mi.swt.controller.ProfilManagerController;
+import de.hsrm.mi.swt.model.save.Profilauswahl;
+import de.hsrm.mi.swt.model.save.SpeicherProfil;
+import de.hsrm.mi.swt.model.storage.Raum;
+import de.hsrm.mi.swt.view.PrimaryViewName;
+import de.hsrm.mi.swt.view.profilmanager.ProfilManagerView;
+import de.hsrm.mi.swt.view.startmenue.HauptmenueView;
+import de.hsrm.mi.swt.view.startmenue.ProfilLadenOverlayView;
+import de.hsrm.mi.swt.view.lager.LagerView;
 
 public class StorageShelvesApplication extends Application {
 	private Stage primaryStage;

@@ -1,4 +1,4 @@
-package main.java.de.hsrm.mi.swt.view.lager;
+package de.hsrm.mi.swt.view.lager;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -8,7 +8,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import main.java.de.hsrm.mi.swt.model.save.SpeicherProfil;
+import de.hsrm.mi.swt.model.save.SpeicherProfil;
 
 public class LagerView extends StackPane {
 

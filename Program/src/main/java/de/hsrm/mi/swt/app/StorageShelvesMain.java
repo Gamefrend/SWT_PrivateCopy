@@ -1,6 +1,6 @@
 // StorageShelvesMain.java
 
-package main.java.de.hsrm.mi.swt.app;
+package de.hsrm.mi.swt.app;
 
 import javafx.application.Application;
 
