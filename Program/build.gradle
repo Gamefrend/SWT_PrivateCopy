@@ -12,18 +12,15 @@ java {
     sourceCompatibility = '21'
 }
 
-// Konfiguration des JavaFX-Plugins: Version und benötigte Module
 javafx {
     version = "21.0.3"
     modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
-// Abzufragendes Internet-Repository für Bibliotheken (z.B. JavaFX)
 repositories {
     mavenCentral()
 }
 
-// Abhängigkeiten (benötigte und einzubindende Bibliotheken)
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
