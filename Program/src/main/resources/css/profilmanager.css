@@ -1,0 +1,33 @@
+/* profilmanager.css */
+
+.profil-manager-view {
+    -fx-background-color: white;
+    -fx-border-color: black;
+    -fx-border-width: 1;
+}
+
+.profil-manager-header {
+    -fx-padding: 10 20;
+    -fx-background-color: #F0F0F0;
+    -fx-alignment: center-left;
+}
+
+.profil-manager-title {
+    -fx-text-fill: #000000;
+    -fx-font-family: SuisseIntl-Medium;
+    -fx-font-size: 20px;
+    -fx-font-weight: 500;
+}
+
+.profil-manager-close-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-text-fill: #000000;
+    -fx-font-family: SuisseIntl-Medium;
+    -fx-font-size: 20px;
+    -fx-font-weight: 500;
+}
+
+.profil-zelle {
+    -fx-padding: 10;
+}

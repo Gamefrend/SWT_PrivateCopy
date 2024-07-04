@@ -7,32 +7,53 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 
 public class ProfilManagerView extends VBox {
     private Label headerLabel;
-    ListView<SpeicherProfil> profileView;
-    Button menueButton;
+    private ListView<SpeicherProfil> profileView;
+    private Button closeButton;
 
     public ProfilManagerView() {
-        headerLabel = new Label("Profile");
+        // Header erstellen
+        headerLabel = new Label("Profilmanager");
+        headerLabel.getStyleClass().add("profil-manager-title");
+
+        closeButton = new Button("X");
+        closeButton.getStyleClass().add("profil-manager-close-button");
+
+        HBox header = new HBox();
+        header.getChildren().addAll(headerLabel, closeButton);
+        header.setAlignment(Pos.CENTER_LEFT);
+        HBox.setHgrow(headerLabel, Priority.ALWAYS);
+        header.setSpacing(10);
+        header.getStyleClass().add("profil-manager-header");
+
+        // ListView erstellen
         profileView = new ListView<>();
-        profileView.setCellFactory(param -> new ProfilCell());
-        menueButton = new Button("Schließen");
+        profileView.setCellFactory(param -> new ProfilZelle());
 
-        VBox vbox = new VBox(10);
-        vbox.getChildren().addAll(headerLabel, profileView, menueButton);
-        vbox.setAlignment(Pos.CENTER);
+        // Hauptlayout
+        VBox mainLayout = new VBox(10);
+        mainLayout.getChildren().addAll(header, profileView);
+        VBox.setVgrow(profileView, Priority.ALWAYS);
+        mainLayout.getStyleClass().add("profil-manager-view");
 
-        getChildren().add(vbox);
-        setPadding(new Insets(20));
+        getChildren().add(mainLayout);
+        setPadding(new Insets(40));
         setPrefSize(800, 500);
+
+        // Laden der CSS-Datei
+        getStylesheets().add(getClass().getResource("/main/resources/css/globals.css").toExternalForm());
+        getStylesheets().add(getClass().getResource("/main/resources/css/profilmanager.css").toExternalForm());
     }
 
     public ListView<SpeicherProfil> getProfileView() {
         return profileView;
     }
 
-    public Button getMenueButton() {
-        return menueButton;
+    public Button getCloseButton() {
+        return closeButton;
     }
 }

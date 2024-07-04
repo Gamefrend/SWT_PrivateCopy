@@ -1,4 +1,4 @@
-/* style.css */
+/* hauptmenue.css */
 
 @font-face {
     -fx-font-family: 'SuisseIntl-Medium';
@@ -28,7 +28,7 @@
 }
 
 .header-label {
-    -fx-font-family: "Suisse Int'l-Medium";
+    -fx-font-family: "Suisse Intl-Medium";
     -fx-text-fill: -fx-black;
     -fx-font-weight: 500;
 }
@@ -50,7 +50,7 @@
 }
 
 .button-label {
-    -fx-font-family: "Suisse Int'l-Bold";
+    -fx-font-family: "Suisse Intl-Bold";
     -fx-text-fill: -fx-black;
     -fx-font-weight: 700;
 }

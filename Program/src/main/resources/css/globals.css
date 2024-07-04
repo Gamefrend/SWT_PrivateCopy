@@ -1,0 +1,57 @@
+/* globals.css */
+
+@font-face {
+    -fx-font-family: 'SuisseIntl-Medium';
+    src: url('../fonts/SuisseIntl-Medium.otf');
+}
+
+@font-face {
+    -fx-font-family: 'SuisseIntl-Bold';
+    src: url('../fonts/SuisseIntl-Bold.otf');
+}
+
+@font-face {
+    -fx-font-family: 'SuisseIntl-Regular';
+    src: url('../fonts/SuisseIntl-Regular.otf');
+}
+
+@font-face {
+    -fx-font-family: 'SuisseIntl-Light';
+    src: url('../fonts/SuisseIntl-Light.ttf');
+}
+
+.root {
+    -fx-primary: #0029FF;
+    -fx-offwhite: #EBEBEB;
+    -fx-black: #000000;
+    -fx-white: #FFFFFF;
+}
+
+.h1 {
+    -fx-text-fill: -fx-black;
+    -fx-font-family: "Suisse Intl-Bold";
+    -fx-font-size: 50px;
+    -fx-font-weight: 700;
+    -fx-text-transform: uppercase;
+}
+
+.h2 {
+    -fx-text-fill: -fx-black;
+    -fx-font-family: "Suisse Intl-Medium";
+    -fx-font-size: 30px;
+    -fx-font-weight: 500;
+}
+
+.h3 {
+    -fx-text-fill: -fx-black;
+    -fx-font-family: "Suisse Intl-Medium";
+    -fx-font-size: 20px;
+    -fx-font-weight: 500;
+}
+
+.copy {
+    -fx-text-fill: -fx-black;
+    -fx-font-family: "Suisse Intl-Regular";
+    -fx-font-size: 20px;
+    -fx-font-weight: 400;
+}

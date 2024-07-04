@@ -63,7 +63,9 @@ public class StorageShelvesApplication extends Application {
 		this.primaryStage = primaryStage;
 
 		Scene scene = new Scene(new Pane(), 1440, 1024);
-		scene.getStylesheets().add("/css/style.css");
+		scene.getStylesheets().add(getClass().getResource("/main/resources/css/globals.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("/main/resources/css/hauptmenue.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("/main/resources/css/profilmanager.css").toExternalForm());
 		primaryStage.setScene(scene);
 
 		switchView(PrimaryViewName.StartmenueView);

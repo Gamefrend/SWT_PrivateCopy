@@ -6,13 +6,13 @@ import javafx.scene.control.ListCell;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class ProfilCell extends ListCell<SpeicherProfil> {
+public class ProfilZelle extends ListCell<SpeicherProfil> {
     private Label name;
     private Label datum;
     private HBox root;
     private VBox infoPane;
 
-    public ProfilCell() {
+    public ProfilZelle() {
         root = new HBox();
         infoPane = new VBox();
         name = new Label();

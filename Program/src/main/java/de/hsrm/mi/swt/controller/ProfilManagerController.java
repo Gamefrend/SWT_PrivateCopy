@@ -20,7 +20,7 @@ public class ProfilManagerController {
     private Profilauswahl profilauswahl;
     private ListView<SpeicherProfil> profileView;
     private ObservableList<SpeicherProfil> profiles;
-    private Button menueButton;
+    private Button closeButton;
 
     public ProfilManagerController(StorageShelvesApplication application) {
         this.application = application;
@@ -29,7 +29,7 @@ public class ProfilManagerController {
         this.popup.getContent().add(profilManagerView);
         this.profileView = profilManagerView.getProfileView();
         this.profiles = FXCollections.observableArrayList();
-        this.menueButton = profilManagerView.getMenueButton();
+        this.closeButton = profilManagerView.getCloseButton();
         initialize();
     }
 
@@ -37,6 +37,7 @@ public class ProfilManagerController {
         profilauswahl = new Profilauswahl();
         profiles.addAll(profilauswahl.getSpeicherProfile());
         profileView.setItems(profiles);
+        closeButton.addEventHandler(ActionEvent.ACTION, e -> hidePopup());
         profileView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 Raum raum = newValue.load();
@@ -46,7 +47,6 @@ public class ProfilManagerController {
                 hidePopup();
             }
         });
-        menueButton.addEventHandler(ActionEvent.ACTION, e -> hidePopup());
     }
 
     public void showPopup(Window owner) {
