@@ -1,5 +1,7 @@
 package main.java.de.hsrm.mi.swt.controller;
 
+import javafx.event.ActionEvent;
+import javafx.scene.control.Button;
 import main.java.de.hsrm.mi.swt.app.StorageShelvesApplication;
 import main.java.de.hsrm.mi.swt.model.save.Profilauswahl;
 import main.java.de.hsrm.mi.swt.model.save.SpeicherProfil;
@@ -24,17 +26,19 @@ public class ProfilManagerController {
 
     private Profilauswahl profilauswahl;
 
-    ListView<SpeicherProfil> profileView;
-    ProfilManagerView root;
+    private ListView<SpeicherProfil> profileView;
+    private ProfilManagerView profilManagerView;
     private ObservableList<SpeicherProfil> profiles;
+
+    private Button menueButton;
 
     public ProfilManagerController(StorageShelvesApplication application, ProfilManagerView profilManagerView) {
         this.application = application;
         rootContainer = new StackPane();
-        root = profilManagerView;
-        profileView = root.getProfileView();
+        this.profilManagerView = profilManagerView;
+        profileView = profilManagerView.getProfileView();
         profiles = FXCollections.observableArrayList();
-
+        menueButton = profilManagerView.getMenueButton();
         initialize();
     }
 
@@ -49,6 +53,7 @@ public class ProfilManagerController {
                 System.out.println("Raum: " + raum.getHoehe() + " | " + raum.getBreite());
             }
         });
+        menueButton.addEventHandler(ActionEvent.ACTION, e -> application.switchView(PrimaryViewName.StartmenueView));;
     }
 
 
@@ -60,7 +65,7 @@ public class ProfilManagerController {
         }
     }
 
-    public Pane getRoot() {
-        return root;
+    public Pane getProfilManagerView() {
+        return profilManagerView;
     }
 }
