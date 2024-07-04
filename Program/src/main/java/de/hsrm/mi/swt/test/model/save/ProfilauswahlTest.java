@@ -1,5 +1,5 @@
 package de.hsrm.mi.swt.test.model.save;
-import static org.junit.jupiter.api.Assertions.*;
+//import org.junit.jupiter.api;
 
 class ProfilauswahlTest {
 
