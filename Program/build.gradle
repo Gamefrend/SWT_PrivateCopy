@@ -1,61 +1,32 @@
 plugins {
+    id 'java'
     id 'application'
-    id "org.openjfx.javafxplugin" version "0.1.0"
 }
 
-
-application {
-    mainClass = "main.java.de.hsrm.mi.swt.app.StorageShelvesMain"
-}
-
-java {
-    sourceCompatibility = '21'
-}
-
-// Konfiguration des JavaFX-Plugins: Version und benötigte Module
-javafx {
-    version = "21.0.3"
-    modules = [ 'javafx.controls', 'javafx.fxml' ]
-}
-
-// Abzufragendes Internet-Repository für Bibliotheken (z.B. JavaFX)
 repositories {
     mavenCentral()
 }
 
-// Abhängigkeiten (benötigte und einzubindende Bibliotheken)
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-}
-sourceSets {
-    main {
-        java {
-            srcDirs = []
-        }
-        resources {
-            srcDirs = ['src/main/resources']
-        }
-    }
-
-// Initialisierung für JUnit-Testing
-test {
-    useJUnitPlatform()
+    implementation 'com.google.guava:guava:30.1-jre' // Beispielhafte Abhängigkeit
+    testImplementation 'junit:junit:4.13.2' // Beispielhafte Test-Abhängigkeit
+    implementation 'org.openjfx:javafx-base:21'
+    implementation 'org.openjfx:javafx-controls:21'
+    implementation 'org.openjfx:javafx-fxml:21'
 }
 
-/* ./gradlew fatJar erzeugt Standalone-JAR (App incl. benoetigter Bibliotheken)
- * Datei wird in Ordner build/libs angelegt
- * Dateiname ist letzte Komponente von application.mainClass (s.o.) + Endung ".jar"
- * Ausfuehrung mit java -jar <dateiname>
- * Mehr Infos: https://www.baeldung.com/gradle-fat-jar
- */
-task fatJar(type: Jar) {
-    manifest {
-        attributes 'Main-Class': application.mainClass
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(21))
     }
-    archiveBaseName = application.mainClass.get().split('\\.').last()
+}
 
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
-    with jar
+application {
+    mainClassName = 'your.package.MainClass' // Ersetze durch den Hauptklassennamen deiner Anwendung
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
