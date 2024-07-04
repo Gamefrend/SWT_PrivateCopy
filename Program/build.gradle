@@ -40,10 +40,5 @@ task fatJar(type: Jar) {
     manifest {
         attributes 'Main-Class': "de.hsrm.mi.swt.app.StorageShelvesMain"
     }
-    archiveBaseName = application.mainClass.get().split('\\.').last()
-
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
-    with jar
 }
 
