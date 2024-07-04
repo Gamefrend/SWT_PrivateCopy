@@ -38,7 +38,7 @@ test {
 
 task fatJar(type: Jar) {
     manifest {
-        attributes 'Main-Class': application.mainClass
+        attributes 'Main-Class': "de.hsrm.mi.swt.app.StorageShelvesMain"
     }
     archiveBaseName = application.mainClass.get().split('\\.').last()
 
