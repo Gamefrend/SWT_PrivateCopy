@@ -1,32 +1,5 @@
 /* hauptmenue.css */
 
-@font-face {
-    -fx-font-family: 'SuisseIntl-Medium';
-    src: url('../fonts/SuisseIntl-Medium.otf');
-}
-
-@font-face {
-    -fx-font-family: 'SuisseIntl-Bold';
-    src: url('../fonts/SuisseIntl-Bold.otf');
-}
-
-@font-face {
-    -fx-font-family: 'SuisseIntl-Regular';
-    src: url('../fonts/SuisseIntl-Regular.otf');
-}
-
-@font-face {
-    -fx-font-family: 'SuisseIntl-Light';
-    src: url('../fonts/SuisseIntl-Light.ttf');
-}
-
-.root {
-    -fx-primary: #0029FF;
-    -fx-offwhite: #EBEBEB;
-    -fx-black: #000000;
-    -fx-white: #FFFFFF;
-}
-
 .header-label {
     -fx-font-family: "Suisse Intl-Medium";
     -fx-text-fill: -fx-black;
@@ -47,12 +20,6 @@
     -fx-background-radius: 0;
     -fx-background-insets: 0;
     -fx-alignment: center-left;
-}
-
-.button-label {
-    -fx-font-family: "Suisse Intl-Bold";
-    -fx-text-fill: -fx-black;
-    -fx-font-weight: 700;
 }
 
 .custom-button .image-view {

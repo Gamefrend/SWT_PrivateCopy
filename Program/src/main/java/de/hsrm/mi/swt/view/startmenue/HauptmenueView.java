@@ -22,10 +22,10 @@ public class HauptmenueView extends BorderPane {
     public HauptmenueView() {
         // Header
         titleLabel = new Label("STORAGESHELVES");
-        titleLabel.getStyleClass().addAll("header-label", "title-label");
+        titleLabel.getStyleClass().addAll("h2");
 
         versionLabel = new Label("v1.0");
-        versionLabel.getStyleClass().addAll("header-label", "version-label");
+        versionLabel.getStyleClass().addAll("h2");
 
         BorderPane header = new BorderPane();
         header.setLeft(titleLabel);
@@ -62,7 +62,7 @@ public class HauptmenueView extends BorderPane {
     private Button createButton(String text, Image image) {
         Button button = new Button();
         Label label = new Label(text);
-        label.getStyleClass().add("button-label");
+        label.getStyleClass().add("h1");
         ImageView imageView = new ImageView(image);
         imageView.setFitHeight(40);
         imageView.setFitWidth(40);

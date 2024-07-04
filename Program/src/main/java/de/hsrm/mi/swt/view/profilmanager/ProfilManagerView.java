@@ -9,6 +9,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 
 public class ProfilManagerView extends VBox {
     private Label headerLabel;
@@ -16,25 +17,24 @@ public class ProfilManagerView extends VBox {
     private Button closeButton;
 
     public ProfilManagerView() {
-        // Header erstellen
         headerLabel = new Label("Profilmanager");
-        headerLabel.getStyleClass().add("profil-manager-title");
+        headerLabel.getStyleClass().addAll("h3");
 
         closeButton = new Button("X");
-        closeButton.getStyleClass().add("profil-manager-close-button");
+        closeButton.getStyleClass().addAll("profil-manager-close-button", "h3");
+
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
 
         HBox header = new HBox();
-        header.getChildren().addAll(headerLabel, closeButton);
+        header.getChildren().addAll(headerLabel, spacer, closeButton);
         header.setAlignment(Pos.CENTER_LEFT);
-        HBox.setHgrow(headerLabel, Priority.ALWAYS);
         header.setSpacing(10);
         header.getStyleClass().add("profil-manager-header");
 
-        // ListView erstellen
         profileView = new ListView<>();
         profileView.setCellFactory(param -> new ProfilZelle());
 
-        // Hauptlayout
         VBox mainLayout = new VBox(10);
         mainLayout.getChildren().addAll(header, profileView);
         VBox.setVgrow(profileView, Priority.ALWAYS);
@@ -44,7 +44,6 @@ public class ProfilManagerView extends VBox {
         setPadding(new Insets(40));
         setPrefSize(800, 500);
 
-        // Laden der CSS-Datei
         getStylesheets().add(getClass().getResource("/main/resources/css/globals.css").toExternalForm());
         getStylesheets().add(getClass().getResource("/main/resources/css/profilmanager.css").toExternalForm());
     }

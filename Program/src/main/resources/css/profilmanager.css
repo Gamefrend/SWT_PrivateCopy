@@ -1,31 +1,24 @@
 /* profilmanager.css */
 
 .profil-manager-view {
-    -fx-background-color: white;
-    -fx-border-color: black;
+    -fx-background-color: -fx-white;
     -fx-border-width: 1;
+    -fx-padding: 40;
 }
 
 .profil-manager-header {
-    -fx-padding: 10 20;
-    -fx-background-color: #F0F0F0;
     -fx-alignment: center-left;
-}
-
-.profil-manager-title {
-    -fx-text-fill: #000000;
-    -fx-font-family: SuisseIntl-Medium;
-    -fx-font-size: 20px;
-    -fx-font-weight: 500;
+    -fx-pref-width: 100%;
+    -fx-display: flex;
+    -fx-justify-content: space-between;
+    -fx-align-items: flex-start;
 }
 
 .profil-manager-close-button {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
-    -fx-text-fill: #000000;
-    -fx-font-family: SuisseIntl-Medium;
-    -fx-font-size: 20px;
-    -fx-font-weight: 500;
+    -fx-padding: 0;
+    -fx-background-insets: 0;
 }
 
 .profil-zelle {
