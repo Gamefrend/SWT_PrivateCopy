@@ -12,7 +12,7 @@ public class RegalBrett implements Serializable {
     private int lueckenIndex;
     private List<Karton> kartons;
 
-    public RegalBrett(int hoehe, int breite, int dicke, int maxBelastung, int lueckenIndex) {
+    public RegalBrett(int hoehe, int dicke, int maxBelastung, int lueckenIndex) {
         this.hoehe = hoehe;
         this.breite = breite;
         this.dicke = dicke;

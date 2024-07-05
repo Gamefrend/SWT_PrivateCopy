@@ -20,18 +20,13 @@ public class Raum implements Serializable {
     public Raum(int hoehe, int breite) {
         this.hoehe = new SimpleIntegerProperty(hoehe);
         this.breite = new SimpleIntegerProperty(breite);
-        this.regal = new SimpleObjectProperty<>(new Regal(this.hoehe, null, 100, breite));
+        this.regal = new SimpleObjectProperty<>(new Regal(this.hoehe, null, 0, 1300));
         this.onChange = new SimpleObjectProperty<>();
 
         // Listeners for properties
         this.hoehe.addListener((obs, oldVal, newVal) -> triggerChange());
         this.breite.addListener((obs, oldVal, newVal) -> triggerChange());
-        this.regal.addListener((obs, oldVal, newVal) -> triggerChange());
-        this.regal.get().setOnChangeListener(() -> {
-                    System.out.println("Änderung im Raum erkannt.");
-
-                }
-        );
+        this.regal.get().setOnChangeListener(this::triggerChange);
     }
 
     private void triggerChange() {
@@ -74,6 +69,7 @@ public class Raum implements Serializable {
     }
 
     public void setRegal(Regal regal) {
+        this.regal.addListener((obs, oldVal, newVal) -> triggerChange());
         this.regal.set(regal);
     }
 
