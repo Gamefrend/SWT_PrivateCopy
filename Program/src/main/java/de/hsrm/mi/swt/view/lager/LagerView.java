@@ -70,7 +70,7 @@ public class LagerView extends StackPane {
         centerArea = new Pane();
         centerArea.setId("Lager-center-Area");
         centerArea.setStyle("-fx-border-color: black; -fx-background-color: white; -fx-min-height: 400;");
-        CENTRALHIGHT = Integer.parseInt(centerArea.getStyle().split(": ")[centerArea.getStyle().split(": ").length -1].replace(";",""));
+        CENTRALHIGHT = Integer.parseInt(centerArea.getStyle().split(": ")[centerArea.getStyle().split(": ").length - 1].replace(";", ""));
 
 
         // Inventar-Bereich
@@ -86,7 +86,7 @@ public class LagerView extends StackPane {
         skalierenButton = new Button("Skalieren");
         moveButton = new Button("Move");
 
-        VBox toolBox = new VBox(brettButton, saueleButton, skalierenButton, moveButton);
+        VBox toolBox = new VBox(brettButton, saueleButton,kartonButton , skalierenButton, moveButton);
         toolBox.setAlignment(Pos.CENTER);
         toolBox.setPadding(new Insets(10));
         toolBox.setSpacing(10);
@@ -100,33 +100,15 @@ public class LagerView extends StackPane {
         getChildren().add(mainLayout);
 
         // Event-Handler für den Karton-Button
-        kartonButton.setOnAction(event -> oeffneKartonPopup());
+        kartonButton.setOnAction(event -> fuegeKartonHinzu());
     }
 
-    private void oeffneKartonPopup() {
-        // Erstellen des Popup-Fensters
-        Stage popupStage = new Stage();
-        popupStage.initModality(Modality.APPLICATION_MODAL);
-        popupStage.setTitle("Karton hinzufügen");
-
+    private void fuegeKartonHinzu() {
         // KartonView erstellen
-        KartonView kartonView = new KartonView(100, 200, Color.BEIGE, 50, 150);
+        KartonView kartonView = new KartonView(100, 100, Color.RED, 50, 80);
 
-        // Layout für das Popup-Fenster
-        VBox popupLayout = new VBox(10);
-        popupLayout.setPadding(new Insets(10));
-        popupLayout.setAlignment(Pos.CENTER);
-        popupLayout.getChildren().addAll(
-                new Label("Karton"),
-                kartonView.getRectangle(),
-                new Button("OK") {{
-                    setOnAction(e -> popupStage.close());
-                }}
-        );
-
-        Scene popupScene = new Scene(popupLayout, 300, 300);
-        popupStage.setScene(popupScene);
-        popupStage.showAndWait();
+        // Den Karton in den Raum (centerArea) hinzufügen
+        centerArea.getChildren().add(kartonView.getRectangle());
     }
 
     public void setProfilname(String name) {
@@ -141,14 +123,14 @@ public class LagerView extends StackPane {
     }
 
     public void redraw(Raum raum) {
-        centerArea.getChildren().clear(); // Clear previous drawings
+        centerArea.getChildren().clear();
         int raumHoehe = raum.getHoehe();
 
-        for (RegalBrett brett: raum.getRegal().getRegalBretter()){
+        for (RegalBrett brett : raum.getRegal().getRegalBretter()) {
 
             Rectangle rectangle = new Rectangle();
-            System.out.println(raum.getRegal().getSaeulen().get(brett.getLueckenIndex()+1).getPositionX()-raum.getRegal().getSaeulen().get(brett.getLueckenIndex()).getPositionX());
-            rectangle.setWidth(raum.getRegal().getSaeulen().get(brett.getLueckenIndex()+1).getPositionX()-raum.getRegal().getSaeulen().get(brett.getLueckenIndex()).getPositionX());
+            System.out.println(raum.getRegal().getSaeulen().get(brett.getLueckenIndex() + 1).getPositionX() - raum.getRegal().getSaeulen().get(brett.getLueckenIndex()).getPositionX());
+            rectangle.setWidth(raum.getRegal().getSaeulen().get(brett.getLueckenIndex() + 1).getPositionX() - raum.getRegal().getSaeulen().get(brett.getLueckenIndex()).getPositionX());
             rectangle.setHeight(brett.getDicke());
             rectangle.setFill(Color.BROWN);
             rectangle.setY(brett.getHoehe());
@@ -156,7 +138,7 @@ public class LagerView extends StackPane {
             centerArea.getChildren().add(rectangle);
         }
 
-        for (Saeule saeule : raum.getRegal().getSaeulen ()) {
+        for (Saeule saeule : raum.getRegal().getSaeulen()) {
             int positionX = saeule.getPositionX();
 
             // Create a rectangle for each Säule
@@ -169,7 +151,6 @@ public class LagerView extends StackPane {
 
             centerArea.getChildren().add(rectangle);
         }
-
     }
 
     public Pane getCenterArea() {
