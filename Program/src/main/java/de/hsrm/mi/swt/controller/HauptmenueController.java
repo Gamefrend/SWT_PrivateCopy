@@ -37,7 +37,11 @@ public class HauptmenueController {
     }
 
     public void initialize() {
-        neuesLagerBtn.addEventHandler(ActionEvent.ACTION, e -> application.switchView(PrimaryViewName.LagerView));
+        neuesLagerBtn.addEventHandler(ActionEvent.ACTION, e -> {
+            application.setAktuellerRaum(null);
+            application.setAktuellesSpeicherprofil(null);
+            application.switchView(PrimaryViewName.LagerView);
+        });
         manageProfileButton.addEventHandler(ActionEvent.ACTION, e -> application.showProfilManager());
         loadProfileButton.addEventHandler(ActionEvent.ACTION, e ->{
                 application.ladeNeustesSpeicherprofil();

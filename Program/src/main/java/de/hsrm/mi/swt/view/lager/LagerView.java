@@ -70,7 +70,7 @@ public class LagerView extends StackPane {
         centerArea = new Pane();
         centerArea.setId("Lager-center-Area");
         centerArea.setStyle("-fx-border-color: black; -fx-background-color: white; -fx-min-height: 400;");
-        CENTRALHIGHT = Integer.parseInt(centerArea.getStyle().split(": ")[centerArea.getStyle().split(": ").length -1].replace(";",""));
+        CENTRALHIGHT = Integer.parseInt(centerArea.getStyle().split(": ")[centerArea.getStyle().split(": ").length - 1].replace(";", ""));
 
 
         // Inventar-Bereich
@@ -123,14 +123,14 @@ public class LagerView extends StackPane {
     }
 
     public void redraw(Raum raum) {
-        centerArea.getChildren().clear(); // Clear previous drawings
+        centerArea.getChildren().clear();
         int raumHoehe = raum.getHoehe();
 
-        for (RegalBrett brett: raum.getRegal().getRegalBretter()){
+        for (RegalBrett brett : raum.getRegal().getRegalBretter()) {
 
             Rectangle rectangle = new Rectangle();
-            System.out.println(raum.getRegal().getSaeulen().get(brett.getLueckenIndex()+1).getPositionX()-raum.getRegal().getSaeulen().get(brett.getLueckenIndex()).getPositionX());
-            rectangle.setWidth(raum.getRegal().getSaeulen().get(brett.getLueckenIndex()+1).getPositionX()-raum.getRegal().getSaeulen().get(brett.getLueckenIndex()).getPositionX());
+            System.out.println(raum.getRegal().getSaeulen().get(brett.getLueckenIndex() + 1).getPositionX() - raum.getRegal().getSaeulen().get(brett.getLueckenIndex()).getPositionX());
+            rectangle.setWidth(raum.getRegal().getSaeulen().get(brett.getLueckenIndex() + 1).getPositionX() - raum.getRegal().getSaeulen().get(brett.getLueckenIndex()).getPositionX());
             rectangle.setHeight(brett.getDicke());
             rectangle.setFill(Color.BROWN);
             rectangle.setY(brett.getHoehe());
@@ -138,7 +138,7 @@ public class LagerView extends StackPane {
             centerArea.getChildren().add(rectangle);
         }
 
-        for (Saeule saeule : raum.getRegal().getSaeulen ()) {
+        for (Saeule saeule : raum.getRegal().getSaeulen()) {
             int positionX = saeule.getPositionX();
 
             // Create a rectangle for each Säule
@@ -151,7 +151,6 @@ public class LagerView extends StackPane {
 
             centerArea.getChildren().add(rectangle);
         }
-
     }
 
     public Pane getCenterArea() {
