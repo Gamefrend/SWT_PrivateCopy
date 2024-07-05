@@ -8,21 +8,14 @@ public class Raum implements Serializable {
 
     private int hoehe;
     private int breite;
-    private List<Regal> regale;
+    private Regal regal;
 
     public Raum(int hoehe, int breite) {
         this.hoehe = hoehe;
         this.breite = breite;
-        this.regale = new ArrayList<>();
+        this.regal = new Regal(hoehe,null,0, breite);
     }
 
-    public void addRegal(Regal regal) {
-        regale.add(regal);
-    }
-
-    public void removeRegal(Regal regal) {
-        regale.remove(regal);
-    }
 
     public int getHoehe() {
         return hoehe;
@@ -40,11 +33,11 @@ public class Raum implements Serializable {
         this.breite = breite;
     }
 
-    public List<Regal> getRegale() {
-        return regale;
+    public Regal getRegal() {
+        return regal;
     }
 
-    public void setRegale(List<Regal> regale) {
-        this.regale = regale;
+    public void setRegal(Regal regal) {
+        this.regal = regal;
     }
 }

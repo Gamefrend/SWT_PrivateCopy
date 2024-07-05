@@ -121,4 +121,20 @@ public class LagerView extends StackPane {
     public Button getMenuButton() {
         return menuButton;
     }
+
+    public Button getBrettButton() {
+        return brettButton;
+    }
+
+    public Button getSaueleButton() {
+        return saueleButton;
+    }
+
+    public Button getSkalierenButton() {
+        return skalierenButton;
+    }
+
+    public Button getMoveButton() {
+        return moveButton;
+    }
 }

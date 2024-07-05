@@ -1,6 +1,8 @@
 package de.hsrm.mi.swt.model.storage;
 
-public class Saeule {
+import java.io.Serializable;
+
+public class Saeule implements Serializable {
     private int positionX;
 
     public Saeule(int positionX) {

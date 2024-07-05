@@ -1,5 +1,7 @@
 package de.hsrm.mi.swt.controller;
 
+import de.hsrm.mi.swt.model.storage.RegalBrett;
+import de.hsrm.mi.swt.model.storage.Saeule;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -9,26 +11,26 @@ import de.hsrm.mi.swt.model.storage.Raum;
 import de.hsrm.mi.swt.view.PrimaryViewName;
 import de.hsrm.mi.swt.view.lager.LagerView;
 import javafx.event.ActionEvent;
+
 import java.util.Map;
 
 public class LagerController {
 
     private Map<PrimaryViewName, Pane> primaryViews;
     private Stage primaryStage;
-
     private LagerView lagerView;
     private Raum aktuellerRaum;
     private SpeicherProfil aktuellesSpeicherprofil;
     private StorageShelvesApplication application;
     private Button menuButton;
-
     private Button undoButton;
-
     private Button redoButton;
-
     private Button saveButton;
-
     private Button settingsButton;
+    private Button brettButton;
+    private Button saueleButton;
+    private Button skalierenButton;
+    private Button moveButton;
 
     public LagerController(StorageShelvesApplication application, LagerView lagerView) {
         this.application = application;
@@ -38,17 +40,21 @@ public class LagerController {
         redoButton = lagerView.getRedoButton();
         saveButton = lagerView.getSaveButton();
         settingsButton = lagerView.getSettingsButton();
+        brettButton = lagerView.getBrettButton();
+        saueleButton = lagerView.getSaueleButton();
+        skalierenButton = lagerView.getSkalierenButton();
+        moveButton = lagerView.getMoveButton();
 
         initialize();
     }
 
     private void initialize() {
         this.aktuellerRaum = application.getAktuellerRaum();
-        if(application.getAktuellesSpeicherprofil()!=null){
+        if (application.getAktuellesSpeicherprofil() != null) {
             this.aktuellesSpeicherprofil = application.getAktuellesSpeicherprofil();
-        }else{
+        } else {
             System.out.println("Hier kommt Logik hin die ein neuen Raum erstellt");
-            aktuellerRaum = new Raum(2,3);
+            aktuellerRaum = new Raum(2, 3);
             application.setAktuellerRaum(aktuellerRaum);
             aktuellesSpeicherprofil = new SpeicherProfil("TestProfil1");
         }
@@ -57,6 +63,8 @@ public class LagerController {
         saveButton.setOnAction(e -> handleSave());
         settingsButton.setOnAction(e -> handleSettings());
         menuButton.addEventHandler(ActionEvent.ACTION, e -> application.switchView(PrimaryViewName.StartmenueView));
+        brettButton.addEventHandler(ActionEvent.ACTION, e -> handleBrett());
+        saueleButton.addEventHandler(ActionEvent.ACTION, e -> handleSauele());
     }
 
     private void handleUndo() {
@@ -78,7 +86,14 @@ public class LagerController {
         System.out.println("Settings button clicked");
     }
 
-    public Pane getRoot() {
+    public void handleBrett() {
+        aktuellerRaum.getRegal().getRegalBretter().add(new RegalBrett(1,1,1,1,1));
+    }
+    public void handleSauele() {
+        aktuellerRaum.getRegal().getSaeule().add(new Saeule(1));
+    }
+
+    public LagerView getRoot() {
         return lagerView;
     }
 }

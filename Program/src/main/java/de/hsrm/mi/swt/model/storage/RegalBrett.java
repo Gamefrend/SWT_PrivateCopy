@@ -1,9 +1,10 @@
 package de.hsrm.mi.swt.model.storage;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RegalBrett {
+public class RegalBrett implements Serializable {
     private int hoehe;
     private int breite;
     private int dicke;

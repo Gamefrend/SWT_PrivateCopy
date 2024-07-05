@@ -1,8 +1,9 @@
 package de.hsrm.mi.swt.model.storage;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Ware {
+public class Ware implements Serializable {
     private String name;
     private int hoehe;
     private int maxBelastung;

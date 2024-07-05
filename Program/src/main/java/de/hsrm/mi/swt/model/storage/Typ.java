@@ -1,6 +1,8 @@
 package de.hsrm.mi.swt.model.storage;
 
-public class Typ {
+import java.io.Serializable;
+
+public class Typ implements Serializable {
     private boolean lebensmittelBool;
     private boolean giftigBool;
     private boolean gekuehltBool;

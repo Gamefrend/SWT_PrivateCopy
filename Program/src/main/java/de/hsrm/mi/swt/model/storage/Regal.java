@@ -11,21 +11,13 @@ public class Regal implements Serializable {
 
     private Inventar uebrigesInventar;
 
-    public Regal(int hoehe, List<RegalBrett> regalBretter, Saeule saeule, int saelenPos1, int saulenPos2) {
+    public Regal(int hoehe, List<RegalBrett> regalBretter, int saelenPos1, int saulenPos2) {
         this.hoehe = hoehe;
         this.regalBretter = regalBretter;
         this.saeulen = new ArrayList<>();
         this.saeulen.add(new Saeule(saelenPos1));
         this.saeulen.add(new Saeule(saulenPos2));
         uebrigesInventar = new Inventar();
-    }
-
-    public void addSaele(Saeule saeule) {
-        saeulen.add(saeule);
-    }
-
-    public void removeSaele(Saeule saeule) {
-        saeulen.remove(saeule);
     }
 
     public int getHoehe() {
