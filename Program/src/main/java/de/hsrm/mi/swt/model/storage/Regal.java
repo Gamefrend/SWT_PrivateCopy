@@ -37,6 +37,9 @@ public class Regal implements Serializable {
     private void triggerChange() {
         // Hier können Sie weitere Logik hinzufügen, falls notwendig
         System.out.println("Änderung im Regal erkannt.");
+        if (onChange.get() != null) {
+            onChange.get().run();
+        }
     }
 
     public void setOnChangeListener(Runnable listener) {

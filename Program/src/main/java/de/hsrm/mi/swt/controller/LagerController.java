@@ -56,13 +56,12 @@ public class LagerController {
         } else {
             System.out.println("Hier kommt Logik hin die ein neuen Raum erstellt");
             aktuellerRaum = new Raum(2000, 3000);
-            aktuellerRaum.setRegal(new Regal(new SimpleIntegerProperty(2000), null, 100, 200));
+            aktuellerRaum.setRegal(new Regal(new SimpleIntegerProperty(2000), null, 50, 300));
             application.setAktuellerRaum(aktuellerRaum);
             aktuellesSpeicherprofil = new SpeicherProfil("TestProfil1");
         }
 
         aktuellerRaum.setOnChangeListener(() -> {
-            System.out.println("Änderung im Raum erkannt.");
             lagerView.redraw(aktuellerRaum);
         });
 
@@ -76,6 +75,7 @@ public class LagerController {
         menuButton.addEventHandler(ActionEvent.ACTION, e -> application.switchView(PrimaryViewName.StartmenueView));
         brettButton.addEventHandler(ActionEvent.ACTION, e -> handleBrett());
         saueleButton.addEventHandler(ActionEvent.ACTION, e -> handleSauele());
+        lagerView.redraw(aktuellerRaum);
     }
 
     private void handleUndo() {
@@ -98,7 +98,7 @@ public class LagerController {
     }
 
     public void handleBrett() {
-        aktuellerRaum.getRegal().getRegalBretter().add(new RegalBrett(1, 1, 1, 1, 1));
+        aktuellerRaum.getRegal().getRegalBretter().add(new RegalBrett(100, 10, 1, 0));
     }
 
     public void handleSauele() {
