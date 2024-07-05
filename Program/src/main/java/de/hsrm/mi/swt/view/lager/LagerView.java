@@ -55,6 +55,7 @@ public class LagerView extends StackPane {
         saveButton = new Button("Speichern");
         settingsButton = new Button("Einstellungen");
         menuButton = new Button("Menu");
+        kartonButton= new Button("Karton");
 
         // Buttons in einer HBox anordnen
         HBox unAndRedoBox = new HBox(10, undoButton, redoButton);
