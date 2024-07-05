@@ -13,6 +13,7 @@ import de.hsrm.mi.swt.model.storage.Raum;
 import de.hsrm.mi.swt.view.PrimaryViewName;
 import de.hsrm.mi.swt.view.lager.LagerView;
 import javafx.event.ActionEvent;
+import javafx.stage.Window;
 
 import java.util.Map;
 
@@ -72,7 +73,14 @@ public class LagerController {
         redoButton.setOnAction(e -> handleRedo());
         saveButton.setOnAction(e -> handleSave());
         settingsButton.setOnAction(e -> handleSettings());
-        menuButton.addEventHandler(ActionEvent.ACTION, e -> application.switchView(PrimaryViewName.StartmenueView));
+        menuButton.addEventHandler(ActionEvent.ACTION, e -> {
+            application.setAktuellerRaum(null);
+            application.setAktuellesSpeicherprofil(null);
+            aktuellerRaum.setOnChangeListener(null);
+            aktuellerRaum = null;
+            aktuellesSpeicherprofil = null;
+            application.switchView(PrimaryViewName.StartmenueView);
+        });
         brettButton.addEventHandler(ActionEvent.ACTION, e -> handleBrett());
         saueleButton.addEventHandler(ActionEvent.ACTION, e -> handleSauele());
         lagerView.redraw(aktuellerRaum);

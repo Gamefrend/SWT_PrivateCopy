@@ -21,10 +21,10 @@ public class ProfilLadenOverlayController {
     private SpeicherProfil speicherProfil;
     private StorageShelvesApplication application;
 
-    public ProfilLadenOverlayController(ProfilLadenOverlayView view, SpeicherProfil speicherProfil) {
+    public ProfilLadenOverlayController(StorageShelvesApplication application, ProfilLadenOverlayView view) {
         this.view = view;
-        this.speicherProfil = speicherProfil;
-        this.application = new StorageShelvesApplication();
+        this.speicherProfil = application.getAktuellesSpeicherprofil();
+        this.application = application;
         initialize();
     }
 
