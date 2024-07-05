@@ -86,7 +86,7 @@ public class LagerView extends StackPane {
         skalierenButton = new Button("Skalieren");
         moveButton = new Button("Move");
 
-        VBox toolBox = new VBox(brettButton, saueleButton, skalierenButton, moveButton);
+        VBox toolBox = new VBox(brettButton, saueleButton,kartonButton , skalierenButton, moveButton);
         toolBox.setAlignment(Pos.CENTER);
         toolBox.setPadding(new Insets(10));
         toolBox.setSpacing(10);
@@ -100,33 +100,15 @@ public class LagerView extends StackPane {
         getChildren().add(mainLayout);
 
         // Event-Handler für den Karton-Button
-        kartonButton.setOnAction(event -> oeffneKartonPopup());
+        kartonButton.setOnAction(event -> fuegeKartonHinzu());
     }
 
-    private void oeffneKartonPopup() {
-        // Erstellen des Popup-Fensters
-        Stage popupStage = new Stage();
-        popupStage.initModality(Modality.APPLICATION_MODAL);
-        popupStage.setTitle("Karton hinzufügen");
-
+    private void fuegeKartonHinzu() {
         // KartonView erstellen
-        KartonView kartonView = new KartonView(100, 200, Color.BEIGE, 50, 150);
+        KartonView kartonView = new KartonView(100, 100, Color.RED, 50, 80);
 
-        // Layout für das Popup-Fenster
-        VBox popupLayout = new VBox(10);
-        popupLayout.setPadding(new Insets(10));
-        popupLayout.setAlignment(Pos.CENTER);
-        popupLayout.getChildren().addAll(
-                new Label("Karton"),
-                kartonView.getRectangle(),
-                new Button("OK") {{
-                    setOnAction(e -> popupStage.close());
-                }}
-        );
-
-        Scene popupScene = new Scene(popupLayout, 300, 300);
-        popupStage.setScene(popupScene);
-        popupStage.showAndWait();
+        // Den Karton in den Raum (centerArea) hinzufügen
+        centerArea.getChildren().add(kartonView.getRectangle());
     }
 
     public void setProfilname(String name) {
