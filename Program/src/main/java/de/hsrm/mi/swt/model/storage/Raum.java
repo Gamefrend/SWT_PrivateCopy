@@ -41,6 +41,7 @@ public class Raum implements Serializable {
     }
 
     public void setOnChangeListener(Runnable listener) {
+        this.regal.get().setOnChangeListener(listener);
         this.onChange.set(listener);
     }
 

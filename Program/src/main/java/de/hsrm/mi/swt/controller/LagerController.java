@@ -62,7 +62,6 @@ public class LagerController {
         }
 
         aktuellerRaum.setOnChangeListener(() -> {
-            System.out.println("Änderung im Raum erkannt.");
             lagerView.redraw(aktuellerRaum);
         });
 
@@ -76,6 +75,7 @@ public class LagerController {
         menuButton.addEventHandler(ActionEvent.ACTION, e -> application.switchView(PrimaryViewName.StartmenueView));
         brettButton.addEventHandler(ActionEvent.ACTION, e -> handleBrett());
         saueleButton.addEventHandler(ActionEvent.ACTION, e -> handleSauele());
+        lagerView.redraw(aktuellerRaum);
     }
 
     private void handleUndo() {
