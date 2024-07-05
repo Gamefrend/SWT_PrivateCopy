@@ -49,11 +49,19 @@ public class ProfilManagerController {
             }
         });
         profilManagerView.setOnDeleteAction(this::deleteProfile);
+        profilManagerView.setOnEditAction(this::editProfile);
     }
 
     private void deleteProfile(SpeicherProfil profile) {
         profilauswahl.delProfile(profile);
         profiles.remove(profile);
+    }
+
+    private void editProfile(SpeicherProfil profile, String newName) {
+        profilauswahl.renameProfile(profile, newName);
+        int index = profiles.indexOf(profile);
+        profiles.set(index, profile);
+        profileView.refresh(); // Aktualisiert die ListView, um die Änderungen anzuzeigen
     }
 
     public void showPopup(Window owner) {

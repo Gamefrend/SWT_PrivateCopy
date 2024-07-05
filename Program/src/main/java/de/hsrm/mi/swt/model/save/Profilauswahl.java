@@ -1,7 +1,5 @@
 package de.hsrm.mi.swt.model.save;
 
-import de.hsrm.mi.swt.model.storage.Raum;
-
 import java.io.File;
 import java.util.*;
 
@@ -9,22 +7,12 @@ public class Profilauswahl {
     List<SpeicherProfil> speicherProfile;
 
     public Profilauswahl() {
-        //Hier können Testspeicherprofile erstellt werden
-
-        //SpeicherProfil sp1 = new SpeicherProfil("Test_1");
-        //SpeicherProfil sp2 = new SpeicherProfil("Test_2");
-        //Raum r1 = new Raum(1,2);
-        //Raum r2 = new Raum(1341234,42134234);
-        //sp1.save(r1);
-        //sp2.save(r2);
-
-
         speicherProfile = new ArrayList<>();
         System.out.println(getClass().getResource("/saves/").getPath());
         File directory = new File(getClass().getResource("/saves/").getFile());
         if (directory.exists() && directory.isDirectory()) {
             for (File speicheDatei : directory.listFiles()) {
-                if(speicheDatei.getName().endsWith(".StorageShelves")){
+                if (speicheDatei.getName().endsWith(".StorageShelves")) {
                     try {
                         speicherProfile.add(new SpeicherProfil(speicheDatei.getName().split("\\.StorageShelves")[0]));
                     } catch (Exception e) {
@@ -41,14 +29,30 @@ public class Profilauswahl {
 
     public void addProfile(SpeicherProfil speicherProfil) {
         speicherProfile.add(speicherProfil);
-
     }
 
-    public SpeicherProfil getNeustesProfil(){
+    public SpeicherProfil getNeustesProfil() {
         return Collections.max(speicherProfile, Comparator.comparing(SpeicherProfil::getDatum));
     }
 
     public void delProfile(SpeicherProfil speicherProfil) {
         speicherProfile.remove(speicherProfil);
+    }
+
+    public void renameProfile(SpeicherProfil profile, String newName) {
+        if (profile != null && newName != null && !newName.isEmpty()) {
+            String oldName = profile.getSaveName();
+            profile.renameFile(newName);
+
+            // Profil updaten in Profilliste
+            int index = speicherProfile.indexOf(profile);
+            if (index != -1) {
+                speicherProfile.set(index, profile);
+            }
+
+            System.out.println("Profil umbenannt von " + oldName + " zu " + newName);
+        } else {
+            System.out.println("Kein neuer name");
+        }
     }
 }

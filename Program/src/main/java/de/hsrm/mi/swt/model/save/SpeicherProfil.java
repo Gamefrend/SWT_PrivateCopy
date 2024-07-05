@@ -3,6 +3,8 @@ package de.hsrm.mi.swt.model.save;
 import de.hsrm.mi.swt.model.storage.Raum;
 
 import java.io.*;
+import java.net.URISyntaxException;
+import java.nio.file.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -45,13 +47,13 @@ public class SpeicherProfil {
 
     public void save(Raum speichrRaum) {
         try {
-            gespeicherteProfile = new File(getClass().getResource("/saves/" + saveName + ".StorageShelves").getFile());
+            gespeicherteProfile = new File(getClass().getResource("/saves/" + saveName + ".StorageShelves").toURI());
             fileOutputStream = new FileOutputStream(gespeicherteProfile);
             objectOutputStream = new ObjectOutputStream(fileOutputStream);
             objectOutputStream.writeObject(speichrRaum);
             objectOutputStream.close();
             fileOutputStream.close();
-        } catch (FileNotFoundException ex) {
+        } catch (FileNotFoundException | URISyntaxException ex) {
             throw new RuntimeException(ex);
         } catch (IOException ex) {
             throw new RuntimeException(ex);
@@ -60,7 +62,7 @@ public class SpeicherProfil {
 
     public Raum load() {
         try {
-            gespeicherteProfile = new File(getClass().getResource("/saves/" + saveName + ".StorageShelves").getFile());
+            gespeicherteProfile = new File(getClass().getResource("/saves/" + saveName + ".StorageShelves").toURI());
             System.out.println(gespeicherteProfile.getAbsolutePath());
             fileInputStream = new FileInputStream(gespeicherteProfile);
             System.out.println("Geht 1");
@@ -69,7 +71,7 @@ public class SpeicherProfil {
             raum = (Raum) objectInputstream.readObject();
             objectInputstream.close();
             fileInputStream.close();
-        } catch (FileNotFoundException ex) {
+        } catch (FileNotFoundException | URISyntaxException ex) {
             throw new RuntimeException(ex);
         } catch (IOException ex) {
             throw new RuntimeException(ex);
@@ -82,6 +84,20 @@ public class SpeicherProfil {
     public String getFormattedDatum() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
         return datum.format(formatter);
+    }
+
+    public void renameFile(String newName) {
+        try {
+            Path oldPath = Paths.get(getClass().getResource("/saves/" + saveName + ".StorageShelves").toURI());
+            Path newPath = oldPath.resolveSibling(newName + ".StorageShelves");
+
+            Files.move(oldPath, newPath, StandardCopyOption.REPLACE_EXISTING);
+            this.saveName = newName;
+            System.out.println("File erfolgreich umbenannt");
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Fehler beim umbenennen", e);
+        }
     }
 
     public static void main(String[] args) {
