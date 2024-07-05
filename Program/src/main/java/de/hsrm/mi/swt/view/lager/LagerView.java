@@ -103,7 +103,7 @@ public class LagerView extends StackPane {
         kartonButton.setOnAction(event -> fuegeKartonHinzu());
     }
 
-    private void fuegeKartonHinzu() {
+    public void fuegeKartonHinzu() {
         // KartonView erstellen
         KartonView kartonView = new KartonView(100, 100, Color.RED, 50, 80);
 
@@ -203,5 +203,9 @@ public class LagerView extends StackPane {
 
     public Button getMoveButton() {
         return moveButton;
+    }
+
+    public Button getKartonButton() {
+        return kartonButton;
     }
 }

@@ -34,6 +34,8 @@ public class LagerController {
     private Button saueleButton;
     private Button skalierenButton;
     private Button moveButton;
+    private Button kartonButton;
+
     public LagerController(StorageShelvesApplication application, LagerView lagerView) {
         this.application = application;
         this.lagerView = lagerView;
@@ -46,6 +48,7 @@ public class LagerController {
         saueleButton = lagerView.getSaueleButton();
         skalierenButton = lagerView.getSkalierenButton();
         moveButton = lagerView.getMoveButton();
+        kartonButton = lagerView.getKartonButton();
 
         initialize();
     }
@@ -83,6 +86,7 @@ public class LagerController {
         });
         brettButton.addEventHandler(ActionEvent.ACTION, e -> handleBrett());
         saueleButton.addEventHandler(ActionEvent.ACTION, e -> handleSauele());
+        kartonButton.setOnAction(event -> lagerView.fuegeKartonHinzu());
         lagerView.redraw(aktuellerRaum);
     }
 
