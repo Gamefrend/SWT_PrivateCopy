@@ -1,7 +1,9 @@
 package de.hsrm.mi.swt.controller;
 
+import de.hsrm.mi.swt.model.storage.Regal;
 import de.hsrm.mi.swt.model.storage.RegalBrett;
 import de.hsrm.mi.swt.model.storage.Saeule;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -31,7 +33,6 @@ public class LagerController {
     private Button saueleButton;
     private Button skalierenButton;
     private Button moveButton;
-
     public LagerController(StorageShelvesApplication application, LagerView lagerView) {
         this.application = application;
         this.lagerView = lagerView;
@@ -54,10 +55,20 @@ public class LagerController {
             this.aktuellesSpeicherprofil = application.getAktuellesSpeicherprofil();
         } else {
             System.out.println("Hier kommt Logik hin die ein neuen Raum erstellt");
-            aktuellerRaum = new Raum(2, 3);
+            aktuellerRaum = new Raum(2000, 3000);
+            aktuellerRaum.setRegal(new Regal(new SimpleIntegerProperty(2000), null, 100, 200));
             application.setAktuellerRaum(aktuellerRaum);
             aktuellesSpeicherprofil = new SpeicherProfil("TestProfil1");
         }
+
+        aktuellerRaum.setOnChangeListener(() -> {
+            System.out.println("Änderung im Raum erkannt.");
+            lagerView.redraw(aktuellerRaum);
+        });
+
+
+        lagerView.bindModel(aktuellerRaum);
+
         undoButton.setOnAction(e -> handleUndo());
         redoButton.setOnAction(e -> handleRedo());
         saveButton.setOnAction(e -> handleSave());
@@ -87,10 +98,14 @@ public class LagerController {
     }
 
     public void handleBrett() {
-        aktuellerRaum.getRegal().getRegalBretter().add(new RegalBrett(1,1,1,1,1));
+        aktuellerRaum.getRegal().getRegalBretter().add(new RegalBrett(1, 1, 1, 1, 1));
     }
+
     public void handleSauele() {
-        aktuellerRaum.getRegal().getSaeule().add(new Saeule(1));
+        System.out.println("In hadleSauele()");
+        System.out.println(aktuellerRaum);
+        aktuellerRaum.getRegal().getSaeulen().add(new Saeule(1));
+        System.out.println(aktuellerRaum.getRegal().getSaeulen().toString());
     }
 
     public LagerView getRoot() {

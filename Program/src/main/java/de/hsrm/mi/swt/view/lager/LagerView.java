@@ -1,5 +1,7 @@
 package de.hsrm.mi.swt.view.lager;
 
+import de.hsrm.mi.swt.model.storage.Saeule;
+import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -8,7 +10,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.paint.Color;
 import de.hsrm.mi.swt.model.save.SpeicherProfil;
+import de.hsrm.mi.swt.model.storage.Raum;
+
 
 public class LagerView extends StackPane {
 
@@ -84,6 +90,33 @@ public class LagerView extends StackPane {
 
     public void setProfilname(String name) {
         this.profileNameField.setText(name);
+    }
+
+    public void bindModel(Raum raum) {
+        raum.setOnChangeListener(() -> {
+            System.out.println("Raum geändert");
+            redraw(raum);
+        });
+    }
+
+    public void redraw(Raum raum) {
+        System.out.println("Ist in redraw()");
+        centerArea.getChildren().clear(); // Clear previous drawings
+        int raumHoehe = raum.getHoehe();
+
+        for (Saeule saeule : raum.getRegal().getSaeulen ()) {
+            int positionX = saeule.getPositionX();
+
+            // Create a rectangle for each Säule
+            Rectangle rectangle = new Rectangle();
+            rectangle.setHeight(raumHoehe); // Höhe der Säule
+            rectangle.setWidth(10); // Breite der Säule
+            rectangle.setX(positionX); // Position der Säule
+            rectangle.setY(0); // Start bei 0 Y-Achse
+            rectangle.setFill(Color.GRAY); // Farbe der Säule
+
+            centerArea.getChildren().add(rectangle);
+        }
     }
 
     public Pane getCenterArea() {

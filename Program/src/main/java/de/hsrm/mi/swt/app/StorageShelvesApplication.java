@@ -46,16 +46,12 @@ public class StorageShelvesApplication extends Application {
 		ProfilLadenOverlayView overlayView = new ProfilLadenOverlayView();
 		mainMenuView.setOverlay(overlayView);
 
-		// LagerView lagerView = new LagerView();
-		// primaryViews.put(PrimaryViewName.LagerView, lagerView);
-		//----
 
 		LagerView lagerView = new LagerView();
 		SpeicherProfil speicherProfil = new SpeicherProfil("1");
 		LagerController lagerController = new LagerController(this, lagerView);
 		primaryViews.put(PrimaryViewName.LagerView, lagerView);
 
-		// Andere Views hier hinzufügen...
 	}
 
 	@Override
