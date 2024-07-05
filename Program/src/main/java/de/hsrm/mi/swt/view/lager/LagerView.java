@@ -1,9 +1,11 @@
 package de.hsrm.mi.swt.view.lager;
 
 import de.hsrm.mi.swt.model.storage.Saeule;
+import de.hsrm.mi.swt.view.uikomponente.KartonView;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -14,6 +16,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import de.hsrm.mi.swt.model.save.SpeicherProfil;
 import de.hsrm.mi.swt.model.storage.Raum;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 
 public class LagerView extends StackPane {
@@ -31,6 +35,8 @@ public class LagerView extends StackPane {
     private Button skalierenButton;
     private Button moveButton;
     private Label inventarTextField;
+
+    private Button kartonButton;
 
     public LagerView() {
         setId("lager-view");
@@ -86,6 +92,35 @@ public class LagerView extends StackPane {
         HBox mainLayout = new HBox(toolBox, preMainLayout);
 
         getChildren().add(mainLayout);
+
+        // Event-Handler für den Karton-Button
+        kartonButton.setOnAction(event -> openKartonPopup());
+    }
+
+    private void oeffneKartonPopup() {
+        // Erstellen des Popup-Fensters
+        Stage popupStage = new Stage();
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+        popupStage.setTitle("Karton hinzufügen");
+
+        // KartonView erstellen
+        KartonView kartonView = new KartonView(100, 200, Color.BEIGE, 50, 150);
+
+        // Layout für das Popup-Fenster
+        VBox popupLayout = new VBox(10);
+        popupLayout.setPadding(new Insets(10));
+        popupLayout.setAlignment(Pos.CENTER);
+        popupLayout.getChildren().addAll(
+                new Label("Karton"),
+                kartonView.getRectangle(),
+                new Button("OK") {{
+                    setOnAction(e -> popupStage.close());
+                }}
+        );
+
+        Scene popupScene = new Scene(popupLayout, 300, 300);
+        popupStage.setScene(popupScene);
+        popupStage.showAndWait();
     }
 
     public void setProfilname(String name) {
