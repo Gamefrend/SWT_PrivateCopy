@@ -22,5 +22,29 @@
 }
 
 .profil-zelle {
+    -fx-background-color: #EBEBEB;
     -fx-padding: 10;
+}
+
+.profil-zelle .info-pane {
+    -fx-padding: 10;
+}
+
+.profil-zelle .name-box {
+    -fx-alignment: center;
+    -fx-padding: 0 0 0 10;
+    -fx-justify-content: space-between;
+    -fx-align-items: center;
+    -fx-align-self: stretch;
+}
+
+.profil-zelle .button-box {
+    -fx-alignment: center-right;
+    -fx-spacing: 12;
+}
+
+.profil-zelle .edit-button,
+.profil-zelle .delete-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
 }
