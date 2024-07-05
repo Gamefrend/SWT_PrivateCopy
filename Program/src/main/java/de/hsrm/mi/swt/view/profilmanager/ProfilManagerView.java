@@ -11,10 +11,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 
+import java.util.function.Consumer;
+
 public class ProfilManagerView extends VBox {
     private Label headerLabel;
     private ListView<SpeicherProfil> profileView;
     private Button closeButton;
+    private Consumer<SpeicherProfil> onDeleteAction;
 
     public ProfilManagerView() {
         headerLabel = new Label("Profilmanager");
@@ -33,7 +36,7 @@ public class ProfilManagerView extends VBox {
         header.getStyleClass().add("profil-manager-header");
 
         profileView = new ListView<>();
-        profileView.setCellFactory(param -> new ProfilZelle());
+        profileView.setCellFactory(param -> new ProfilZelle(this::handleDelete));
 
         VBox mainLayout = new VBox(10);
         mainLayout.getChildren().addAll(header, profileView);
@@ -54,5 +57,15 @@ public class ProfilManagerView extends VBox {
 
     public Button getCloseButton() {
         return closeButton;
+    }
+
+    public void setOnDeleteAction(Consumer<SpeicherProfil> onDeleteAction) {
+        this.onDeleteAction = onDeleteAction;
+    }
+
+    private void handleDelete(SpeicherProfil profile) {
+        if (onDeleteAction != null) {
+            onDeleteAction.accept(profile);
+        }
     }
 }

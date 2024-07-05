@@ -4,6 +4,7 @@ import de.hsrm.mi.swt.model.storage.Raum;
 
 import java.io.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class SpeicherProfil {
     private String saveName;
@@ -14,11 +15,10 @@ public class SpeicherProfil {
     private ObjectOutputStream objectOutputStream;
 
     private FileInputStream fileInputStream;
-
     private ObjectInputStream objectInputstream;
     private Raum raum;
 
-    public SpeicherProfil(String name ){
+    public SpeicherProfil(String name) {
         this.saveName = name;
         this.datum = LocalDateTime.now();
     }
@@ -45,7 +45,6 @@ public class SpeicherProfil {
 
     public void save(Raum speichrRaum) {
         try {
-
             gespeicherteProfile = new File(getClass().getResource("/saves/" + saveName + ".StorageShelves").getFile());
             fileOutputStream = new FileOutputStream(gespeicherteProfile);
             objectOutputStream = new ObjectOutputStream(fileOutputStream);
@@ -80,6 +79,11 @@ public class SpeicherProfil {
         return raum;
     }
 
+    public String getFormattedDatum() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+        return datum.format(formatter);
+    }
+
     public static void main(String[] args) {
         SpeicherProfil sp1 = new SpeicherProfil("1");
         SpeicherProfil sp2 = new SpeicherProfil("2");
@@ -87,7 +91,5 @@ public class SpeicherProfil {
         Raum r2 = new Raum(10, 20);
         sp1.setSaveName("1");
         sp2.setSaveName("2");
-
     }
-
 }

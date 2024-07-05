@@ -48,6 +48,12 @@ public class ProfilManagerController {
                 hidePopup();
             }
         });
+        profilManagerView.setOnDeleteAction(this::deleteProfile);
+    }
+
+    private void deleteProfile(SpeicherProfil profile) {
+        profilauswahl.delProfile(profile);
+        profiles.remove(profile);
     }
 
     public void showPopup(Window owner) {
