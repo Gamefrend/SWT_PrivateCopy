@@ -1,7 +1,6 @@
 package de.hsrm.mi.swt.view.lager;
 
-import de.hsrm.mi.swt.model.storage.RegalBrett;
-import de.hsrm.mi.swt.model.storage.Saeule;
+import de.hsrm.mi.swt.model.storage.*;
 import de.hsrm.mi.swt.view.uikomponente.KartonView;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
@@ -16,9 +15,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import de.hsrm.mi.swt.model.save.SpeicherProfil;
-import de.hsrm.mi.swt.model.storage.Raum;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.time.LocalDate;
 
 
 public class LagerView extends StackPane {
@@ -98,14 +98,14 @@ public class LagerView extends StackPane {
         HBox mainLayout = new HBox(toolBox, preMainLayout);
 
         getChildren().add(mainLayout);
-
-        // Event-Handler für den Karton-Button
-        kartonButton.setOnAction(event -> fuegeKartonHinzu());
     }
 
     public void fuegeKartonHinzu() {
         // KartonView erstellen
-        KartonView kartonView = new KartonView(100, 100, Color.RED, 50, 80);
+        Typ typ= new Typ(true,true,false);
+        Ware ware = new Ware("BeispielWare", 100, 50, 80, LocalDate.now().plusDays(30), typ);
+
+        KartonView kartonView = new KartonView(100, 100, Color.RED, 50, 80,ware);
 
         // Den Karton in den Raum (centerArea) hinzufügen
         centerArea.getChildren().add(kartonView.getRectangle());
