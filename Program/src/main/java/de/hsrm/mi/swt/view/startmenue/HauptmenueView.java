@@ -12,7 +12,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-
 public class HauptmenueView extends BorderPane {
     private Button newSystemButton;
     private Button loadProfileButton;

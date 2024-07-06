@@ -6,6 +6,7 @@ import de.hsrm.mi.swt.model.storage.Raum;
 import de.hsrm.mi.swt.view.lager.RaumErstellenView;
 import javafx.stage.Popup;
 import javafx.stage.Window;
+import de.hsrm.mi.swt.view.PrimaryViewName;
 
 public class RaumErstellenController {
     private StorageShelvesApplication application;
@@ -33,7 +34,9 @@ public class RaumErstellenController {
     }
 
     public void hidePopup() {
-        popup.hide();
+        if (popup.isShowing()) {
+            popup.hide();
+        }
     }
 
     private void createLagersystem() {
@@ -51,9 +54,10 @@ public class RaumErstellenController {
             speicherProfil.save(raum);
             application.setAktuellerRaum(raum);
             application.setAktuellesSpeicherprofil(speicherProfil);
+
             hidePopup();
-            // Don't switch to LagerView immediately
-            // application.switchView(PrimaryViewName.LagerView);
+
+            application.switchView(PrimaryViewName.LagerView);
         } catch (NumberFormatException e) {
             System.err.println("Ungültige Eingabe für Höhe oder Breite");
         } catch (IllegalArgumentException e) {
