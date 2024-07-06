@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 public class SpeicherProfil {
     private String saveName;
     private LocalDateTime datum;
+    private static final String SAVES_DIR = "saves";
 
     private File gespeicherteProfile;
     private FileOutputStream fileOutputStream;
@@ -45,59 +46,35 @@ public class SpeicherProfil {
         this.saveName = saveName;
     }
 
-    public void save(Raum speichrRaum) {
+    public void save(Raum speicherRaum) {
+        Path savesDir = Paths.get(SAVES_DIR);
         try {
-            gespeicherteProfile = new File(getClass().getResource("/saves/" + saveName + ".StorageShelves").toURI());
-            fileOutputStream = new FileOutputStream(gespeicherteProfile);
-            objectOutputStream = new ObjectOutputStream(fileOutputStream);
-            objectOutputStream.writeObject(speichrRaum);
-            objectOutputStream.close();
-            fileOutputStream.close();
-        } catch (FileNotFoundException | URISyntaxException ex) {
-            throw new RuntimeException(ex);
+            Files.createDirectories(savesDir);
+            Path filePath = savesDir.resolve(saveName + ".StorageShelves");
+            try (ObjectOutputStream oos = new ObjectOutputStream(Files.newOutputStream(filePath))) {
+                oos.writeObject(speicherRaum);
+            }
+            System.out.println("Profile saved successfully: " + filePath.toAbsolutePath());
         } catch (IOException ex) {
-            throw new RuntimeException(ex);
+            System.err.println("Error saving profile: " + ex.getMessage());
+            ex.printStackTrace();
         }
     }
 
     public Raum load() {
-        try {
-            gespeicherteProfile = new File(getClass().getResource("/saves/" + saveName + ".StorageShelves").toURI());
-            System.out.println(gespeicherteProfile.getAbsolutePath());
-            fileInputStream = new FileInputStream(gespeicherteProfile);
-            System.out.println("Geht 1");
-            objectInputstream = new ObjectInputStream(fileInputStream);
-            System.out.println("Geht 2");
-            raum = (Raum) objectInputstream.readObject();
-            objectInputstream.close();
-            fileInputStream.close();
-        } catch (FileNotFoundException | URISyntaxException ex) {
-            throw new RuntimeException(ex);
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        } catch (ClassNotFoundException ex) {
-            throw new RuntimeException(ex);
+        Path filePath = Paths.get(SAVES_DIR, saveName + ".StorageShelves");
+        try (ObjectInputStream ois = new ObjectInputStream(Files.newInputStream(filePath))) {
+            return (Raum) ois.readObject();
+        } catch (IOException | ClassNotFoundException ex) {
+            System.err.println("Error loading profile: " + ex.getMessage());
+            ex.printStackTrace();
+            return null;
         }
-        return raum;
     }
 
     public String getFormattedDatum() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
         return datum.format(formatter);
-    }
-
-    public void renameFile(String newName) {
-        try {
-            Path oldPath = Paths.get(getClass().getResource("/saves/" + saveName + ".StorageShelves").toURI());
-            Path newPath = oldPath.resolveSibling(newName + ".StorageShelves");
-
-            Files.move(oldPath, newPath, StandardCopyOption.REPLACE_EXISTING);
-            this.saveName = newName;
-            System.out.println("File erfolgreich umbenannt");
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Fehler beim umbenennen", e);
-        }
     }
 
     public static void main(String[] args) {
