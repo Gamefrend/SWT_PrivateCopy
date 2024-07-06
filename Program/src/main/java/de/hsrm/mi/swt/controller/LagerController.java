@@ -14,11 +14,9 @@ import de.hsrm.mi.swt.view.PrimaryViewName;
 import de.hsrm.mi.swt.view.lager.LagerView;
 import javafx.event.ActionEvent;
 import javafx.stage.Window;
-
 import java.util.Map;
 
 public class LagerController {
-
     private Map<PrimaryViewName, Pane> primaryViews;
     private Stage primaryStage;
     private LagerView lagerView;
@@ -35,6 +33,7 @@ public class LagerController {
     private Button skalierenButton;
     private Button moveButton;
     private Button kartonButton;
+    private boolean saeuleButtonActive = false;
 
     public LagerController(StorageShelvesApplication application, LagerView lagerView) {
         this.application = application;
@@ -49,7 +48,6 @@ public class LagerController {
         skalierenButton = lagerView.getSkalierenButton();
         moveButton = lagerView.getMoveButton();
         kartonButton = lagerView.getKartonButton();
-
         initialize();
     }
 
@@ -69,7 +67,6 @@ public class LagerController {
             lagerView.redraw(aktuellerRaum);
         });
 
-
         lagerView.bindModel(aktuellerRaum);
 
         undoButton.setOnAction(e -> handleUndo());
@@ -87,7 +84,16 @@ public class LagerController {
         brettButton.addEventHandler(ActionEvent.ACTION, e -> handleBrett());
         saueleButton.addEventHandler(ActionEvent.ACTION, e -> handleSauele());
         kartonButton.setOnAction(event -> lagerView.fuegeKartonHinzu());
+
         lagerView.redraw(aktuellerRaum);
+
+        // Add mouse click event handler to centerArea
+        lagerView.getCenterArea().setOnMouseClicked(event -> {
+            if (saeuleButtonActive) {
+                double x = event.getX();
+                addSaeule(x);
+            }
+        });
     }
 
     private void handleUndo() {
@@ -114,10 +120,21 @@ public class LagerController {
     }
 
     public void handleSauele() {
-        System.out.println("In hadleSauele()");
-        System.out.println(aktuellerRaum);
-        aktuellerRaum.getRegal().getSaeulen().add(new Saeule(1));
-        System.out.println(aktuellerRaum.getRegal().getSaeulen().toString());
+        saeuleButtonActive = !saeuleButtonActive;
+        if (saeuleButtonActive) {
+            saueleButton.getStyleClass().add("active-button");
+        } else {
+            saueleButton.getStyleClass().remove("active-button");
+        }
+    }
+
+    public void addSaeule(double x) {
+        int positionX = (int) x;
+        aktuellerRaum.getRegal().getSaeulen().add(new Saeule(positionX));
+    }
+
+    public boolean isSaeuleButtonActive() {
+        return saeuleButtonActive;
     }
 
     public LagerView getRoot() {

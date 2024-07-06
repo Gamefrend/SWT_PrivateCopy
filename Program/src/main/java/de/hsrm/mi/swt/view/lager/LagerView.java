@@ -20,9 +20,7 @@ import de.hsrm.mi.swt.model.storage.Raum;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-
 public class LagerView extends StackPane {
-
     private Pane centerArea;
     private HBox inventoryBox;
     private Label profileNameField;
@@ -36,9 +34,7 @@ public class LagerView extends StackPane {
     private Button skalierenButton;
     private Button moveButton;
     private Label inventarTextField;
-
     private Button kartonButton;
-
     private final int CENTRALHIGHT;
 
     public LagerView() {
@@ -55,7 +51,7 @@ public class LagerView extends StackPane {
         saveButton = new Button("Speichern");
         settingsButton = new Button("Einstellungen");
         menuButton = new Button("Menu");
-        kartonButton= new Button("Karton");
+        kartonButton = new Button("Karton");
 
         // Buttons in einer HBox anordnen
         HBox unAndRedoBox = new HBox(10, undoButton, redoButton);
@@ -72,7 +68,6 @@ public class LagerView extends StackPane {
         centerArea.setStyle("-fx-border-color: black; -fx-background-color: white; -fx-min-height: 400;");
         CENTRALHIGHT = Integer.parseInt(centerArea.getStyle().split(": ")[centerArea.getStyle().split(": ").length - 1].replace(";", ""));
 
-
         // Inventar-Bereich
         inventarTextField = new Label("Inventar");
         inventoryBox = new HBox(10);
@@ -86,7 +81,7 @@ public class LagerView extends StackPane {
         skalierenButton = new Button("Skalieren");
         moveButton = new Button("Move");
 
-        VBox toolBox = new VBox(brettButton, saueleButton,kartonButton , skalierenButton, moveButton);
+        VBox toolBox = new VBox(brettButton, saueleButton, kartonButton, skalierenButton, moveButton);
         toolBox.setAlignment(Pos.CENTER);
         toolBox.setPadding(new Insets(10));
         toolBox.setSpacing(10);
@@ -96,17 +91,18 @@ public class LagerView extends StackPane {
 
         // Hauptlayout
         HBox mainLayout = new HBox(toolBox, preMainLayout);
-
         getChildren().add(mainLayout);
 
         // Event-Handler für den Karton-Button
         kartonButton.setOnAction(event -> fuegeKartonHinzu());
+
+        getStylesheets().add(getClass().getResource("/css/globals.css").toExternalForm());
+        getStylesheets().add(getClass().getResource("/css/lager.css").toExternalForm());
     }
 
     public void fuegeKartonHinzu() {
         // KartonView erstellen
         KartonView kartonView = new KartonView(100, 100, Color.RED, 50, 80);
-
         // Den Karton in den Raum (centerArea) hinzufügen
         centerArea.getChildren().add(kartonView.getRectangle());
     }
@@ -127,7 +123,6 @@ public class LagerView extends StackPane {
         int raumHoehe = raum.getHoehe();
 
         for (RegalBrett brett : raum.getRegal().getRegalBretter()) {
-
             Rectangle rectangle = new Rectangle();
             System.out.println(raum.getRegal().getSaeulen().get(brett.getLueckenIndex() + 1).getPositionX() - raum.getRegal().getSaeulen().get(brett.getLueckenIndex()).getPositionX());
             rectangle.setWidth(raum.getRegal().getSaeulen().get(brett.getLueckenIndex() + 1).getPositionX() - raum.getRegal().getSaeulen().get(brett.getLueckenIndex()).getPositionX());
@@ -140,15 +135,13 @@ public class LagerView extends StackPane {
 
         for (Saeule saeule : raum.getRegal().getSaeulen()) {
             int positionX = saeule.getPositionX();
-
             // Create a rectangle for each Säule
             Rectangle rectangle = new Rectangle();
-            rectangle.setHeight(CENTRALHIGHT); // Höhe der Säule
-            rectangle.setWidth(10); // Breite der Säule
-            rectangle.setX(positionX); // Position der Säule
-            rectangle.setY(5); // Start bei 0 Y-Achse
-            rectangle.setFill(Color.GRAY); // Farbe der Säule
-
+            rectangle.setHeight(CENTRALHIGHT);
+            rectangle.setWidth(10);
+            rectangle.setX(positionX);
+            rectangle.setY(5);
+            rectangle.setFill(Color.GRAY);
             centerArea.getChildren().add(rectangle);
         }
     }
