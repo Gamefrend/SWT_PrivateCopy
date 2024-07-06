@@ -8,10 +8,11 @@ public class Saeule implements Serializable {
     private transient IntegerProperty positionX;
 
     public Saeule(int positionX) {
-        if(positionX > 1300 || positionX < 0){
+        if (positionX > 1300 || positionX < 0) {
             System.out.println(positionX);
-            System.err.println("Säulen müssen zwwischen 0 oder 1300 plaziert werden!");
-        }else {
+            System.err.println("Säulen müssen zwischen 0 und 1300 platziert werden!");
+            this.positionX = new SimpleIntegerProperty(Math.min(Math.max(positionX, 0), 1300));
+        } else {
             this.positionX = new SimpleIntegerProperty(positionX);
         }
     }

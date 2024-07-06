@@ -1,0 +1,4 @@
+.active-button {
+    -fx-background-color: #0029FF;
+    -fx-text-fill: white;
+}
