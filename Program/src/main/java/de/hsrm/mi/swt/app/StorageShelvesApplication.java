@@ -1,6 +1,7 @@
 package de.hsrm.mi.swt.app;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -29,6 +30,8 @@ public class StorageShelvesApplication extends Application {
     private SpeicherProfil aktuellesSpeicherprofil;
     private Profilauswahl profilauswahl;
     private ProfilManagerController profilManagerController;
+    private LagerController lagerController;
+    private LagerView lagerView;
 
     @Override
     public void init() {
@@ -49,9 +52,9 @@ public class StorageShelvesApplication extends Application {
         mainMenuView.setOverlay(overlayView);
 
 
-        LagerView lagerView = new LagerView();
+        lagerView = new LagerView();
         SpeicherProfil speicherProfil = new SpeicherProfil("1");
-        LagerController lagerController = new LagerController(this, lagerView);
+        lagerController = new LagerController(this, lagerView);
         primaryViews.put(PrimaryViewName.LagerView, lagerView);
 
     }
@@ -80,6 +83,21 @@ public class StorageShelvesApplication extends Application {
         }
     }
 
+    public LagerController getLagerController() {
+        return lagerController;
+    }
+
+    public void setLagerController(LagerController lagerController) {
+        this.lagerController = lagerController;
+    }
+
+    public LagerView getLagerView() {
+        return lagerView;
+    }
+
+    public void setLagerView(LagerView lagerView) {
+        this.lagerView = lagerView;
+    }
     public Raum getAktuellerRaum() {
         return aktuellerRaum;
     }
@@ -107,6 +125,20 @@ public class StorageShelvesApplication extends Application {
 
     public Profilauswahl getProfilauswahl() {
         return profilauswahl;
+    }
+    public void restart() {
+        primaryStage.close(); // Schließen des aktuellen Stages
+        Platform.runLater(() -> {
+            try {
+                // Erstellen einer neuen Instanz der Anwendung und starten
+                StorageShelvesApplication newApp = new StorageShelvesApplication();
+                Stage newStage = new Stage();
+                newApp.init();
+                newApp.start(newStage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public static void main(String[] args) {

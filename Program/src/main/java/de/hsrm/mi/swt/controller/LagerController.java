@@ -62,13 +62,16 @@ public class LagerController {
             this.aktuellesSpeicherprofil = application.getAktuellesSpeicherprofil();
         } else {
             System.out.println("Hier kommt Logik hin die ein neuen Raum erstellt");
-            aktuellerRaum = new Raum(2000, 3000);
+            application.setAktuellerRaum(new Raum(2000, 3000));
+            aktuellerRaum = application.getAktuellerRaum();
+            application.setAktuellesSpeicherprofil(new SpeicherProfil("TestProfil1"));
+            aktuellesSpeicherprofil = application.getAktuellesSpeicherprofil();
             aktuellerRaum.setRegal(new Regal(new SimpleIntegerProperty(2000), 50, 300));
-            application.setAktuellerRaum(aktuellerRaum);
-            aktuellesSpeicherprofil = new SpeicherProfil("TestProfil1");
-        }
 
+        }
+        lagerView.getProfileNameField().setText(aktuellesSpeicherprofil.getSaveName());
         onChange = () -> {
+            aktuellerRaum = application.getAktuellerRaum();
             lagerView.redraw(aktuellerRaum);
         };
 
@@ -81,12 +84,7 @@ public class LagerController {
         saveButton.setOnAction(e -> handleSave());
         settingsButton.setOnAction(e -> handleSettings());
         menuButton.addEventHandler(ActionEvent.ACTION, e -> {
-            application.setAktuellerRaum(null);
-            application.setAktuellesSpeicherprofil(null);
-            aktuellerRaum.setOnChangeListener(null);
-            aktuellerRaum = null;
-            aktuellesSpeicherprofil = null;
-            application.switchView(PrimaryViewName.StartmenueView);
+            application.restart();
         });
         brettButton.addEventHandler(ActionEvent.ACTION, e -> handleBrett());
         saueleButton.addEventHandler(ActionEvent.ACTION, e -> handleSauele());
@@ -144,8 +142,8 @@ public class LagerController {
         return saeuleButtonActive;
     }
 
-    public void handleKarton(){
-        aktuellerRaum.getRegal().getRegalBretter().get(0).getKartons().add(new Karton(50, 50, Color.FIREBRICK,100,20,null));
+    public void handleKarton() {
+        aktuellerRaum.getRegal().getRegalBretter().get(0).getKartons().add(new Karton(50, 50, Color.FIREBRICK, 100, 20, null));
         System.out.println(aktuellerRaum.getRegal().getRegalBretter().get(0).getKartons().toString());
     }
 

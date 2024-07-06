@@ -1,5 +1,8 @@
 package de.hsrm.mi.swt.controller;
 
+import de.hsrm.mi.swt.model.save.SpeicherProfil;
+import de.hsrm.mi.swt.model.storage.Raum;
+import de.hsrm.mi.swt.view.lager.LagerView;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
@@ -38,14 +41,14 @@ public class HauptmenueController {
 
     public void initialize() {
         neuesLagerBtn.addEventHandler(ActionEvent.ACTION, e -> {
-            application.setAktuellerRaum(null);
-            application.setAktuellesSpeicherprofil(null);
+            application.setAktuellerRaum(new Raum(100,200));
+            application.setAktuellesSpeicherprofil(new SpeicherProfil("TestProfile0"));
             application.switchView(PrimaryViewName.LagerView);
         });
         manageProfileButton.addEventHandler(ActionEvent.ACTION, e -> application.showProfilManager());
         loadProfileButton.addEventHandler(ActionEvent.ACTION, e ->{
                 application.ladeNeustesSpeicherprofil();
-                application.switchView(PrimaryViewName.ProfilLadenView);});
+                application.switchView(PrimaryViewName.LagerView);});
 
     }
 }
