@@ -59,9 +59,8 @@ public class ProfilManagerController {
 
     private void editProfile(SpeicherProfil profile, String newName) {
         profilauswahl.renameProfile(profile, newName);
-        int index = profiles.indexOf(profile);
-        profiles.set(index, profile);
-        profileView.refresh(); // Aktualisiert die ListView, um die Änderungen anzuzeigen
+        profilauswahl = new Profilauswahl();
+        profileView.refresh();
     }
 
     public void showPopup(Window owner) {

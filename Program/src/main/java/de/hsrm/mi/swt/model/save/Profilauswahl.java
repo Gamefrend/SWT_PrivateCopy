@@ -1,6 +1,7 @@
 package de.hsrm.mi.swt.model.save;
 
 import java.io.File;
+import java.net.URISyntaxException;
 import java.util.*;
 
 public class Profilauswahl {
@@ -42,17 +43,30 @@ public class Profilauswahl {
     public void renameProfile(SpeicherProfil profile, String newName) {
         if (profile != null && newName != null && !newName.isEmpty()) {
             String oldName = profile.getSaveName();
-            profile.renameFile(newName);
 
-            // Profil updaten in Profilliste
-            int index = speicherProfile.indexOf(profile);
-            if (index != -1) {
-                speicherProfile.set(index, profile);
+            // Pfad zur Datei im src-Verzeichnis
+            File srcFile = new File("src/main/resources/saves/" + oldName + ".StorageShelves");
+
+            // Pfad zur Datei im build-Verzeichnis
+            File buildFile = new File("build/resources/main/saves/" + oldName + ".StorageShelves");
+
+            try {
+                // Datei im src-Verzeichnis umbenennen
+                if (srcFile.exists() && srcFile.renameTo(new File(srcFile.getParent(), newName + ".StorageShelves"))) {
+                    System.out.println("Profil im src-Verzeichnis umbenannt von " + oldName + " zu " + newName);
+                } else {
+                    System.out.println("Umbenennung im src-Verzeichnis ist gescheitert oder Datei existiert nicht");
+                }
+
+                // Datei im build-Verzeichnis umbenennen
+                if (buildFile.exists() && buildFile.renameTo(new File(buildFile.getParent(), newName + ".StorageShelves"))) {
+                    System.out.println("Profil im build-Verzeichnis umbenannt von " + oldName + " zu " + newName);
+                } else {
+                    System.out.println("Umbenennung im build-Verzeichnis ist gescheitert oder Datei existiert nicht");
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
-
-            System.out.println("Profil umbenannt von " + oldName + " zu " + newName);
-        } else {
-            System.out.println("Kein neuer name");
         }
     }
 }
