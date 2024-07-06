@@ -151,11 +151,6 @@ public class LagerView extends StackPane {
 
             centerArea.getChildren().add(rectangle);
         }
-        // Zeichnen der Kartons
-        for (KartonView karton : raum.getKartons()) {
-            Rectangle kartonRectangle = karton.getRectangle();
-            centerArea.getChildren().add(kartonRectangle);
-        }
     }
 
     public Pane getCenterArea() {

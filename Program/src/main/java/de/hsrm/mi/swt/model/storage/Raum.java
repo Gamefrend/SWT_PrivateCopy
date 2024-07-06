@@ -1,13 +1,10 @@
 package de.hsrm.mi.swt.model.storage;
 
-import de.hsrm.mi.swt.view.uikomponente.KartonView;
-import javafx.beans.Observable;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -20,7 +17,6 @@ public class Raum implements Serializable {
     private transient ObjectProperty<Regal> regal;
     private transient ObjectProperty<Runnable> onChange;
 
-    private transient ObservableList<KartonView> kartons;
 
     public Raum(int hoehe, int breite) {
         this.hoehe = new SimpleIntegerProperty(hoehe);
@@ -32,9 +28,6 @@ public class Raum implements Serializable {
         this.hoehe.addListener((obs, oldVal, newVal) -> triggerChange());
         this.breite.addListener((obs, oldVal, newVal) -> triggerChange());
         this.regal.get().setOnChangeListener(this::triggerChange);
-
-        this.kartons = FXCollections.observableArrayList();
-        this.kartons.addListener((Observable obs) -> triggerChange());
     }
 
     private void triggerChange() {
@@ -86,19 +79,7 @@ public class Raum implements Serializable {
     }
 
 
-    public ObservableList<KartonView> getKartons() {
-        return kartons;
-    }
 
-    public void addKarton(KartonView karton) {
-        this.kartons.add(karton);
-        triggerChange();
-    }
-
-    public void removeKarton(KartonView karton) {
-        this.kartons.remove(karton);
-        triggerChange();
-    }
 
     private void writeObject(ObjectOutputStream out) throws IOException {
         out.defaultWriteObject();
@@ -123,8 +104,5 @@ public class Raum implements Serializable {
         this.breite.addListener((obs, oldVal, newVal) -> triggerChange());
         this.regal.addListener((obs, oldVal, newVal) -> triggerChange());
 
-        // Vorherige Deserialisierung
-        this.kartons = FXCollections.observableArrayList();
-        this.kartons.addListener((Observable obs) -> triggerChange());
     }
 }
