@@ -31,11 +31,11 @@ public class ProfilManagerController {
         this.profileView = profilManagerView.getProfileView();
         this.profiles = FXCollections.observableArrayList();
         this.closeButton = profilManagerView.getCloseButton();
+        this.profilauswahl = application.getProfilauswahl();
         initialize();
     }
 
     public void initialize() {
-        profilauswahl = new Profilauswahl();
         profiles.addAll(profilauswahl.getSpeicherProfile());
         profileView.setItems(profiles);
         closeButton.addEventHandler(ActionEvent.ACTION, e -> hidePopup());
