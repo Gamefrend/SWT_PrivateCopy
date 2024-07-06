@@ -53,11 +53,19 @@ public class LagerController {
         skalierenButton = lagerView.getSkalierenButton();
         moveButton = lagerView.getMoveButton();
         kartonButton = lagerView.getKartonButton();
-        initialize();
+        initialize(application.getAktuellerRaum());
+        application.setRaumChangeListener(this::initialize);
     }
 
-    private void initialize() {
-        this.aktuellerRaum = application.getAktuellerRaum();
+    private void initialize(Raum raum) {
+        this.aktuellerRaum = raum;
+        setupRoom();
+        setupViewBindings();
+        setupButtonHandlers();
+        lagerView.redraw(aktuellerRaum);
+    }
+
+    private void setupRoom() {
         if (application.getAktuellesSpeicherprofil() != null) {
             this.aktuellesSpeicherprofil = application.getAktuellesSpeicherprofil();
         } else {
@@ -67,31 +75,31 @@ public class LagerController {
             application.setAktuellesSpeicherprofil(new SpeicherProfil("TestProfil1"));
             aktuellesSpeicherprofil = application.getAktuellesSpeicherprofil();
             aktuellerRaum.setRegal(new Regal(new SimpleIntegerProperty(2000), 50, 300));
-
         }
         lagerView.getProfileNameField().setText(aktuellesSpeicherprofil.getSaveName());
+    }
+
+    private void setupViewBindings() {
         onChange = () -> {
             aktuellerRaum = application.getAktuellerRaum();
             lagerView.redraw(aktuellerRaum);
         };
-
         aktuellerRaum.setOnChangeListener(onChange);
-
         lagerView.bindModel(aktuellerRaum);
+    }
 
+    private void setupButtonHandlers() {
         undoButton.setOnAction(e -> handleUndo());
         redoButton.setOnAction(e -> handleRedo());
         saveButton.setOnAction(e -> handleSave());
         settingsButton.setOnAction(e -> handleSettings());
-        menuButton.addEventHandler(ActionEvent.ACTION, e -> {
+        menuButton.setOnAction(e -> {
+            System.out.println("Restarted?!?");
             application.restart();
         });
         brettButton.addEventHandler(ActionEvent.ACTION, e -> handleBrett());
         saueleButton.addEventHandler(ActionEvent.ACTION, e -> handleSauele());
         kartonButton.addEventHandler(ActionEvent.ACTION, e -> handleKarton());
-        lagerView.redraw(aktuellerRaum);
-
-        // Add mouse click event handler to centerArea
         lagerView.getCenterArea().setOnMouseClicked(event -> {
             if (saeuleButtonActive) {
                 double x = event.getX();

@@ -49,12 +49,8 @@ public class RaumErstellenController {
                 throw new IllegalArgumentException("Name darf nicht leer sein");
             }
 
-            Raum raum = new Raum(hoehe, breite);
-            SpeicherProfil speicherProfil = new SpeicherProfil(name);
-            speicherProfil.save(raum);
-            application.setAktuellerRaum(raum);
-            application.setAktuellesSpeicherprofil(speicherProfil);
-
+            application.setAktuellerRaum(new Raum(hoehe, breite));
+            application.setAktuellesSpeicherprofil(new SpeicherProfil(name));
             hidePopup();
 
             application.switchView(PrimaryViewName.LagerView);

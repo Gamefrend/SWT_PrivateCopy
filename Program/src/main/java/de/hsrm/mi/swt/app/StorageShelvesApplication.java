@@ -26,6 +26,7 @@ public class StorageShelvesApplication extends Application {
     private Map<PrimaryViewName, Pane> primaryViews;
 
     private Raum aktuellerRaum;
+    private RaumChangeListener raumChangeListener;
 
     private SpeicherProfil aktuellesSpeicherprofil;
     private Profilauswahl profilauswahl;
@@ -38,8 +39,8 @@ public class StorageShelvesApplication extends Application {
     public void init() {
         primaryViews = new HashMap<>();
         profilauswahl = new Profilauswahl();
-        //Kommentar wegmachen um TestSaves zu erstellen
-        //profilauswahl.ceateTestProfile();
+        // Kommentar wegmachen um TestSaves zu erstellen
+        // profilauswahl.createTestProfile();
 
         HauptmenueView mainMenuView = new HauptmenueView(this);
         HauptmenueController hauptmenueController = new HauptmenueController(this, mainMenuView);
@@ -100,12 +101,16 @@ public class StorageShelvesApplication extends Application {
     public void setLagerView(LagerView lagerView) {
         this.lagerView = lagerView;
     }
+
     public Raum getAktuellerRaum() {
         return aktuellerRaum;
     }
 
     public void setAktuellerRaum(Raum aktuellerRaum) {
         this.aktuellerRaum = aktuellerRaum;
+        if (raumChangeListener != null) {
+            raumChangeListener.onRaumChange(aktuellerRaum);
+        }
     }
 
     public SpeicherProfil getAktuellesSpeicherprofil() {
@@ -119,6 +124,9 @@ public class StorageShelvesApplication extends Application {
     public void ladeNeustesSpeicherprofil() {
         aktuellesSpeicherprofil = profilauswahl.getNeustesProfil();
         aktuellerRaum = aktuellesSpeicherprofil.load();
+        if (raumChangeListener != null) {
+            raumChangeListener.onRaumChange(aktuellerRaum);
+        }
     }
 
     public void showProfilManager() {
@@ -128,11 +136,11 @@ public class StorageShelvesApplication extends Application {
     public Profilauswahl getProfilauswahl() {
         return profilauswahl;
     }
+
     public void restart() {
-        primaryStage.close(); // Schließen des aktuellen Stages
+        primaryStage.close();
         Platform.runLater(() -> {
             try {
-                // Erstellen einer neuen Instanz der Anwendung und starten
                 StorageShelvesApplication newApp = new StorageShelvesApplication();
                 Stage newStage = new Stage();
                 newApp.init();
@@ -143,7 +151,15 @@ public class StorageShelvesApplication extends Application {
         });
     }
 
+    public void setRaumChangeListener(RaumChangeListener listener) {
+        this.raumChangeListener = listener;
+    }
+
     public static void main(String[] args) {
         launch(args);
+    }
+
+    public interface RaumChangeListener {
+        void onRaumChange(Raum newRaum);
     }
 }
