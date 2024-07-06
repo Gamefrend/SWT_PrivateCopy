@@ -12,7 +12,6 @@ import javafx.scene.layout.HBox;
 
 public class HauptmenueView extends BorderPane {
 
-    private ProfilLadenOverlayView overlay;
     private Button newSystemButton;
     private Button loadProfileButton;
     private Button manageProfileButton;
@@ -88,16 +87,6 @@ public class HauptmenueView extends BorderPane {
             getStyleClass().add("medium-layout");
         } else {
             getStyleClass().add("large-layout");
-        }
-    }
-
-    public void setOverlay(ProfilLadenOverlayView overlay) {
-        this.overlay = overlay;
-        getChildren().add(overlay);
-    }
-    private void showOverlay() {
-        if (overlay != null) {
-            overlay.setVisible(true);
         }
     }
 

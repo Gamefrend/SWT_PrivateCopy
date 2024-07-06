@@ -1,8 +1,7 @@
 /* profilmanager.css */
 
 .profil-manager-view {
-    -fx-background-color: -fx-white;
-    -fx-border-width: 1;
+    -fx-background-color: white;
     -fx-padding: 40;
 }
 
@@ -23,28 +22,27 @@
 
 .profil-zelle {
     -fx-background-color: #EBEBEB;
-    -fx-padding: 10;
+    -fx-padding: 22;
+    -fx-border-width: 0;
+    -fx-border-color: transparent;
 }
 
-.profil-zelle .info-pane {
-    -fx-padding: 10;
+.profil-zelle .icon-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 5;
 }
 
-.profil-zelle .name-box {
-    -fx-alignment: center;
-    -fx-padding: 0 0 0 10;
-    -fx-justify-content: space-between;
-    -fx-align-items: center;
-    -fx-align-self: stretch;
+.profil-zelle .icon-button:hover {
+    -fx-background-color: #D3D3D3;
 }
 
-.profil-zelle .button-box {
-    -fx-alignment: center-right;
-    -fx-spacing: 12;
+.list-view {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
 }
 
-.profil-zelle .edit-button,
-.profil-zelle .delete-button {
+.list-cell {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
 }
