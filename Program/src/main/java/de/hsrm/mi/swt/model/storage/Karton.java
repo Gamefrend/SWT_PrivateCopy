@@ -1,5 +1,7 @@
 package de.hsrm.mi.swt.model.storage;
 
+import javafx.beans.property.ObjectProperty;
+
 import java.io.Serializable;
 
 public class Karton implements Serializable {
@@ -10,6 +12,9 @@ public class Karton implements Serializable {
     private int xPosition;
     private Ware waren;
 
+    private transient ObjectProperty<Runnable> onChange;
+
+
     public Karton(int gewicht, int breite, int hoehe, int maxBelastung, int xPosition, Ware waren) {
         this.gewicht = gewicht;
         this.breite = breite;
@@ -19,6 +24,14 @@ public class Karton implements Serializable {
         this.waren = waren;
     }
 
+    private void triggerChange() {
+        if (onChange.get() != null) {
+            onChange.get().run();
+        }
+    }
+    public void setOnChange(Runnable onChange) {
+        this.onChange.set(onChange);
+    }
     public int getGewicht() {
         return gewicht;
     }

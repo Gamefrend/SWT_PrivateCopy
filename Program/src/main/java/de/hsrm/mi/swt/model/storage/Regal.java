@@ -17,9 +17,9 @@ public class Regal implements Serializable {
 
     private Inventar uebrigesInventar;
 
-    public Regal(IntegerProperty hoehe, ObservableList<RegalBrett> regalBretter, int saelenPos1, int saulenPos2) {
+    public Regal(IntegerProperty hoehe, int saelenPos1, int saulenPos2) {
         this.hoehe = hoehe;
-        this.regalBretter = regalBretter != null ? regalBretter : FXCollections.observableArrayList();
+        this.regalBretter = FXCollections.observableArrayList();
         this.saeulen = FXCollections.observableArrayList();
         this.saeulen.add(new Saeule(saelenPos1));
         this.saeulen.add(new Saeule(saulenPos2));
@@ -55,6 +55,9 @@ public class Regal implements Serializable {
     }
 
     public ObservableList<RegalBrett> getRegalBretter() {
+        for(RegalBrett brett:regalBretter){
+            brett.setOnChange(onChange.get());
+        }
         return regalBretter;
     }
 

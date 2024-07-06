@@ -1,6 +1,6 @@
 package de.hsrm.mi.swt.model.storage;
 
-import de.hsrm.mi.swt.view.uikomponente.KartonView;
+import de.hsrm.mi.swt.view.uikomponente.Karton;
 import javafx.beans.Observable;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -10,8 +10,6 @@ import javafx.collections.ObservableList;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 public class RegalBrett implements Serializable {
     private int hoehe;
@@ -20,7 +18,7 @@ public class RegalBrett implements Serializable {
     private int maxBelastung;
     private int lueckenIndex;
    // private List<Karton> kartons;
-   private transient ObservableList<KartonView> kartons;
+   private transient ObservableList<Karton> kartons;
    private transient ObjectProperty<Runnable> onChange;
 
 
@@ -36,30 +34,38 @@ public class RegalBrett implements Serializable {
         this.onChange = new SimpleObjectProperty<>();
         this.kartons = FXCollections.observableArrayList();
         this.kartons.addListener((Observable obs) -> triggerChange());
+        this.onChange = new SimpleObjectProperty<>();
+        //this.kartons.get(0).setOnChangeListener(this::triggerChange);
     }
 
 
-    public ObservableList<KartonView> getKartons() {
+    public ObservableList<Karton> getKartons() {
         return kartons;
     }
 
-    public void addKarton(KartonView karton) {
+    public void addKarton(Karton karton) {
         this.kartons.add(karton);
         triggerChange();
     }
 
-    public void removeKarton(KartonView karton) {
+    public void removeKarton(Karton karton) {
         this.kartons.remove(karton);
         triggerChange();
     }
     private void triggerChange() {
         if (onChange.get() != null) {
+            System.out.println("Änderungen im Regalbrett erkannt");
             onChange.get().run();
         }
     }
- //   public void addKarton(Karton karton) {kartons.add(karton);}
 
-   // public void removeKarton(Karton karton) {kartons.remove(karton);}
+    public void setKartons(ObservableList<Karton> kartons) {
+        this.kartons = kartons;
+    }
+
+    public void setOnChange(Runnable onChange) {
+        this.onChange.set(onChange);
+    }
 
     public int getHoehe() {
         return hoehe;

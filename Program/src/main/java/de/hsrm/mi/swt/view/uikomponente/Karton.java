@@ -10,7 +10,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-public class KartonView implements Serializable {
+public class Karton implements Serializable {
     private transient IntegerProperty width;
     private transient IntegerProperty height;
     private transient ObjectProperty<Color> color;
@@ -19,7 +19,7 @@ public class KartonView implements Serializable {
     private transient ObjectProperty<Ware> ware;
     private transient Rectangle rectangle;  // Rechteck, das den Karton visualisiert
 
-    public KartonView(int width, int height, Color color, int maxBelastung, int xPosition, Ware ware) {
+    public Karton(int width, int height, Color color, int maxBelastung, int xPosition, Ware ware) {
         this.width = new SimpleIntegerProperty(width);
         this.height = new SimpleIntegerProperty(height);
         this.color = new SimpleObjectProperty<>(color);

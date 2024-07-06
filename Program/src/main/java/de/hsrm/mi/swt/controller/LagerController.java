@@ -3,9 +3,11 @@ package de.hsrm.mi.swt.controller;
 import de.hsrm.mi.swt.model.storage.Regal;
 import de.hsrm.mi.swt.model.storage.RegalBrett;
 import de.hsrm.mi.swt.model.storage.Saeule;
+import de.hsrm.mi.swt.view.uikomponente.Karton;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import de.hsrm.mi.swt.app.StorageShelvesApplication;
 import de.hsrm.mi.swt.model.save.SpeicherProfil;
@@ -13,7 +15,6 @@ import de.hsrm.mi.swt.model.storage.Raum;
 import de.hsrm.mi.swt.view.PrimaryViewName;
 import de.hsrm.mi.swt.view.lager.LagerView;
 import javafx.event.ActionEvent;
-import javafx.stage.Window;
 
 import java.util.Map;
 
@@ -35,6 +36,8 @@ public class LagerController {
     private Button skalierenButton;
     private Button moveButton;
     private Button kartonButton;
+
+    private Runnable onChange;
 
     public LagerController(StorageShelvesApplication application, LagerView lagerView) {
         this.application = application;
@@ -60,14 +63,16 @@ public class LagerController {
         } else {
             System.out.println("Hier kommt Logik hin die ein neuen Raum erstellt");
             aktuellerRaum = new Raum(2000, 3000);
-            aktuellerRaum.setRegal(new Regal(new SimpleIntegerProperty(2000), null, 50, 300));
+            aktuellerRaum.setRegal(new Regal(new SimpleIntegerProperty(2000), 50, 300));
             application.setAktuellerRaum(aktuellerRaum);
             aktuellesSpeicherprofil = new SpeicherProfil("TestProfil1");
         }
 
-        aktuellerRaum.setOnChangeListener(() -> {
+        onChange = () -> {
             lagerView.redraw(aktuellerRaum);
-        });
+        };
+
+        aktuellerRaum.setOnChangeListener(onChange);
 
 
         lagerView.bindModel(aktuellerRaum);
@@ -86,7 +91,7 @@ public class LagerController {
         });
         brettButton.addEventHandler(ActionEvent.ACTION, e -> handleBrett());
         saueleButton.addEventHandler(ActionEvent.ACTION, e -> handleSauele());
-        kartonButton.setOnAction(event -> lagerView.fuegeKartonHinzu());
+        kartonButton.addEventHandler(ActionEvent.ACTION, e -> handleKarton());
         lagerView.redraw(aktuellerRaum);
     }
 
@@ -118,6 +123,12 @@ public class LagerController {
         System.out.println(aktuellerRaum);
         aktuellerRaum.getRegal().getSaeulen().add(new Saeule(1));
         System.out.println(aktuellerRaum.getRegal().getSaeulen().toString());
+    }
+
+    public void handleKarton(){
+        System.out.println("In hadleKarton()");
+        aktuellerRaum.getRegal().getRegalBretter().get(0).getKartons().add(new Karton(50, 50, Color.FIREBRICK,100,20,null));
+        System.out.println(aktuellerRaum.getRegal().getRegalBretter().get(0).getKartons().toString());
     }
 
     public LagerView getRoot() {

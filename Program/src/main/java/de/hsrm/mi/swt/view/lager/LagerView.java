@@ -1,11 +1,9 @@
 package de.hsrm.mi.swt.view.lager;
 
 import de.hsrm.mi.swt.model.storage.*;
-import de.hsrm.mi.swt.view.uikomponente.KartonView;
-import javafx.beans.value.ChangeListener;
+import de.hsrm.mi.swt.view.uikomponente.Karton;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -14,9 +12,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
-import de.hsrm.mi.swt.model.save.SpeicherProfil;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 import java.time.LocalDate;
 
@@ -105,7 +100,7 @@ public class LagerView extends StackPane {
         Typ typ= new Typ(true,true,false);
         Ware ware = new Ware("BeispielWare", 100, 50, 80, LocalDate.now().plusDays(30), typ);
 
-        KartonView kartonView = new KartonView(100, 100, Color.RED, 50, 80,ware);
+        Karton kartonView = new Karton(100, 100, Color.RED, 50, 80,ware);
 
         // Den Karton in den Raum (centerArea) hinzufügen
         centerArea.getChildren().add(kartonView.getRectangle());
@@ -127,15 +122,26 @@ public class LagerView extends StackPane {
         int raumHoehe = raum.getHoehe();
 
         for (RegalBrett brett : raum.getRegal().getRegalBretter()) {
-
+            int xPosition = 0;
+            xPosition = raum.getRegal().getSaeulen().get(brett.getLueckenIndex()).getPositionX();
             Rectangle rectangle = new Rectangle();
             System.out.println(raum.getRegal().getSaeulen().get(brett.getLueckenIndex() + 1).getPositionX() - raum.getRegal().getSaeulen().get(brett.getLueckenIndex()).getPositionX());
             rectangle.setWidth(raum.getRegal().getSaeulen().get(brett.getLueckenIndex() + 1).getPositionX() - raum.getRegal().getSaeulen().get(brett.getLueckenIndex()).getPositionX());
             rectangle.setHeight(brett.getDicke());
             rectangle.setFill(Color.BROWN);
             rectangle.setY(brett.getHoehe());
-            rectangle.setX(raum.getRegal().getSaeulen().get(brett.getLueckenIndex()).getPositionX());
+            rectangle.setX(xPosition);
             centerArea.getChildren().add(rectangle);
+
+            for (Karton karton : brett.getKartons()){
+                rectangle = new Rectangle();
+                rectangle.setHeight(karton.getHeight()); // Höhe der Säule
+                rectangle.setWidth(karton.getWidth()); // Breite der Säule
+                rectangle.setX(xPosition + karton.getXPosition()); // Position der Säule
+                rectangle.setY(brett.getHoehe()-karton.getHeight()); // Start bei 0 Y-Achse
+                rectangle.setFill(Color.RED); // Farbe der Säule
+                centerArea.getChildren().add(rectangle);
+            }
         }
 
         for (Saeule saeule : raum.getRegal().getSaeulen()) {
@@ -151,6 +157,7 @@ public class LagerView extends StackPane {
 
             centerArea.getChildren().add(rectangle);
         }
+
     }
 
     public Pane getCenterArea() {
