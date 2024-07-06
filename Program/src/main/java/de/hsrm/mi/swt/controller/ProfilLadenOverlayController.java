@@ -1,14 +1,14 @@
-package main.java.de.hsrm.mi.swt.controller;
+package de.hsrm.mi.swt.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-import main.java.de.hsrm.mi.swt.app.StorageShelvesApplication;
-import main.java.de.hsrm.mi.swt.app.StorageShelvesMain;
-import main.java.de.hsrm.mi.swt.model.save.SpeicherProfil;
-import main.java.de.hsrm.mi.swt.model.storage.Raum;
-import main.java.de.hsrm.mi.swt.view.PrimaryViewName;
-import main.java.de.hsrm.mi.swt.view.startmenue.ProfilLadenOverlayView;
+import de.hsrm.mi.swt.app.StorageShelvesApplication;
+import de.hsrm.mi.swt.app.StorageShelvesMain;
+import de.hsrm.mi.swt.model.save.SpeicherProfil;
+import de.hsrm.mi.swt.model.storage.Raum;
+import de.hsrm.mi.swt.view.PrimaryViewName;
+import de.hsrm.mi.swt.view.startmenue.ProfilLadenOverlayView;
 
 import java.io.File;
 
@@ -21,10 +21,10 @@ public class ProfilLadenOverlayController {
     private SpeicherProfil speicherProfil;
     private StorageShelvesApplication application;
 
-    public ProfilLadenOverlayController(ProfilLadenOverlayView view, SpeicherProfil speicherProfil) {
+    public ProfilLadenOverlayController(StorageShelvesApplication application, ProfilLadenOverlayView view) {
         this.view = view;
-        this.speicherProfil = speicherProfil;
-        this.application = new StorageShelvesApplication();
+        this.speicherProfil = application.getAktuellesSpeicherprofil();
+        this.application = application;
         initialize();
     }
 
@@ -48,11 +48,11 @@ public class ProfilLadenOverlayController {
 
 
             } catch (RuntimeException ex) {
-                System.out.println("Fehler beim Laden des Raums: " + ex.getMessage());
+                System.err.println("Fehler beim Laden des Raums: " + ex.getMessage());
                 // hier noch was?
             }
         } else {
-            System.out.println("SpeicherProfil nicht gefunden: " + eingabe);
+            System.err.println("SpeicherProfil nicht gefunden: " + eingabe);
             // wollen wir hier Fehler behandeln?
         }
     }

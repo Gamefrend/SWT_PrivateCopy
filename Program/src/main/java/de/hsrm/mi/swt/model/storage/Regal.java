@@ -1,54 +1,72 @@
-package main.java.de.hsrm.mi.swt.model.storage;
+package de.hsrm.mi.swt.model.storage;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.ListChangeListener;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Regal implements Serializable {
-    private int hoehe;
-    private List<RegalBrett> regalBretter;
-    private List<Saeule> saeulen;
+    private transient IntegerProperty hoehe;
+    private transient ObservableList<RegalBrett> regalBretter;
+    private transient ObservableList<Saeule> saeulen;
+
+    private transient ObjectProperty<Runnable> onChange;
 
     private Inventar uebrigesInventar;
 
-    public Regal(int hoehe, List<RegalBrett> regalBretter, Saeule saeule, int saelenPos1, int saulenPos2) {
+    public Regal(IntegerProperty hoehe, ObservableList<RegalBrett> regalBretter, int saelenPos1, int saulenPos2) {
         this.hoehe = hoehe;
-        this.regalBretter = regalBretter;
-        this.saeulen = new ArrayList<>();
+        this.regalBretter = regalBretter != null ? regalBretter : FXCollections.observableArrayList();
+        this.saeulen = FXCollections.observableArrayList();
         this.saeulen.add(new Saeule(saelenPos1));
         this.saeulen.add(new Saeule(saulenPos2));
         uebrigesInventar = new Inventar();
+        onChange = new SimpleObjectProperty<>();
+
+        this.hoehe.addListener((obs, oldVal, newVal) -> triggerChange());
+        this.regalBretter.addListener((ListChangeListener.Change<? extends RegalBrett> change) -> triggerChange());
+        this.saeulen.addListener((ListChangeListener.Change<? extends Saeule> change) -> {
+            triggerChange();
+            return;
+        });
     }
 
-    public void addSaele(Saeule saeule) {
-        saeulen.add(saeule);
+    private void triggerChange() {
+        // Hier können Sie weitere Logik hinzufügen, falls notwendig
+        System.out.println("Änderung im Regal erkannt.");
+        if (onChange.get() != null) {
+            onChange.get().run();
+        }
     }
 
-    public void removeSaele(Saeule saeule) {
-        saeulen.remove(saeule);
+    public void setOnChangeListener(Runnable listener) {
+        this.onChange.set(listener);
     }
 
-    public int getHoehe() {
+    public IntegerProperty getHoehe() {
         return hoehe;
     }
 
-    public void setHoehe(int hoehe) {
+    public void setHoehe(IntegerProperty hoehe) {
         this.hoehe = hoehe;
     }
 
-    public List<RegalBrett> getRegalBretter() {
+    public ObservableList<RegalBrett> getRegalBretter() {
         return regalBretter;
     }
 
-    public void setRegalBretter(List<RegalBrett> regalBretter) {
+    public void setRegalBretter(ObservableList<RegalBrett> regalBretter) {
         this.regalBretter = regalBretter;
     }
 
-    public List<Saeule> getSaeule() {
+    public ObservableList<Saeule> getSaeulen() {
         return saeulen;
     }
 
-    public void setSaeule(List<Saeule> saeule) {
-        this.saeulen = saeule;
+    public void setSaeulen(ObservableList<Saeule> saeulen) {
+        this.saeulen = saeulen;
     }
 }

@@ -1,50 +1,108 @@
-package main.java.de.hsrm.mi.swt.model.storage;
+package de.hsrm.mi.swt.model.storage;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Raum implements Serializable {
+    private transient IntegerProperty hoehe;
+    private transient IntegerProperty breite;
+    private transient ObjectProperty<Regal> regal;
+    private transient ObjectProperty<Runnable> onChange;
 
-    private int hoehe;
-    private int breite;
-    private List<Regal> regale;
 
     public Raum(int hoehe, int breite) {
-        this.hoehe = hoehe;
-        this.breite = breite;
-        this.regale = new ArrayList<>();
+        this.hoehe = new SimpleIntegerProperty(hoehe);
+        this.breite = new SimpleIntegerProperty(breite);
+        this.regal = new SimpleObjectProperty<>(new Regal(this.hoehe, null, 0, 1300));
+        this.onChange = new SimpleObjectProperty<>();
+
+        // Listeners for properties
+        this.hoehe.addListener((obs, oldVal, newVal) -> triggerChange());
+        this.breite.addListener((obs, oldVal, newVal) -> triggerChange());
+        this.regal.get().setOnChangeListener(this::triggerChange);
     }
 
-    public void addRegal(Regal regal) {
-        regale.add(regal);
+    private void triggerChange() {
+        if (onChange.get() != null) {
+            onChange.get().run();
+        }
     }
 
-    public void removeRegal(Regal regal) {
-        regale.remove(regal);
+    public void setOnChangeListener(Runnable listener) {
+        this.regal.get().setOnChangeListener(listener);
+        this.onChange.set(listener);
     }
 
     public int getHoehe() {
-        return hoehe;
+        return hoehe.get();
     }
 
     public void setHoehe(int hoehe) {
-        this.hoehe = hoehe;
+        this.hoehe.set(hoehe);
+    }
+
+    public IntegerProperty hoeheProperty() {
+        return hoehe;
     }
 
     public int getBreite() {
-        return breite;
+        return breite.get();
     }
 
     public void setBreite(int breite) {
-        this.breite = breite;
+        this.breite.set(breite);
     }
 
-    public List<Regal> getRegale() {
-        return regale;
+    public IntegerProperty breiteProperty() {
+        return breite;
     }
 
-    public void setRegale(List<Regal> regale) {
-        this.regale = regale;
+    public Regal getRegal() {
+        return regal.get();
+    }
+
+    public void setRegal(Regal regal) {
+        this.regal.addListener((obs, oldVal, newVal) -> triggerChange());
+        this.regal.set(regal);
+    }
+
+    public ObjectProperty<Regal> regalProperty() {
+        return regal;
+    }
+
+
+
+
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        out.defaultWriteObject();
+        out.writeInt(getHoehe());
+        out.writeInt(getBreite());
+        out.writeObject(getRegal());
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        int hoehe = in.readInt();
+        int breite = in.readInt();
+        Regal regal = (Regal) in.readObject();
+
+        this.hoehe = new SimpleIntegerProperty(hoehe);
+        this.breite = new SimpleIntegerProperty(breite);
+        this.regal = new SimpleObjectProperty<>(regal);
+        this.onChange = new SimpleObjectProperty<>();
+
+        // Restore listeners
+        this.hoehe.addListener((obs, oldVal, newVal) -> triggerChange());
+        this.breite.addListener((obs, oldVal, newVal) -> triggerChange());
+        this.regal.addListener((obs, oldVal, newVal) -> triggerChange());
+
     }
 }

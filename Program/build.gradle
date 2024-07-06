@@ -5,57 +5,40 @@ plugins {
 
 
 application {
-    mainClass = "main.java.de.hsrm.mi.swt.app.StorageShelvesMain"
+    mainClass = "de.hsrm.mi.swt.app.StorageShelvesMain"
 }
 
 java {
     sourceCompatibility = '21'
 }
 
-// Konfiguration des JavaFX-Plugins: Version und benötigte Module
 javafx {
     version = "21.0.3"
     modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
-
-// Abzufragendes Internet-Repository für Bibliotheken (z.B. JavaFX)
+sourceSets {
+    test {
+        java.srcDirs = ['src/test/java']
+    }
+}
 repositories {
     mavenCentral()
 }
 
-// Abhängigkeiten (benötigte und einzubindende Bibliotheken)
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
-sourceSets {
-    main {
-        java {
-            srcDirs = []
-        }
-        resources {
-            srcDirs = ['src/main/resources']
-        }
-    }
 
 // Initialisierung für JUnit-Testing
 test {
     useJUnitPlatform()
 }
 
-/* ./gradlew fatJar erzeugt Standalone-JAR (App incl. benoetigter Bibliotheken)
- * Datei wird in Ordner build/libs angelegt
- * Dateiname ist letzte Komponente von application.mainClass (s.o.) + Endung ".jar"
- * Ausfuehrung mit java -jar <dateiname>
- * Mehr Infos: https://www.baeldung.com/gradle-fat-jar
- */
+
 task fatJar(type: Jar) {
     manifest {
-        attributes 'Main-Class': application.mainClass
+        attributes 'Main-Class': "de.hsrm.mi.swt.app.StorageShelvesMain"
     }
-    archiveBaseName = application.mainClass.get().split('\\.').last()
-
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
-    with jar
 }
+

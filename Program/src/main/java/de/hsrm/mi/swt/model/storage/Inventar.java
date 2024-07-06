@@ -1,10 +1,10 @@
-package main.java.de.hsrm.mi.swt.model.storage;
+package de.hsrm.mi.swt.model.storage;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Inventar {
+public class Inventar implements Serializable {
     private List<Karton> kartons;
 
     public Inventar() {

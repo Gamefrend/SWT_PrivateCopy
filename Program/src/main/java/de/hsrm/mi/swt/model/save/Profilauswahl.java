@@ -1,29 +1,19 @@
-package main.java.de.hsrm.mi.swt.model.save;
-
-import main.java.de.hsrm.mi.swt.model.storage.Raum;
+package de.hsrm.mi.swt.model.save;
 
 import java.io.File;
+import java.net.URISyntaxException;
 import java.util.*;
 
 public class Profilauswahl {
     List<SpeicherProfil> speicherProfile;
 
     public Profilauswahl() {
-        //Hier können Testspeicherprofile erstellt werden
-        /*
-        SpeicherProfil sp1 = new SpeicherProfil("Test_1");
-        SpeicherProfil sp2 = new SpeicherProfil("Test_2");
-        Raum r1 = new Raum(1,2);
-        Raum r2 = new Raum(1341234,42134234);
-        sp1.save(r1);
-        sp2.save(r2);
-         */
-
         speicherProfile = new ArrayList<>();
-        File directory = new File("Program/src/main/resources/saves/");
+        System.out.println(getClass().getResource("/saves/").getPath());
+        File directory = new File(getClass().getResource("/saves/").getFile());
         if (directory.exists() && directory.isDirectory()) {
             for (File speicheDatei : directory.listFiles()) {
-                if(speicheDatei.getName().endsWith(".StorageShelves")){
+                if (speicheDatei.getName().endsWith(".StorageShelves")) {
                     try {
                         speicherProfile.add(new SpeicherProfil(speicheDatei.getName().split("\\.StorageShelves")[0]));
                     } catch (Exception e) {
@@ -40,14 +30,43 @@ public class Profilauswahl {
 
     public void addProfile(SpeicherProfil speicherProfil) {
         speicherProfile.add(speicherProfil);
-
     }
 
-    public SpeicherProfil getNeustesProfil(){
+    public SpeicherProfil getNeustesProfil() {
         return Collections.max(speicherProfile, Comparator.comparing(SpeicherProfil::getDatum));
     }
 
     public void delProfile(SpeicherProfil speicherProfil) {
         speicherProfile.remove(speicherProfil);
+    }
+
+    public void renameProfile(SpeicherProfil profile, String newName) {
+        if (profile != null && newName != null && !newName.isEmpty()) {
+            String oldName = profile.getSaveName();
+
+            // Pfad zur Datei im src-Verzeichnis
+            File srcFile = new File("src/main/resources/saves/" + oldName + ".StorageShelves");
+
+            // Pfad zur Datei im build-Verzeichnis
+            File buildFile = new File("build/resources/main/saves/" + oldName + ".StorageShelves");
+
+            try {
+                // Datei im src-Verzeichnis umbenennen
+                if (srcFile.exists() && srcFile.renameTo(new File(srcFile.getParent(), newName + ".StorageShelves"))) {
+                    System.out.println("Profil im src-Verzeichnis umbenannt von " + oldName + " zu " + newName);
+                } else {
+                    System.out.println("Umbenennung im src-Verzeichnis ist gescheitert oder Datei existiert nicht");
+                }
+
+                // Datei im build-Verzeichnis umbenennen
+                if (buildFile.exists() && buildFile.renameTo(new File(buildFile.getParent(), newName + ".StorageShelves"))) {
+                    System.out.println("Profil im build-Verzeichnis umbenannt von " + oldName + " zu " + newName);
+                } else {
+                    System.out.println("Umbenennung im build-Verzeichnis ist gescheitert oder Datei existiert nicht");
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }

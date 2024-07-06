@@ -1,4 +1,4 @@
-package main.java.de.hsrm.mi.swt.view.startmenue;
+package de.hsrm.mi.swt.view.startmenue;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;

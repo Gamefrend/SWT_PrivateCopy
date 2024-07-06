@@ -1,6 +1,8 @@
-package main.java.de.hsrm.mi.swt.model.storage;
+package de.hsrm.mi.swt.model.storage;
 
-public class Karton {
+import java.io.Serializable;
+
+public class Karton implements Serializable {
     private int gewicht;
     private int breite;
     private int hoehe;

@@ -1,4 +1,4 @@
-package main.java.de.hsrm.mi.swt.view.startmenue;
+package de.hsrm.mi.swt.view.startmenue;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -22,10 +22,10 @@ public class HauptmenueView extends BorderPane {
     public HauptmenueView() {
         // Header
         titleLabel = new Label("STORAGESHELVES");
-        titleLabel.getStyleClass().addAll("header-label", "title-label");
+        titleLabel.getStyleClass().addAll("h2");
 
         versionLabel = new Label("v1.0");
-        versionLabel.getStyleClass().addAll("header-label", "version-label");
+        versionLabel.getStyleClass().addAll("h2");
 
         BorderPane header = new BorderPane();
         header.setLeft(titleLabel);
@@ -35,7 +35,7 @@ public class HauptmenueView extends BorderPane {
         buttonBox.setAlignment(Pos.CENTER_LEFT);
         buttonBox.getStyleClass().add("button-container");
 
-        Image arrowImage = new Image(getClass().getResourceAsStream("/main/resources/icons/arrow.png"));
+        Image arrowImage = new Image(getClass().getResourceAsStream("/icons/arrow.png"));
         newSystemButton = createButton("NEUES LAGERSYSTEM", arrowImage);
 
         loadProfileButton = createButton("LETZTES PROFIL LADEN", arrowImage);
@@ -48,9 +48,13 @@ public class HauptmenueView extends BorderPane {
         setCenter(buttonBox);
         setPadding(new Insets(40));
 
-        getStylesheets().add(getClass().getResource("/main/resources/css/globals.css").toExternalForm());
-        String cssPath = getClass().getResource("/main/resources/css/hauptmenue.css").toExternalForm();
-        getStylesheets().add(cssPath);
+        // CSS laden
+        String globals = getClass().getResource("/css/globals.css").toExternalForm();
+        String hauptmenue = getClass().getResource("/css/hauptmenue.css").toExternalForm();
+
+        getStylesheets().add(globals);
+        getStylesheets().add(hauptmenue);
+
 
         adjustLayout(getWidth());
 
@@ -62,7 +66,7 @@ public class HauptmenueView extends BorderPane {
     private Button createButton(String text, Image image) {
         Button button = new Button();
         Label label = new Label(text);
-        label.getStyleClass().add("button-label");
+        label.getStyleClass().add("h1");
         ImageView imageView = new ImageView(image);
         imageView.setFitHeight(40);
         imageView.setFitWidth(40);

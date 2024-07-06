@@ -1,16 +1,17 @@
-package main.java.de.hsrm.mi.swt.model.storage;
+package de.hsrm.mi.swt.model.storage;
 
-import java.util.Date;
+import java.io.Serializable;
+import java.time.LocalDate;
 
-public class Ware {
+public class Ware implements Serializable {
     private String name;
     private int hoehe;
     private int maxBelastung;
     private int xPosition;
-    private Date mhd;
+    private LocalDate mhd;
     private Typ typ;
 
-    public Ware(String name, int hoehe, int maxBelastung, int xPosition, Date mhd, Typ typ) {
+    public Ware(String name, int hoehe, int maxBelastung, int xPosition, LocalDate mhd, Typ typ) {
         this.name = name;
         this.hoehe = hoehe;
         this.maxBelastung = maxBelastung;
@@ -47,11 +48,11 @@ public class Ware {
         this.xPosition = xPosition;
     }
 
-    public Date getMhd() {
+    public LocalDate getMhd() {
         return mhd;
     }
 
-    public void setMhd(Date mhd) {
+    public void setMhd(LocalDate mhd) {
         this.mhd = mhd;
     }
 

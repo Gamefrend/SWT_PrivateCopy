@@ -1,13 +1,13 @@
-package main.java.de.hsrm.mi.swt.controller; //main.java.
+package de.hsrm.mi.swt.controller;
 
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import main.java.de.hsrm.mi.swt.view.startmenue.HauptmenueView; //main.java.
-import main.java.de.hsrm.mi.swt.view.PrimaryViewName;
-import main.java.de.hsrm.mi.swt.app.StorageShelvesApplication;
+import de.hsrm.mi.swt.view.startmenue.HauptmenueView;
+import de.hsrm.mi.swt.view.PrimaryViewName;
+import de.hsrm.mi.swt.app.StorageShelvesApplication;
 
 import java.util.HashMap;
 
@@ -37,7 +37,11 @@ public class HauptmenueController {
     }
 
     public void initialize() {
-        neuesLagerBtn.addEventHandler(ActionEvent.ACTION, e -> application.switchView(PrimaryViewName.LagerView));
+        neuesLagerBtn.addEventHandler(ActionEvent.ACTION, e -> {
+            application.setAktuellerRaum(null);
+            application.setAktuellesSpeicherprofil(null);
+            application.switchView(PrimaryViewName.LagerView);
+        });
         manageProfileButton.addEventHandler(ActionEvent.ACTION, e -> application.showProfilManager());
         loadProfileButton.addEventHandler(ActionEvent.ACTION, e ->{
                 application.ladeNeustesSpeicherprofil();
