@@ -34,7 +34,7 @@ public class HauptmenueController {
         manageProfileButton = hauptmenueView.getManageProfileButton();
         loadProfileButton = hauptmenueView.getLoadProfileButton();
 
-        raumErstellenController = new RaumErstellenController(application);
+        raumErstellenController = application.getRaumErstellenController();
 
         initialize();
     }

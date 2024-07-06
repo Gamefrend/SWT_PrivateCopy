@@ -4,6 +4,7 @@ import de.hsrm.mi.swt.app.StorageShelvesApplication;
 import de.hsrm.mi.swt.model.save.SpeicherProfil;
 import de.hsrm.mi.swt.model.storage.Raum;
 import de.hsrm.mi.swt.view.lager.RaumErstellenView;
+import javafx.application.Platform;
 import javafx.stage.Popup;
 import javafx.stage.Window;
 import de.hsrm.mi.swt.view.PrimaryViewName;
@@ -13,9 +14,9 @@ public class RaumErstellenController {
     private RaumErstellenView raumErstellenView;
     private Popup popup;
 
-    public RaumErstellenController(StorageShelvesApplication application) {
+    public RaumErstellenController(StorageShelvesApplication application, RaumErstellenView raumErstellenView) {
         this.application = application;
-        this.raumErstellenView = new RaumErstellenView();
+        this.raumErstellenView = raumErstellenView;
         this.popup = new Popup();
         this.popup.getContent().add(raumErstellenView);
 
@@ -51,9 +52,9 @@ public class RaumErstellenController {
 
             application.setAktuellerRaum(new Raum(hoehe, breite));
             application.setAktuellesSpeicherprofil(new SpeicherProfil(name));
-            hidePopup();
-
             application.switchView(PrimaryViewName.LagerView);
+            hidePopup();
+            hidePopup();
         } catch (NumberFormatException e) {
             System.err.println("Ungültige Eingabe für Höhe oder Breite");
         } catch (IllegalArgumentException e) {

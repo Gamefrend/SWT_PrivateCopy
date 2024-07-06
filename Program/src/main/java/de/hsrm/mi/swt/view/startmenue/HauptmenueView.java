@@ -41,7 +41,6 @@ public class HauptmenueView extends BorderPane {
 
         Image arrowImage = new Image(getClass().getResourceAsStream("/icons/arrow.png"));
         newSystemButton = createButton("NEUES LAGERSYSTEM", arrowImage);
-        newSystemButton.setOnAction(e -> raumErstellenController.showPopup(application.getPrimaryStage()));
 
         loadProfileButton = createButton("LETZTES PROFIL LADEN", arrowImage);
 
@@ -67,7 +66,7 @@ public class HauptmenueView extends BorderPane {
         });
 
         // Initialize RaumErstellenController
-        raumErstellenController = new RaumErstellenController(application);
+        raumErstellenController = application.getRaumErstellenController();
     }
 
     private Button createButton(String text, Image image) {

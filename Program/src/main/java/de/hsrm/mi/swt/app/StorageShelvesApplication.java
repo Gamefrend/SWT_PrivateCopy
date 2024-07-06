@@ -1,6 +1,7 @@
 package de.hsrm.mi.swt.app;
 
 import de.hsrm.mi.swt.controller.RaumErstellenController;
+import de.hsrm.mi.swt.view.lager.RaumErstellenView;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -33,7 +34,11 @@ public class StorageShelvesApplication extends Application {
     private ProfilManagerController profilManagerController;
     private LagerController lagerController;
     private RaumErstellenController raumErstellenController;
+
+    private RaumErstellenView raumErstellenView;
     private LagerView lagerView;
+
+
 
     @Override
     public void init() {
@@ -41,6 +46,9 @@ public class StorageShelvesApplication extends Application {
         profilauswahl = new Profilauswahl();
         // Kommentar wegmachen um TestSaves zu erstellen
         // profilauswahl.createTestProfile();
+
+        raumErstellenView = new RaumErstellenView();
+        raumErstellenController = new RaumErstellenController(this, raumErstellenView);
 
         HauptmenueView mainMenuView = new HauptmenueView(this);
         HauptmenueController hauptmenueController = new HauptmenueController(this, mainMenuView);
@@ -54,8 +62,6 @@ public class StorageShelvesApplication extends Application {
         SpeicherProfil speicherProfil = new SpeicherProfil("1");
         lagerController = new LagerController(this, lagerView);
         primaryViews.put(PrimaryViewName.LagerView, lagerView);
-
-        raumErstellenController = new RaumErstellenController(this);
     }
 
     @Override
@@ -86,6 +92,9 @@ public class StorageShelvesApplication extends Application {
         return primaryStage;
     }
 
+    public RaumErstellenController getRaumErstellenController() {
+        return raumErstellenController;
+    }
     public LagerController getLagerController() {
         return lagerController;
     }
