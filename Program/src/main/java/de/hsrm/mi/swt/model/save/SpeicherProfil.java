@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter;
 public class SpeicherProfil {
     private String saveName;
     private LocalDateTime datum;
-    private static final String SAVES_DIR = "saves";
+    private static final String SAVES_DIR = "src/main/resources/saves";
 
     private File gespeicherteProfile;
     private FileOutputStream fileOutputStream;

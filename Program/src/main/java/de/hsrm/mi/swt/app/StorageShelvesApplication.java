@@ -34,6 +34,8 @@ public class StorageShelvesApplication extends Application {
 	public void init() {
 		primaryViews = new HashMap<>();
 		profilauswahl = new Profilauswahl();
+		//Kommentar wegmachen um TestSaves zu erstellen
+		//profilauswahl.ceateTestProfile();
 
 		HauptmenueView mainMenuView = new HauptmenueView();
 		HauptmenueController hauptmenueController = new HauptmenueController(this, mainMenuView);

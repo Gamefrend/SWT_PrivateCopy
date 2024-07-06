@@ -122,7 +122,8 @@ public class LagerController {
     }
 
     public void handleBrett() {
-        aktuellerRaum.getRegal().getRegalBretter().add(new RegalBrett(100, 10, 1, 0));
+        RegalBrett neuesBrett = new RegalBrett(100, 10, 1, 0);
+        aktuellerRaum.getRegal().getRegalBretter().add(neuesBrett);
     }
 
     public void handleSauele() {
@@ -144,7 +145,6 @@ public class LagerController {
     }
 
     public void handleKarton(){
-        System.out.println("In hadleKarton()");
         aktuellerRaum.getRegal().getRegalBretter().get(0).getKartons().add(new Karton(50, 50, Color.FIREBRICK,100,20,null));
         System.out.println(aktuellerRaum.getRegal().getRegalBretter().get(0).getKartons().toString());
     }

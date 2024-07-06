@@ -1,5 +1,7 @@
 package de.hsrm.mi.swt.model.save;
 
+import de.hsrm.mi.swt.model.storage.Raum;
+
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
@@ -71,5 +73,13 @@ public class Profilauswahl {
                 throw new RuntimeException(e);
             }
         }
+    }
+    public void ceateTestProfile(){
+        Raum r1 = new Raum(2000, 5000);
+        Raum r2 = new Raum(4000, 300);
+        SpeicherProfil sp1 = new SpeicherProfil("Test1");
+        SpeicherProfil sp2 = new SpeicherProfil("Test2");
+        sp1.save(r1);
+        sp2.save(r2);
     }
 }
