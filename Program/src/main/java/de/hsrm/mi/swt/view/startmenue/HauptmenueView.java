@@ -1,24 +1,30 @@
 package de.hsrm.mi.swt.view.startmenue;
 
+import de.hsrm.mi.swt.app.StorageShelvesApplication;
+import de.hsrm.mi.swt.controller.RaumErstellenController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+
 
 public class HauptmenueView extends BorderPane {
-
     private Button newSystemButton;
     private Button loadProfileButton;
     private Button manageProfileButton;
     private Label titleLabel;
     private Label versionLabel;
+    private RaumErstellenController raumErstellenController;
+    private StorageShelvesApplication application;
 
-    public HauptmenueView() {
+    public HauptmenueView(StorageShelvesApplication application) {
+        this.application = application;
+
         // Header
         titleLabel = new Label("STORAGESHELVES");
         titleLabel.getStyleClass().addAll("h2");
@@ -36,6 +42,7 @@ public class HauptmenueView extends BorderPane {
 
         Image arrowImage = new Image(getClass().getResourceAsStream("/icons/arrow.png"));
         newSystemButton = createButton("NEUES LAGERSYSTEM", arrowImage);
+        newSystemButton.setOnAction(e -> raumErstellenController.showPopup(application.getPrimaryStage()));
 
         loadProfileButton = createButton("LETZTES PROFIL LADEN", arrowImage);
 
@@ -54,12 +61,14 @@ public class HauptmenueView extends BorderPane {
         getStylesheets().add(globals);
         getStylesheets().add(hauptmenue);
 
-
         adjustLayout(getWidth());
 
         widthProperty().addListener((obs, oldVal, newVal) -> {
             adjustLayout(newVal.doubleValue());
         });
+
+        // Initialize RaumErstellenController
+        raumErstellenController = new RaumErstellenController(application);
     }
 
     private Button createButton(String text, Image image) {

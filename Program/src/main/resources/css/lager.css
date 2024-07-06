@@ -2,3 +2,32 @@
     -fx-background-color: #0029FF;
     -fx-text-fill: white;
 }
+
+/* lager.css */
+
+.raum-erstellen-view {
+    -fx-background-color: white;
+    -fx-padding: 40;
+}
+
+.raum-erstellen-header {
+    -fx-alignment: center-left;
+    -fx-pref-width: 100%;
+    -fx-display: flex;
+    -fx-justify-content: space-between;
+    -fx-align-items: flex-start;
+}
+
+.raum-erstellen-close-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+    -fx-background-insets: 0;
+}
+
+.raum-erstellen-create-button {
+    -fx-background-color: #0029FF;
+    -fx-text-fill: white;
+    -fx-padding: 10 20;
+    -fx-font-size: 16px;
+}

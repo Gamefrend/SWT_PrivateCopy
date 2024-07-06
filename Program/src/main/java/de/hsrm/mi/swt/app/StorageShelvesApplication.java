@@ -1,5 +1,6 @@
 package de.hsrm.mi.swt.app;
 
+import de.hsrm.mi.swt.controller.RaumErstellenController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -18,7 +19,6 @@ import de.hsrm.mi.swt.model.storage.Raum;
 import de.hsrm.mi.swt.view.PrimaryViewName;
 import de.hsrm.mi.swt.view.profilmanager.ProfilManagerView;
 import de.hsrm.mi.swt.view.startmenue.HauptmenueView;
-import de.hsrm.mi.swt.view.startmenue.ProfilLadenOverlayView;
 import de.hsrm.mi.swt.view.lager.LagerView;
 
 public class StorageShelvesApplication extends Application {
@@ -31,6 +31,7 @@ public class StorageShelvesApplication extends Application {
     private Profilauswahl profilauswahl;
     private ProfilManagerController profilManagerController;
     private LagerController lagerController;
+    private RaumErstellenController raumErstellenController;
     private LagerView lagerView;
 
     @Override
@@ -40,7 +41,7 @@ public class StorageShelvesApplication extends Application {
         //Kommentar wegmachen um TestSaves zu erstellen
         //profilauswahl.ceateTestProfile();
 
-        HauptmenueView mainMenuView = new HauptmenueView();
+        HauptmenueView mainMenuView = new HauptmenueView(this);
         HauptmenueController hauptmenueController = new HauptmenueController(this, mainMenuView);
         primaryViews.put(PrimaryViewName.StartmenueView, mainMenuView);
 
@@ -48,15 +49,12 @@ public class StorageShelvesApplication extends Application {
         profilManagerController = new ProfilManagerController(this);
         primaryViews.put(PrimaryViewName.ProfilLadenView, profilManagerView);
 
-        ProfilLadenOverlayView overlayView = new ProfilLadenOverlayView();
-        mainMenuView.setOverlay(overlayView);
-
-
         lagerView = new LagerView();
         SpeicherProfil speicherProfil = new SpeicherProfil("1");
         lagerController = new LagerController(this, lagerView);
         primaryViews.put(PrimaryViewName.LagerView, lagerView);
 
+        raumErstellenController = new RaumErstellenController(this);
     }
 
     @Override
@@ -81,6 +79,10 @@ public class StorageShelvesApplication extends Application {
         if (nextView != null) {
             currentScene.setRoot(nextView);
         }
+    }
+
+    public Stage getPrimaryStage() {
+        return primaryStage;
     }
 
     public LagerController getLagerController() {
