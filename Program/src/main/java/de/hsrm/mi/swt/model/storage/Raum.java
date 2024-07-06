@@ -4,7 +4,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.ObservableList;
+
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -16,6 +16,7 @@ public class Raum implements Serializable {
     private transient IntegerProperty breite;
     private transient ObjectProperty<Regal> regal;
     private transient ObjectProperty<Runnable> onChange;
+
 
     public Raum(int hoehe, int breite) {
         this.hoehe = new SimpleIntegerProperty(hoehe);
@@ -77,6 +78,9 @@ public class Raum implements Serializable {
         return regal;
     }
 
+
+
+
     private void writeObject(ObjectOutputStream out) throws IOException {
         out.defaultWriteObject();
         out.writeInt(getHoehe());
@@ -99,5 +103,6 @@ public class Raum implements Serializable {
         this.hoehe.addListener((obs, oldVal, newVal) -> triggerChange());
         this.breite.addListener((obs, oldVal, newVal) -> triggerChange());
         this.regal.addListener((obs, oldVal, newVal) -> triggerChange());
+
     }
 }

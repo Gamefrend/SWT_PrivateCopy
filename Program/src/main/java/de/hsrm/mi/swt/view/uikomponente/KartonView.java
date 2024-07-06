@@ -1,34 +1,49 @@
 package de.hsrm.mi.swt.view.uikomponente;
 
+import de.hsrm.mi.swt.model.storage.Ware;
+import javafx.beans.property.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
-public class KartonView {
-    private int width;
-    private int height;
-    private Color color;
-    private int maxBelastung;
-    private int xPosition;
-    private Rectangle rectangle;  // Rechteck, das den Karton visualisiert
+public class KartonView implements Serializable {
+    private transient IntegerProperty width;
+    private transient IntegerProperty height;
+    private transient ObjectProperty<Color> color;
+    private transient IntegerProperty maxBelastung;
+    private transient IntegerProperty xPosition;
+    private transient ObjectProperty<Ware> ware;
+    private transient Rectangle rectangle;  // Rechteck, das den Karton visualisiert
 
-
-    public KartonView(int width, int height, Color color, int maxBelastung, int xPosition) {
-        this.width = width;
-        this.height = height;
-        this.color = color;
-        this.maxBelastung = maxBelastung;
-        this.xPosition = xPosition;
+    public KartonView(int width, int height, Color color, int maxBelastung, int xPosition, Ware ware) {
+        this.width = new SimpleIntegerProperty(width);
+        this.height = new SimpleIntegerProperty(height);
+        this.color = new SimpleObjectProperty<>(color);
+        this.maxBelastung = new SimpleIntegerProperty(maxBelastung);
+        this.xPosition = new SimpleIntegerProperty(xPosition);
+        this.ware = new SimpleObjectProperty<>(ware);
         createRectangle();  // Rechteck erstellen und initialisieren
+
+        // Bind Rectangle properties to KartonView properties
+        this.width.addListener((obs, oldVal, newVal) -> rectangle.setWidth(newVal.doubleValue()));
+        this.height.addListener((obs, oldVal, newVal) -> rectangle.setHeight(newVal.doubleValue()));
+        this.color.addListener((obs, oldVal, newVal) -> rectangle.setFill(newVal));
+        this.xPosition.addListener((obs, oldVal, newVal) -> rectangle.setX(newVal.doubleValue()));
     }
 
     /**
      * Methode zum Erstellen eines Rechtecks mit Eigenschaften.
      */
     private void createRectangle() {
-        rectangle = new Rectangle(width, height);
-        rectangle.setFill(color);  // Setzen der Füllfarbe des Rechtecks
-        rectangle.setX(xPosition); // Setzen der X-Position des Rechtecks
+        rectangle = new Rectangle();
+        rectangle.setWidth(getWidth());
+        rectangle.setHeight(getHeight());
+        rectangle.setFill(getColor());
+        rectangle.setX(getXPosition());
     }
 
     /**
@@ -42,48 +57,110 @@ public class KartonView {
 
     // Getter- und Setter-Methoden für die Breite, Höhe, Farbe, max. Belastung und X-Position des Kartons
 
-    public double getWidth() {
-        return width;
+    public int getWidth() {
+        return width.get();
     }
 
     public void setWidth(int width) {
-        this.width = width;
-        rectangle.setWidth(width);  // Aktualisieren der Breite des Rechtecks
+        this.width.set(width);
     }
 
-    public double getHeight() {
-        return height;
+    public IntegerProperty widthProperty() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height.get();
     }
 
     public void setHeight(int height) {
-        this.height = height;
-        rectangle.setHeight(height);  // Aktualisieren der Höhe des Rechtecks
+        this.height.set(height);
+    }
+
+    public IntegerProperty heightProperty() {
+        return height;
     }
 
     public Color getColor() {
-        return color;
+        return color.get();
     }
 
     public void setColor(Color color) {
-        this.color = color;
-        rectangle.setFill(color);  // Aktualisieren der Farbe des Rechtecks
+        this.color.set(color);
+    }
+
+    public ObjectProperty<Color> colorProperty() {
+        return color;
     }
 
     public int getMaxBelastung() {
-        return maxBelastung;
+        return maxBelastung.get();
     }
 
     public void setMaxBelastung(int maxBelastung) {
-        this.maxBelastung = maxBelastung;
+        this.maxBelastung.set(maxBelastung);
+    }
+
+    public IntegerProperty maxBelastungProperty() {
+        return maxBelastung;
     }
 
     public int getXPosition() {
-        return xPosition;
+        return xPosition.get();
     }
 
     public void setXPosition(int xPosition) {
-        this.xPosition = xPosition;
-        rectangle.setX(xPosition);  // Aktualisieren der X-Position des Rechtecks
+        this.xPosition.set(xPosition);
+    }
+
+    public IntegerProperty xPositionProperty() {
+        return xPosition;
+    }
+
+    public Ware getWare() {
+        return ware.get();
+    }
+
+    public void setWare(Ware ware) {
+        this.ware.set(ware);
+    }
+
+    public ObjectProperty<Ware> wareProperty() {
+        return ware;
+    }
+
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        out.defaultWriteObject();
+        out.writeInt(getWidth());
+        out.writeInt(getHeight());
+        out.writeObject(getColor());
+        out.writeInt(getMaxBelastung());
+        out.writeInt(getXPosition());
+        out.writeObject(getWare());
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        int width = in.readInt();
+        int height = in.readInt();
+        Color color = (Color) in.readObject();
+        int maxBelastung = in.readInt();
+        int xPosition = in.readInt();
+        Ware ware = (Ware) in.readObject();
+
+        this.width = new SimpleIntegerProperty(width);
+        this.height = new SimpleIntegerProperty(height);
+        this.color = new SimpleObjectProperty<>(color);
+        this.maxBelastung = new SimpleIntegerProperty(maxBelastung);
+        this.xPosition = new SimpleIntegerProperty(xPosition);
+        this.ware = new SimpleObjectProperty<>(ware);
+
+        createRectangle();
+
+        // Restore listeners
+        this.width.addListener((obs, oldVal, newVal) -> rectangle.setWidth(newVal.doubleValue()));
+        this.height.addListener((obs, oldVal, newVal) -> rectangle.setHeight(newVal.doubleValue()));
+        this.color.addListener((obs, oldVal, newVal) -> rectangle.setFill(newVal));
+        this.xPosition.addListener((obs, oldVal, newVal) -> rectangle.setX(newVal.doubleValue()));
     }
 }
-
