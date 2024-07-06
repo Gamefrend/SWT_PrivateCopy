@@ -59,7 +59,11 @@ public class ProfilManagerController {
 
     private void editProfile(SpeicherProfil profile, String newName) {
         profilauswahl.renameProfile(profile, newName);
-        profilauswahl = new Profilauswahl();
+        profile.setSaveName(newName);
+        int index = profiles.indexOf(profile);
+        if (index != -1) {
+            profiles.set(index, profile);
+        }
         profileView.refresh();
     }
 
