@@ -1,27 +1,14 @@
 package de.hsrm.mi.swt.model.save;
 
-import java.io.File;
-import java.net.URISyntaxException;
+import java.io.*;
+import java.nio.file.*;
 import java.util.*;
 
 public class Profilauswahl {
-    List<SpeicherProfil> speicherProfile;
+    private List<SpeicherProfil> speicherProfile;
 
     public Profilauswahl() {
         speicherProfile = new ArrayList<>();
-        System.out.println(getClass().getResource("/saves/").getPath());
-        File directory = new File(getClass().getResource("/saves/").getFile());
-        if (directory.exists() && directory.isDirectory()) {
-            for (File speicheDatei : directory.listFiles()) {
-                if (speicheDatei.getName().endsWith(".StorageShelves")) {
-                    try {
-                        speicherProfile.add(new SpeicherProfil(speicheDatei.getName().split("\\.StorageShelves")[0]));
-                    } catch (Exception e) {
-                        System.err.println("Die Datei " + speicheDatei.getName() + " ist kein gültiges Speicherprofil");
-                    }
-                }
-            }
-        }
     }
 
     public List<SpeicherProfil> getSpeicherProfile() {
@@ -37,7 +24,23 @@ public class Profilauswahl {
     }
 
     public void delProfile(SpeicherProfil speicherProfil) {
-        speicherProfile.remove(speicherProfil);
+        try {
+            // Pfad zur Datei im src-Verzeichnis
+            Path srcPath = Paths.get("src/main/resources/saves/" + speicherProfil.getSaveName() + ".StorageShelves");
+            Files.deleteIfExists(srcPath);
+
+            // Pfad zur Datei im build-Verzeichnis
+            Path buildPath = Paths.get("build/resources/main/saves/" + speicherProfil.getSaveName() + ".StorageShelves");
+            Files.deleteIfExists(buildPath);
+
+            // Remove the profile from the list
+            speicherProfile.remove(speicherProfil);
+
+            System.out.println("Profile files erfolgreich gelöscht");
+        } catch (IOException e) {
+            System.err.println("Fehler beim löschen: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     public void renameProfile(SpeicherProfil profile, String newName) {
