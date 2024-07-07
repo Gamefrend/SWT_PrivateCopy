@@ -2,10 +2,12 @@ package de.hsrm.mi.swt.view.lager;
 
 import de.hsrm.mi.swt.model.storage.*;
 import de.hsrm.mi.swt.view.uikomponente.Karton;
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -14,6 +16,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Comparator;
 
 
 public class LagerView extends StackPane {
@@ -34,6 +38,7 @@ public class LagerView extends StackPane {
     private final int CENTRALHIGHT;
     private Rectangle brettRectangle;
     private Rectangle saeuleRectangle;
+    private ArrayList<Rectangle> allesSeuleRectangle;
     private Rectangle kartonRectangle;
 
     public LagerView() {
@@ -152,6 +157,10 @@ public class LagerView extends StackPane {
             centerArea.getChildren().add(saeuleRectangle);
         }
 
+    }
+
+    public ArrayList<Rectangle> getAllesSeuleRectangle() {
+        return allesSeuleRectangle;
     }
 
     public Pane getCenterArea() {

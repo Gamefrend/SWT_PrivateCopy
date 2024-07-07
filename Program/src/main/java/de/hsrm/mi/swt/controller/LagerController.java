@@ -155,6 +155,7 @@ public class LagerController {
         if (saeuleButtonActive) {
             saueleButton.getStyleClass().add("active-button");
 
+            /*
             // Drag-and-Drop für die Säulen
             lagerView.getSaeuleRectangle().setOnMousePressed(e -> {
                 xPosition = e.getSceneX();
@@ -166,18 +167,19 @@ public class LagerController {
                 lagerView.getSaeuleRectangle().setTranslateX(newTranslateX);
                 xPosition = e.getSceneX();
             });
+             */
         } else {
             saueleButton.getStyleClass().remove("active-button");
 
         }
+
     }
-
-
 
 
     public void addSaeule(double x) {
         int positionX = (int) x;
-        aktuellerRaum.getRegal().getSaeulen().add(new Saeule(positionX));
+        Saeule newSaeule = new Saeule(positionX);
+        aktuellerRaum.getRegal().addSaeule(newSaeule);
     }
 
     public boolean isSaeuleButtonActive() {

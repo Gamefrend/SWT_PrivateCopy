@@ -42,6 +42,29 @@ public class Regal implements Serializable {
         }
     }
 
+    public void addSaeule(Saeule saeule) {
+        int insertIndex = indexfindenBinarySearch(saeule);
+        saeulen.add(insertIndex, saeule);
+    }
+
+    private int indexfindenBinarySearch(Saeule saeule) {
+        int ersterIndex = 0;
+        int letzterIndex = saeulen.size() - 1;
+        double positionX = saeule.getPositionX();
+
+        while (ersterIndex <= letzterIndex) {
+            int mitte = (ersterIndex + letzterIndex) / 2;
+            double midXPosition = saeulen.get(mitte).getPositionX();
+
+            if (midXPosition < positionX) {
+                ersterIndex = mitte + 1;
+            } else {
+                letzterIndex = mitte - 1;
+            }
+        }
+        return ersterIndex;
+    }
+
     public void setOnChangeListener(Runnable listener) {
         this.onChange.set(listener);
     }
