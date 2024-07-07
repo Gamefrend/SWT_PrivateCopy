@@ -3,7 +3,6 @@ package de.hsrm.mi.swt.controller;
 import de.hsrm.mi.swt.model.storage.Regal;
 import de.hsrm.mi.swt.model.storage.RegalBrett;
 import de.hsrm.mi.swt.model.storage.Saeule;
-import de.hsrm.mi.swt.view.uikomponente.KartonView;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
@@ -95,10 +94,6 @@ public class LagerController {
                 addSaeule(x);
             }
         });
-    //-------------------
-       // kartonButton.addEventHandler(ActionEvent.ACTION , e-> application.switchView(KartonView));
-
-        //---------------------
     }
 
     private void handleUndo() {

@@ -1,5 +1,5 @@
 package de.hsrm.mi.swt.view;
 
 public enum PrimaryViewName {
-    StartmenueView, ProfilLadenView, ProfilManagerView, LagerView , KartonView
+    StartmenueView, ProfilLadenView, ProfilManagerView, LagerView
 }
