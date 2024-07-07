@@ -93,7 +93,7 @@ public class LagerView extends StackPane {
 
         brettButton = new Button("Brett");
         saueleButton = new Button("Sauele");
-        deleteButton = new Button("Löschen");
+        deleteButton = new Button("L\u00F6schen");
 
         VBox toolBox = new VBox(brettButton, saueleButton, kartonButton,deleteButton);
         toolBox.setAlignment(Pos.CENTER);
