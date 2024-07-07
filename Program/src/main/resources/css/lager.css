@@ -98,3 +98,21 @@
     -fx-border-color: red;
     -fx-border-width: 2px;
 }
+
+.tool-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+}
+
+.tool-button:hover {
+    -fx-background-color: #e0e0e0;
+}
+
+.tool-button.selected {
+    -fx-background-color: #0029FF;
+}
+
+.tool-button.selected:hover {
+    -fx-background-color: #001FCC;
+}
