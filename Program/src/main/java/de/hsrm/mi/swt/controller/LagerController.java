@@ -111,7 +111,15 @@ public class LagerController {
         brettButton.addEventHandler(ActionEvent.ACTION, e -> handleBrett());
         saueleButton.setOnMouseClicked(e -> handleSauele());
         kartonButton.addEventHandler(ActionEvent.ACTION, e -> handleKarton());
-        deleteButton.addEventHandler(ActionEvent.ACTION, e -> handleDelete());
+
+
+        // ----------
+        //deleteButton.addEventHandler(ActionEvent.ACTION, e -> handleDelete());
+
+        deleteButton.setOnAction(e -> handleDelete());
+
+        // ------------
+
         lagerView.getAddKartonButton().setOnAction(e -> kartonErstellenController.showPopup(lagerView.getScene().getWindow()));
 
         lagerView.getCenterArea().setOnMouseClicked(event -> {
