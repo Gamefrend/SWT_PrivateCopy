@@ -123,7 +123,7 @@ public class LagerView extends StackPane {
     public void redraw(Raum raum) {
         centerArea.getChildren().clear();
         int raumHoehe = raum.getHoehe();
-
+        int countBretter = 0;
         for (RegalBrett brett : raum.getRegal().getRegalBretter()) {
             int xPosition = 0;
             xPosition = raum.getRegal().getSaeulen().get(brett.getLueckenIndex()).getPositionX();
@@ -133,8 +133,11 @@ public class LagerView extends StackPane {
             brettRectangle.setFill(Color.BROWN);
             brettRectangle.setY(brett.getHoehe());
             brettRectangle.setX(xPosition);
+            brettRectangle.setId("Brett"+countBretter);
             centerArea.getChildren().add(brettRectangle);
+            countBretter++;
 
+            int countKarton = 0;
             for (Karton karton : brett.getKartons()){
                 kartonRectangle = new Rectangle();
                 kartonRectangle.setHeight(karton.getHeight()); // Höhe der Säule
@@ -142,10 +145,12 @@ public class LagerView extends StackPane {
                 kartonRectangle.setX(xPosition + karton.getXPosition()); // Position der Säule
                 kartonRectangle.setY(brett.getHoehe()-karton.getHeight()); // Start bei 0 Y-Achse
                 kartonRectangle.setFill(Color.RED); // Farbe der Säule
+                kartonRectangle.setId("Karton"+countKarton);
                 centerArea.getChildren().add(kartonRectangle);
+                countKarton++;
             }
         }
-        int i = 0;
+        int countSaeulen = 0;
         for (Saeule saeule : raum.getRegal().getSaeulen()) {
             int positionX = saeule.getPositionX();
             // Create a rectangle for each Säule
@@ -155,10 +160,11 @@ public class LagerView extends StackPane {
             saeuleRectangle.setX(positionX);
             saeuleRectangle.setY(5);
             saeuleRectangle.setFill(Color.GRAY);
-            saeuleRectangle.setId("Saeule"+i);
+            saeuleRectangle.setId("Saeule"+countSaeulen);
             centerArea.getChildren().add(saeuleRectangle);
-            i++;
+            countSaeulen++;
         }
+        System.out.println("Anzahl: "+ countSaeulen);
     }
 
     public ArrayList<Rectangle> getAllesSeuleRectangle() {
