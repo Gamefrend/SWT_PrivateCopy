@@ -233,21 +233,9 @@ public class LagerController {
     }
 
     public void addBrett(int lueckenIndex, double yPosition) {
-
-        System.out.println("-----------Angekommen-------------");
-
         if (lueckenIndex < 0 || lueckenIndex >= aktuellerRaum.getRegal().getSaeulen().size() - 1) {
             System.out.println("Keine geeignete Lücke für ein Brett vorhanden.");
             return;
-        }
-
-        double xPosition;
-        if (lueckenIndex == 0) {
-
-        } else {
-            Saeule linkeSaeule = aktuellerRaum.getRegal().getSaeulen().get(lueckenIndex );
-            Saeule rechteSaeule = aktuellerRaum.getRegal().getSaeulen().get(lueckenIndex + 1);
-
         }
 
         RegalBrett neuesBrett = new RegalBrett((int) yPosition, 10, 1, lueckenIndex);
@@ -255,8 +243,8 @@ public class LagerController {
         aktuellerRaum.getRegal().addBrett(neuesBrett);
 
         // Redo Undo einbinden
-        Command command = new AddBrettCommand( aktuellerRaum.getRegal() , neuesBrett);
-        System.out.println("Exceuting command: Adding Brett at Y-Position" + yPosition + " and Index " + lueckenIndex);
+        Command command = new AddBrettCommand(aktuellerRaum.getRegal(), neuesBrett);
+        System.out.println("Executing command: Adding Brett at Y-Position " + yPosition + " and Index " + lueckenIndex);
         command.redo();
         undoStack.push(command);
         redoStack.clear();
