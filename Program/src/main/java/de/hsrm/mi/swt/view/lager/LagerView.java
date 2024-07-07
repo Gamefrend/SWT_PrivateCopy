@@ -21,7 +21,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-
 public class LagerView extends StackPane {
     private Pane centerArea;
     private HBox inventoryBox;
@@ -43,6 +42,7 @@ public class LagerView extends StackPane {
     private Rectangle saeuleRectangle;
     private ArrayList<Rectangle> allesSeuleRectangle;
     private Rectangle kartonRectangle;
+    private Button addKartonButton;
 
     public LagerView() {
         setId("lager-view");
@@ -81,13 +81,17 @@ public class LagerView extends StackPane {
         centerArea.setStyle("-fx-border-color: black; -fx-background-color: white; -fx-min-height: 400;");
         CENTRALHIGHT = Integer.parseInt(centerArea.getStyle().split(": ")[centerArea.getStyle().split(": ").length - 1].replace(";", ""));
 
+        // Create and set up the addKartonButton
+        addKartonButton = new Button("+");
+
         // Inventar-Bereich
         inventarTextField = new Label("Inventar");
         inventoryBox = new HBox(10);
         inventoryBox.setId("inventory-box");
-        inventoryBox.setAlignment(Pos.CENTER);
+        inventoryBox.setAlignment(Pos.CENTER_LEFT);
         inventoryBox.setPadding(new Insets(10));
         inventoryBox.setStyle("-fx-background-color: #f0f0f0; -fx-border-color: black;");
+        inventoryBox.getChildren().addAll(inventarTextField, addKartonButton);
 
         brettButton = new Button("Brett");
         saueleButton = new Button("Sauele");
@@ -188,6 +192,10 @@ public class LagerView extends StackPane {
 
     public HBox getInventoryBox() {
         return inventoryBox;
+    }
+
+    public Button getAddKartonButton() {
+        return addKartonButton;
     }
 
     public Label getProfileNameField() {

@@ -6,15 +6,15 @@ import java.time.LocalDate;
 public class Ware implements Serializable {
     private String name;
     private int hoehe;
-    private int maxBelastung;
+    private int gewicht;
     private int xPosition;
     private LocalDate mhd;
     private Typ typ;
 
-    public Ware(String name, int hoehe, int maxBelastung, int xPosition, LocalDate mhd, Typ typ) {
+    public Ware(String name, int hoehe, int gewicht, int xPosition, LocalDate mhd, Typ typ) {
         this.name = name;
         this.hoehe = hoehe;
-        this.maxBelastung = maxBelastung;
+        this.gewicht = gewicht;
         this.xPosition = xPosition;
         this.mhd = mhd;
         this.typ = typ;
@@ -32,12 +32,12 @@ public class Ware implements Serializable {
         this.hoehe = hoehe;
     }
 
-    public int getMaxBelastung() {
-        return maxBelastung;
+    public int getGewicht() {
+        return gewicht;
     }
 
-    public void setMaxBelastung(int maxBelastung) {
-        this.maxBelastung = maxBelastung;
+    public void setGewicht(int gewicht) {
+        this.gewicht = gewicht;
     }
 
     public int getXPosition() {

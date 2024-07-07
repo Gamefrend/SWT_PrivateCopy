@@ -42,6 +42,7 @@ public class LagerController {
     private Button kartonButton;
     private Button deleteButton;
     private boolean saeuleButtonActive = false;
+    private KartonErstellenController kartonErstellenController;
 
     private Runnable onChange;
     double xPosition = 0;
@@ -60,6 +61,7 @@ public class LagerController {
         moveButton = lagerView.getMoveButton();
         kartonButton = lagerView.getKartonButton();
         deleteButton = lagerView.getDeleteButton();
+        kartonErstellenController = new KartonErstellenController();
         initialize(application.getAktuellerRaum());
         application.setRaumChangeListener(this::initialize);
     }
@@ -109,6 +111,7 @@ public class LagerController {
         saueleButton.setOnMouseClicked(e -> handleSauele());
         kartonButton.addEventHandler(ActionEvent.ACTION, e -> handleKarton());
         deleteButton.addEventHandler(ActionEvent.ACTION, e -> handleDelete());
+        lagerView.getAddKartonButton().setOnAction(e -> kartonErstellenController.showPopup(lagerView.getScene().getWindow()));
 
         lagerView.getCenterArea().setOnMouseClicked(event -> {
             if (saeuleButtonActive) {

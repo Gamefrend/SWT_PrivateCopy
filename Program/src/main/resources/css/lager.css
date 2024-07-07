@@ -28,6 +28,31 @@
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 5, 0, 0, 0);
 }
 
+/* Checkbox style */
+/* Checkbox style */
+.custom-checkbox {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-min-width: 24px;
+    -fx-min-height: 24px;
+    -fx-max-width: 24px;
+    -fx-max-height: 24px;
+}
+
+.custom-checkbox .box {
+    -fx-background-color: -fx-offwhite;
+    -fx-border-color: transparent;
+}
+
+.custom-checkbox:selected .box {
+    -fx-background-color: -fx-primary;
+    -fx-border-color: transparent;
+}
+
+.custom-checkbox:selected .mark {
+    -fx-background-color: -fx-white;
+}
+
 /* RaumErstellenView */
 
 .raum-erstellen-header {
