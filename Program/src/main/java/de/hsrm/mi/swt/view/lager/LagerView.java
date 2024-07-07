@@ -112,7 +112,6 @@ public class LagerView extends StackPane {
         getStylesheets().add(getClass().getResource("/css/globals.css").toExternalForm());
         getStylesheets().add(getClass().getResource("/css/lager.css").toExternalForm());
 
-
     }
 
 

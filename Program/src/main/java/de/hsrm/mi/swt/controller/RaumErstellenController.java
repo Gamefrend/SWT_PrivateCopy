@@ -54,7 +54,6 @@ public class RaumErstellenController {
             application.setAktuellesSpeicherprofil(new SpeicherProfil(name));
             application.switchView(PrimaryViewName.LagerView);
             hidePopup();
-            hidePopup();
         } catch (NumberFormatException e) {
             System.err.println("Ungültige Eingabe für Höhe oder Breite");
         } catch (IllegalArgumentException e) {

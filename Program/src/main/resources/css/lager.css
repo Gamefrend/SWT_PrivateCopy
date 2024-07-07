@@ -1,8 +1,7 @@
 /* lager.css */
 
 .active-button {
-    -fx-background-color: red;
-    -fx-text-fill: white;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 5, 0, 0, 0);
 }
 
 .raum-erstellen-view {

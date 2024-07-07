@@ -70,7 +70,7 @@ public class LagerController {
         application.setRaumChangeListener(this::initialize);
     }
 
-    private void initialize(Raum raum) {
+    public void initialize(Raum raum) {
         this.aktuellerRaum = raum;
         setupRoom();
         setupViewBindings();

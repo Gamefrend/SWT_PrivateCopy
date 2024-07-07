@@ -83,6 +83,9 @@ public class StorageShelvesApplication extends Application {
     public void switchView(PrimaryViewName viewName) {
         Scene currentScene = primaryStage.getScene();
         Pane nextView = primaryViews.get(viewName);
+        if(viewName.name().equals("LagerView")){
+            lagerController.initialize(aktuellerRaum);
+        }
         if (nextView != null) {
             currentScene.setRoot(nextView);
         }
