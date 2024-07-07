@@ -90,6 +90,13 @@ public class Regal implements Serializable {
         return regalBretter;
     }
 
+    public void addBrett(RegalBrett b){
+        regalBretter.add(b);
+        for(RegalBrett brett:regalBretter){
+            brett.setOnChange(onChange.get());
+        }
+    }
+
     public void setRegalBretter(ObservableList<RegalBrett> regalBretter) {
         this.regalBretter = regalBretter;
     }

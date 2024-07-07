@@ -141,7 +141,7 @@ public class LagerController {
 
     public void handleBrett() {
         RegalBrett neuesBrett = new RegalBrett(100, 10, 1, 0);
-        aktuellerRaum.getRegal().getRegalBretter().add(neuesBrett);
+        aktuellerRaum.getRegal().addBrett(neuesBrett);
         dragListenerSauleAnmelden();
     }
 
