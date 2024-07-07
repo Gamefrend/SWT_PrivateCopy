@@ -5,6 +5,7 @@ import de.hsrm.mi.swt.model.storage.RegalBrett;
 import de.hsrm.mi.swt.model.storage.Saeule;
 import de.hsrm.mi.swt.view.uikomponente.Karton;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -145,19 +146,7 @@ public class LagerController {
     public void handleBrett() {
         RegalBrett neuesBrett = new RegalBrett(100, 10, 1, 0);
         aktuellerRaum.getRegal().getRegalBretter().add(neuesBrett);
-
-        //das Drag-and-Drop-Eventhandling hinzufügen
-        lagerView.getBrettRectangle().setOnMousePressed(e -> {
-            xPosition = e.getSceneX();
-        });
-
-        lagerView.getBrettRectangle().setOnMouseDragged(e -> {
-            double offsetX = e.getSceneX() - xPosition;
-            double newTranslateX = lagerView.getBrettRectangle().getTranslateY() + offsetX;
-            lagerView.getBrettRectangle().setTranslateY(newTranslateX);
-            xPosition = e.getSceneX();
-        });
-
+        dragListenerSauleAnmelden();
     }
 
     public void handleSauele() {
@@ -171,8 +160,10 @@ public class LagerController {
     }
 
     public void dragListenerSauleAnmelden() {
+
         for (Node node : lagerView.getCenterArea().getChildren()) {
             if (node.getId() != null && node.getId().startsWith("Saeule")) {
+                node.setCursor(Cursor.HAND);
                 node.setOnMousePressed(e -> {
                     node.setOpacity(0.5); // Make node slightly transparent
                     lagerView.getCenterArea().setCursor(Cursor.E_RESIZE); // Change cursor to move
@@ -182,25 +173,26 @@ public class LagerController {
                     if (e.getX() >= lagerView.getCenterArea().getLayoutX() && e.getX() <= lagerView.getLayoutX() + lagerView.getCenterArea().getWidth())
                         node.setOpacity(1.0); // Reset opacity
                     lagerView.getCenterArea().setCursor(Cursor.DEFAULT); // Reset cursor
-                    System.out.println((int) e.getX());
-                    System.out.println("Alt: " + aktuellerRaum.getRegal().getSaeulen().get(node.getId().charAt(node.getId().length() - 1) - '0').getPositionX());
-                    aktuellerRaum.getRegal().getSaeulen().get(node.getId().charAt(node.getId().length() - 1) - '0').setPositionX((int) e.getX());
-                    System.out.println("Neu: " + aktuellerRaum.getRegal().getSaeulen().get(node.getId().charAt(node.getId().length() - 1) - '0').getPositionX());
+                    aktuellerRaum.getRegal().verschiebeSaeule(aktuellerRaum.getRegal().getSaeulen().get(node.getId().charAt(node.getId().length() - 1) - '0'), (int) e.getX());
+                    dragListenerSauleAnmelden();
+                });
+            }
+            if (node.getId() != null && node.getId().startsWith("Brett")) {
+                node.setCursor(Cursor.HAND);
+                node.setOnMousePressed(e -> {
+                    node.setOpacity(0.5); // Make node slightly transparent
+                    lagerView.getCenterArea().setCursor(Cursor.H_RESIZE); // Change cursor to move
                 });
 
-                node.setOnMouseDragged(e -> {
-                    double mouseX = e.getSceneX();
-                    double newX = mouseX - node.getBoundsInParent().getWidth() / 2;
-
-                    // Ensure the node stays within the bounds of centerArea
-                    if (newX >= 0 && newX + node.getBoundsInParent().getWidth() <= lagerView.getCenterArea().getWidth()) {
-
-                    }
-
+                node.setOnMouseReleased(e -> {
+                    if (e.getY() >= lagerView.getCenterArea().getLayoutY() && e.getY() <= lagerView.getLayoutY() + lagerView.getCenterArea().getHeight())
+                        node.setOpacity(1.0); // Reset opacity
+                    lagerView.getCenterArea().setCursor(Cursor.DEFAULT); // Reset cursor
+                    aktuellerRaum.getRegal().getRegalBretter().get(node.getId().charAt(node.getId().length() - 1) - '0').setHoehe((int) e.getY());
+                    dragListenerSauleAnmelden();
                 });
             }
         }
-
     }
 
     public void addSaeule(double x) {
@@ -218,18 +210,8 @@ public class LagerController {
         Karton karton = new Karton(50, 50, Color.FIREBRICK, 100, 0, 0, null);
         regalBrett.getKartons().add(karton);
         lagerView.getCenterArea().getChildren().add(karton.getRectangle()); // Rechteck zu der Ansicht hinzufügen
-
-        //das Drag-and-Drop-Eventhandling hinzufügen
-        lagerView.getKartonRectangle().setOnMousePressed(e -> {
-            xPosition = e.getSceneX();
-        });
-        lagerView.getKartonRectangle().setOnMouseDragged(e -> {
-            double offsetX = e.getSceneX() - xPosition;
-            double newTranslateX = lagerView.getKartonRectangle().getTranslateY() + offsetX;
-            lagerView.getKartonRectangle().setTranslateY(newTranslateX);
-            xPosition = e.getSceneX();
-        });
     }
+
     private void handleDelete() {
         boolean elementDeleted = false;
 

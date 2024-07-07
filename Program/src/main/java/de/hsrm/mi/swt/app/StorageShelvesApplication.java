@@ -164,10 +164,6 @@ public class StorageShelvesApplication extends Application {
         this.raumChangeListener = listener;
     }
 
-    public void dragAnmelden(){
-        lagerController.dragListenerSauleAnmelden();
-    }
-
     public static void main(String[] args) {
         launch(args);
     }
