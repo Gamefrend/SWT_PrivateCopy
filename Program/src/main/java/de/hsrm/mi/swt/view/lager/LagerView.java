@@ -128,7 +128,6 @@ public class LagerView extends StackPane {
             int xPosition = 0;
             xPosition = raum.getRegal().getSaeulen().get(brett.getLueckenIndex()).getPositionX();
             brettRectangle = new Rectangle();
-            System.out.println(raum.getRegal().getSaeulen().get(brett.getLueckenIndex() + 1).getPositionX() - raum.getRegal().getSaeulen().get(brett.getLueckenIndex()).getPositionX());
             brettRectangle.setWidth(raum.getRegal().getSaeulen().get(brett.getLueckenIndex() + 1).getPositionX() - raum.getRegal().getSaeulen().get(brett.getLueckenIndex()).getPositionX());
             brettRectangle.setHeight(brett.getDicke());
             brettRectangle.setFill(Color.BROWN);
