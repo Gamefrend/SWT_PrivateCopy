@@ -245,27 +245,57 @@ public class LagerController {
         lagerView.getCenterArea().getChildren().add(karton.getRectangle()); // Rechteck zu der Ansicht hinzufügen
     }
 
-    private void handleDelete(MouseEvent event) {
+    public void handleDelete() {
+        lagerView.getCenterArea().setOnMouseClicked(event -> {
+            deleteButtonActive = !deleteButtonActive;
 
-        deleteButtonActive = !deleteButtonActive;
+            if (deleteButtonActive) {
+                double clickX = event.getX();
+                double clickY = event.getY();
+                boolean elementDeleted = false;
 
-        if ( deleteButtonActive ){
-            double clickX = event.getX();
-            double clickY = event.getY();
+                for (Saeule saeule : aktuellerRaum.getRegal().getSaeulen()) {
+                    if (isClickInsideSaeule(saeule, clickX, clickY)) {
+                        aktuellerRaum.getRegal().getSaeulen().remove(saeule);
+                        elementDeleted = true;
+                        break;
+                    }
+                }
 
-            boolean elementDeleted = false;
 
-            if ( !elementDeleted){
-                if ( )
+                if (!elementDeleted) {
+                    for (RegalBrett brett : aktuellerRaum.getRegal().getRegalBretter()) {
+                        if (isClickInsideBrett(brett, clickX, clickY)) {
+                            aktuellerRaum.getRegal().getRegalBretter().remove(brett);
+                            elementDeleted = true;
+                            break;
+                        }
+                    }
+                }
 
 
+                if (!elementDeleted) {
+                    for (RegalBrett brett : aktuellerRaum.getRegal().getRegalBretter()) {
+                        for (Karton karton : brett.getKartons()) {
+                            if (isClickInsideKarton(karton, clickX, clickY)) {
+                                brett.getKartons().remove(karton);
+                                elementDeleted = true;
+                                break;
+                            }
+                        }
+                        if (elementDeleted) {
+                            break;
+                        }
+                    }
+                }
+
+
+                if (!elementDeleted) {
+                    System.out.println("No element found to delete.");
+                }
+
+                lagerView.redraw(aktuellerRaum);
             }
-
-
-
-
-
-        }
 
 
 
@@ -293,6 +323,7 @@ public class LagerController {
 
 
          */
+        });
     }
 
     private boolean isClickInsideSaeule(Saeule saeule, double clickX, double clickY) {
