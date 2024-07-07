@@ -93,3 +93,8 @@
     -fx-border-width: 3px;
     -fx-border-color: -fx-primary;
 }
+
+.invalid-input {
+    -fx-border-color: red;
+    -fx-border-width: 2px;
+}
