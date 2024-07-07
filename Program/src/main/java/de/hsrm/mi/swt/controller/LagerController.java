@@ -220,6 +220,10 @@ public class LagerController {
 
     public void handleSauele() {
         saeuleButtonActive = !saeuleButtonActive;
+        if(deleteButtonActive){
+            deleteButtonActive = false;
+            deleteButton.getStyleClass().remove("active-button");
+        }
         if (saeuleButtonActive) {
             saueleButton.getStyleClass().add("active-button");
         } else {
@@ -298,6 +302,10 @@ public class LagerController {
     public void handleDelete() {
         deleteButtonActive = !deleteButtonActive;
         if (deleteButtonActive) {
+            if(saeuleButtonActive){
+                saeuleButtonActive = false;
+                saueleButton.getStyleClass().remove("active-button");
+            }
             deleteButton.getStyleClass().add("active-button");
         } else {
             deleteButton.getStyleClass().remove("active-button");
