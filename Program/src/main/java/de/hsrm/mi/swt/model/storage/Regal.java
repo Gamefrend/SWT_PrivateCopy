@@ -17,12 +17,10 @@ public class Regal implements Serializable {
 
     private Inventar uebrigesInventar;
 
-    public Regal(IntegerProperty hoehe, ObservableList<RegalBrett> regalBretter, int saelenPos1, int saulenPos2) {
+    public Regal(IntegerProperty hoehe) {
         this.hoehe = hoehe;
-        this.regalBretter = regalBretter != null ? regalBretter : FXCollections.observableArrayList();
+        this.regalBretter = FXCollections.observableArrayList();
         this.saeulen = FXCollections.observableArrayList();
-        this.saeulen.add(new Saeule(saelenPos1));
-        this.saeulen.add(new Saeule(saulenPos2));
         uebrigesInventar = new Inventar();
         onChange = new SimpleObjectProperty<>();
 
@@ -42,6 +40,30 @@ public class Regal implements Serializable {
         }
     }
 
+    public void addSaeule(Saeule saeule) {
+        int insertIndex = indexfindenBinarySearch(saeule);
+        saeule.setOnChange(onChange.get());
+        saeulen.add(insertIndex, saeule);
+    }
+
+    private int indexfindenBinarySearch(Saeule saeule) {
+        int ersterIndex = 0;
+        int letzterIndex = saeulen.size() - 1;
+        double positionX = saeule.getPositionX();
+
+        while (ersterIndex <= letzterIndex) {
+            int mitte = (ersterIndex + letzterIndex) / 2;
+            double midXPosition = saeulen.get(mitte).getPositionX();
+
+            if (midXPosition < positionX) {
+                ersterIndex = mitte + 1;
+            } else {
+                letzterIndex = mitte - 1;
+            }
+        }
+        return ersterIndex;
+    }
+
     public void setOnChangeListener(Runnable listener) {
         this.onChange.set(listener);
     }
@@ -55,6 +77,9 @@ public class Regal implements Serializable {
     }
 
     public ObservableList<RegalBrett> getRegalBretter() {
+        for(RegalBrett brett:regalBretter){
+            brett.setOnChange(onChange.get());
+        }
         return regalBretter;
     }
 

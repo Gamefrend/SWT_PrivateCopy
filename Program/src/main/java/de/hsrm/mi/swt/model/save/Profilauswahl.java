@@ -1,27 +1,17 @@
 package de.hsrm.mi.swt.model.save;
 
-import java.io.File;
-import java.net.URISyntaxException;
+import de.hsrm.mi.swt.model.storage.Raum;
+
+import java.io.*;
+import java.nio.file.*;
 import java.util.*;
 
 public class Profilauswahl {
-    List<SpeicherProfil> speicherProfile;
+    private List<SpeicherProfil> speicherProfile;
 
     public Profilauswahl() {
-        speicherProfile = new ArrayList<>();
-        System.out.println(getClass().getResource("/saves/").getPath());
-        File directory = new File(getClass().getResource("/saves/").getFile());
-        if (directory.exists() && directory.isDirectory()) {
-            for (File speicheDatei : directory.listFiles()) {
-                if (speicheDatei.getName().endsWith(".StorageShelves")) {
-                    try {
-                        speicherProfile.add(new SpeicherProfil(speicheDatei.getName().split("\\.StorageShelves")[0]));
-                    } catch (Exception e) {
-                        System.err.println("Die Datei " + speicheDatei.getName() + " ist kein gültiges Speicherprofil");
-                    }
-                }
-            }
-        }
+        reloadSpeicherProfile();
+
     }
 
     public List<SpeicherProfil> getSpeicherProfile() {
@@ -37,7 +27,23 @@ public class Profilauswahl {
     }
 
     public void delProfile(SpeicherProfil speicherProfil) {
-        speicherProfile.remove(speicherProfil);
+        try {
+            // Pfad zur Datei im src-Verzeichnis
+            Path srcPath = Paths.get("src/main/resources/saves/" + speicherProfil.getSaveName() + ".StorageShelves");
+            Files.deleteIfExists(srcPath);
+
+            // Pfad zur Datei im build-Verzeichnis
+            Path buildPath = Paths.get("build/resources/main/saves/" + speicherProfil.getSaveName() + ".StorageShelves");
+            Files.deleteIfExists(buildPath);
+
+            // Remove the profile from the list
+            speicherProfile.remove(speicherProfil);
+
+            System.out.println("Profile files erfolgreich gelöscht");
+        } catch (IOException e) {
+            System.err.println("Fehler beim löschen: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     public void renameProfile(SpeicherProfil profile, String newName) {
@@ -68,5 +74,24 @@ public class Profilauswahl {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    public void reloadSpeicherProfile(){
+        speicherProfile = new ArrayList<>();
+        File directory = new File("src/main/resources/saves/");
+        for(File file : directory.listFiles())
+            if(file.getName().endsWith(".StorageShelves")){
+                speicherProfile.add(new SpeicherProfil(file.getName().replace(".StorageShelves","")));
+            }
+    }
+    public void ceateTestProfile(){
+        Raum r1 = new Raum(2000, 5000);
+        Raum r2 = new Raum(4000, 300);
+        SpeicherProfil sp1 = new SpeicherProfil("Test1");
+        SpeicherProfil sp2 = new SpeicherProfil("Test2");
+        sp1.save(r1);
+        sp2.save(r2);
+        speicherProfile.add(sp1);
+        speicherProfile.add(sp2);
     }
 }

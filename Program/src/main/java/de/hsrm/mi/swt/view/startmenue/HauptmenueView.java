@@ -1,25 +1,29 @@
 package de.hsrm.mi.swt.view.startmenue;
 
+import de.hsrm.mi.swt.app.StorageShelvesApplication;
+import de.hsrm.mi.swt.controller.RaumErstellenController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 public class HauptmenueView extends BorderPane {
-
-    private ProfilLadenOverlayView overlay;
     private Button newSystemButton;
     private Button loadProfileButton;
     private Button manageProfileButton;
     private Label titleLabel;
     private Label versionLabel;
+    private RaumErstellenController raumErstellenController;
+    private StorageShelvesApplication application;
 
-    public HauptmenueView() {
+    public HauptmenueView(StorageShelvesApplication application) {
+        this.application = application;
+
         // Header
         titleLabel = new Label("STORAGESHELVES");
         titleLabel.getStyleClass().addAll("h2");
@@ -55,12 +59,14 @@ public class HauptmenueView extends BorderPane {
         getStylesheets().add(globals);
         getStylesheets().add(hauptmenue);
 
-
         adjustLayout(getWidth());
 
         widthProperty().addListener((obs, oldVal, newVal) -> {
             adjustLayout(newVal.doubleValue());
         });
+
+        // Initialize RaumErstellenController
+        raumErstellenController = application.getRaumErstellenController();
     }
 
     private Button createButton(String text, Image image) {
@@ -88,16 +94,6 @@ public class HauptmenueView extends BorderPane {
             getStyleClass().add("medium-layout");
         } else {
             getStyleClass().add("large-layout");
-        }
-    }
-
-    public void setOverlay(ProfilLadenOverlayView overlay) {
-        this.overlay = overlay;
-        getChildren().add(overlay);
-    }
-    private void showOverlay() {
-        if (overlay != null) {
-            overlay.setVisible(true);
         }
     }
 

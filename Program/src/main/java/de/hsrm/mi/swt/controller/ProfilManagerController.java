@@ -31,11 +31,11 @@ public class ProfilManagerController {
         this.profileView = profilManagerView.getProfileView();
         this.profiles = FXCollections.observableArrayList();
         this.closeButton = profilManagerView.getCloseButton();
+        this.profilauswahl = application.getProfilauswahl();
         initialize();
     }
 
     public void initialize() {
-        profilauswahl = new Profilauswahl();
         profiles.addAll(profilauswahl.getSpeicherProfile());
         profileView.setItems(profiles);
         closeButton.addEventHandler(ActionEvent.ACTION, e -> hidePopup());
@@ -59,7 +59,11 @@ public class ProfilManagerController {
 
     private void editProfile(SpeicherProfil profile, String newName) {
         profilauswahl.renameProfile(profile, newName);
-        profilauswahl = new Profilauswahl();
+        profile.setSaveName(newName);
+        int index = profiles.indexOf(profile);
+        if (index != -1) {
+            profiles.set(index, profile);
+        }
         profileView.refresh();
     }
 

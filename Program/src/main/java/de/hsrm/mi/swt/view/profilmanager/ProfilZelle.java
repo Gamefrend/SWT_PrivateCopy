@@ -1,25 +1,22 @@
 package de.hsrm.mi.swt.view.profilmanager;
 
 import de.hsrm.mi.swt.model.save.SpeicherProfil;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
+import javafx.scene.layout.*;
 
+import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class ProfilZelle extends ListCell<SpeicherProfil> {
     private Label name;
     private Label datum;
-    private HBox root;
-    private VBox infoPane;
+    private BorderPane root;
     private Button editButton;
     private Button deleteButton;
-    private TextField nameField;
     private Consumer<SpeicherProfil> onDeleteAction;
     private BiConsumer<SpeicherProfil, String> onEditAction;
 
@@ -27,32 +24,16 @@ public class ProfilZelle extends ListCell<SpeicherProfil> {
         this.onDeleteAction = onDeleteAction;
         this.onEditAction = onEditAction;
 
-        root = new HBox();
+        root = new BorderPane();
         root.getStyleClass().add("profil-zelle");
-
-        infoPane = new VBox();
-        infoPane.getStyleClass().add("info-pane");
 
         name = new Label();
         datum = new Label();
-        nameField = new TextField();
-        nameField.setVisible(false);
 
-        editButton = new Button();
-        deleteButton = new Button();
+        editButton = createButton("/icons/edit.png");
+        deleteButton = createButton("/icons/delete.png");
 
-        ImageView editIcon = new ImageView(new Image(getClass().getResourceAsStream("/icons/edit.png")));
-        ImageView deleteIcon = new ImageView(new Image(getClass().getResourceAsStream("/icons/delete.png")));
-        editIcon.setFitWidth(44);
-        editIcon.setFitHeight(44);
-        deleteIcon.setFitWidth(44);
-        deleteIcon.setFitHeight(44);
-
-        editButton.setGraphic(editIcon);
-        deleteButton.setGraphic(deleteIcon);
-        editButton.getStyleClass().add("edit-button");
-        deleteButton.getStyleClass().add("delete-button");
-
+        editButton.setOnAction(event -> startEdit());
         deleteButton.setOnAction(event -> {
             SpeicherProfil item = getItem();
             if (item != null) {
@@ -60,51 +41,45 @@ public class ProfilZelle extends ListCell<SpeicherProfil> {
             }
         });
 
-        editButton.setOnAction(event -> startEdit());
-
-        nameField.setOnAction(e -> commitEdit());
-
         datum.getStyleClass().add("copy");
         name.getStyleClass().add("h2");
 
-        Region spacer = new Region();
-        HBox.setHgrow(spacer, Priority.ALWAYS);
+        HBox buttonBox = new HBox(5, editButton, deleteButton);
+        buttonBox.setAlignment(Pos.CENTER_RIGHT);
 
-        HBox buttonBox = new HBox(editButton, deleteButton);
-        buttonBox.getStyleClass().add("button-box");
+        VBox nameBox = new VBox(10, datum, name);
+        nameBox.setAlignment(Pos.CENTER_LEFT);
 
-        HBox nameBox = new HBox(name, nameField, spacer, buttonBox);
-        nameBox.getStyleClass().add("name-box");
-        HBox.setHgrow(name, Priority.ALWAYS);
-        HBox.setHgrow(buttonBox, Priority.NEVER);
-
-        infoPane.getChildren().addAll(datum, nameBox);
-        root.getChildren().add(infoPane);
-
-        root.prefWidthProperty().bind(this.widthProperty());
+        root.setLeft(nameBox);
+        root.setRight(buttonBox);
 
         setGraphic(root);
+    }
+
+    private Button createButton(String iconPath) {
+        Button button = new Button();
+        ImageView icon = new ImageView(new Image(getClass().getResourceAsStream(iconPath)));
+        icon.setFitWidth(42);
+        icon.setFitHeight(42);
+        button.setGraphic(icon);
+        button.getStyleClass().add("icon-button");
+        return button;
     }
 
     public void startEdit() {
         SpeicherProfil item = getItem();
         if (item != null) {
-            nameField.setText(item.getSaveName());
-            name.setVisible(false);
-            nameField.setVisible(true);
-            nameField.requestFocus();
-        }
-    }
+            TextInputDialog dialog = new TextInputDialog(item.getSaveName());
+            dialog.setTitle("Profil umbenennen");
+            dialog.setHeaderText("Geben Sie einen neuen Namen für das Profil ein");
+            dialog.setContentText("Neuer Name:");
 
-    private void commitEdit() {
-        SpeicherProfil item = getItem();
-        if (item != null) {
-            String newName = nameField.getText();
-            if (!newName.isEmpty()) {
-                onEditAction.accept(item, newName);
-            }
-            name.setVisible(true);
-            nameField.setVisible(false);
+            Optional<String> result = dialog.showAndWait();
+            result.ifPresent(newName -> {
+                if (!newName.isEmpty()) {
+                    onEditAction.accept(item, newName);
+                }
+            });
         }
     }
 
@@ -112,14 +87,10 @@ public class ProfilZelle extends ListCell<SpeicherProfil> {
     protected void updateItem(SpeicherProfil item, boolean empty) {
         super.updateItem(item, empty);
         if (empty || item == null) {
-            name.setText(null);
-            datum.setText(null);
-            nameField.setVisible(false);
             setGraphic(null);
         } else {
             name.setText(item.getSaveName());
             datum.setText(item.getFormattedDatum());
-            nameField.setVisible(false);
             setGraphic(root);
         }
     }

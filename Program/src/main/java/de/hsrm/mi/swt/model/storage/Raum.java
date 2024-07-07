@@ -21,13 +21,13 @@ public class Raum implements Serializable {
     public Raum(int hoehe, int breite) {
         this.hoehe = new SimpleIntegerProperty(hoehe);
         this.breite = new SimpleIntegerProperty(breite);
-        this.regal = new SimpleObjectProperty<>(new Regal(this.hoehe, null, 0, 1300));
+        this.regal = new SimpleObjectProperty<>(new Regal(this.hoehe));
         this.onChange = new SimpleObjectProperty<>();
 
         // Listeners for properties
         this.hoehe.addListener((obs, oldVal, newVal) -> triggerChange());
         this.breite.addListener((obs, oldVal, newVal) -> triggerChange());
-        this.regal.get().setOnChangeListener(this::triggerChange);
+        this.regal.get().setOnChangeListener(onChange.get());
     }
 
     private void triggerChange() {

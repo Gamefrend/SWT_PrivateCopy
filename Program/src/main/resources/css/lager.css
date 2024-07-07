@@ -1,4 +1,52 @@
+/* lager.css */
+
 .active-button {
-    -fx-background-color: #0029FF;
+    -fx-background-color: red;
     -fx-text-fill: white;
+}
+
+.raum-erstellen-view {
+    -fx-background-color: white;
+    -fx-padding: 40;
+}
+
+/* RaumErstellenView */
+
+.raum-erstellen-header {
+    -fx-alignment: center-left;
+    -fx-pref-width: 100%;
+    -fx-max-width: infinity;
+    -fx-spacing: 10;
+}
+
+.raum-erstellen-close-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+    -fx-background-insets: 0;
+}
+
+.raum-erstellen-create-button {
+    -fx-background-color: -fx-offwhite;
+    -fx-padding: 20 50;
+    -fx-effect: dropshadow(gaussian, -fx-primary, 0, 0, 10, 10);
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+    -fx-alignment: center;
+    -fx-max-width: infinity;
+}
+
+.raum-input {
+    -fx-background-color: -fx-offwhite;
+    -fx-padding: 22px;
+    -fx-border-color: transparent;
+    -fx-pref-width: 355px;
+    -fx-border-width: 3px;
+}
+
+.raum-input:focused {
+    -fx-border-width: 3px;
+    -fx-border-color: -fx-primary;
 }

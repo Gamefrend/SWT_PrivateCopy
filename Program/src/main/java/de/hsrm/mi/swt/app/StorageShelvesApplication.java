@@ -1,9 +1,13 @@
 package de.hsrm.mi.swt.app;
 
+import de.hsrm.mi.swt.controller.RaumErstellenController;
+import de.hsrm.mi.swt.view.lager.RaumErstellenView;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,94 +20,159 @@ import de.hsrm.mi.swt.model.storage.Raum;
 import de.hsrm.mi.swt.view.PrimaryViewName;
 import de.hsrm.mi.swt.view.profilmanager.ProfilManagerView;
 import de.hsrm.mi.swt.view.startmenue.HauptmenueView;
-import de.hsrm.mi.swt.view.startmenue.ProfilLadenOverlayView;
 import de.hsrm.mi.swt.view.lager.LagerView;
 
 public class StorageShelvesApplication extends Application {
-	private Stage primaryStage;
-	private Map<PrimaryViewName, Pane> primaryViews;
+    private Stage primaryStage;
+    private Map<PrimaryViewName, Pane> primaryViews;
 
-	private Raum aktuellerRaum;
+    private Raum aktuellerRaum;
+    private RaumChangeListener raumChangeListener;
 
-	private SpeicherProfil aktuellesSpeicherprofil;
+    private SpeicherProfil aktuellesSpeicherprofil;
+    private Profilauswahl profilauswahl;
+    private ProfilManagerController profilManagerController;
+    private LagerController lagerController;
+    private RaumErstellenController raumErstellenController;
 
-	private Profilauswahl profilauswahl;
-	private ProfilManagerController profilManagerController;
-
-	@Override
-	public void init() {
-		primaryViews = new HashMap<>();
-		profilauswahl = new Profilauswahl();
-
-		HauptmenueView mainMenuView = new HauptmenueView();
-		HauptmenueController hauptmenueController = new HauptmenueController(this, mainMenuView);
-		primaryViews.put(PrimaryViewName.StartmenueView, mainMenuView);
-
-		ProfilManagerView profilManagerView = new ProfilManagerView();
-		profilManagerController = new ProfilManagerController(this);
-		primaryViews.put(PrimaryViewName.ProfilLadenView, profilManagerView);
-
-		ProfilLadenOverlayView overlayView = new ProfilLadenOverlayView();
-		mainMenuView.setOverlay(overlayView);
+    private RaumErstellenView raumErstellenView;
+    private LagerView lagerView;
 
 
-		LagerView lagerView = new LagerView();
-		SpeicherProfil speicherProfil = new SpeicherProfil("1");
-		LagerController lagerController = new LagerController(this, lagerView);
-		primaryViews.put(PrimaryViewName.LagerView, lagerView);
 
-	}
+    @Override
+    public void init() {
+        primaryViews = new HashMap<>();
+        profilauswahl = new Profilauswahl();
+        // Kommentar wegmachen um TestSaves zu erstellen
+        // profilauswahl.createTestProfile();
 
-	@Override
-	public void start(Stage primaryStage) throws Exception {
-		this.primaryStage = primaryStage;
+        raumErstellenView = new RaumErstellenView();
+        raumErstellenController = new RaumErstellenController(this, raumErstellenView);
 
-		Scene scene = new Scene(new Pane(), 1440, 1024);
-		scene.getStylesheets().add(getClass().getResource("/css/globals.css").toExternalForm());
-		scene.getStylesheets().add(getClass().getResource("/css/hauptmenue.css").toExternalForm());
-		scene.getStylesheets().add(getClass().getResource("/css/profilmanager.css").toExternalForm());
-		primaryStage.setScene(scene);
+        HauptmenueView mainMenuView = new HauptmenueView(this);
+        HauptmenueController hauptmenueController = new HauptmenueController(this, mainMenuView);
+        primaryViews.put(PrimaryViewName.StartmenueView, mainMenuView);
 
-		switchView(PrimaryViewName.StartmenueView);
+        ProfilManagerView profilManagerView = new ProfilManagerView();
+        profilManagerController = new ProfilManagerController(this);
+        primaryViews.put(PrimaryViewName.ProfilLadenView, profilManagerView);
 
-		primaryStage.setTitle("StorageShelves");
-		primaryStage.show();
-	}
+        lagerView = new LagerView();
+        SpeicherProfil speicherProfil = new SpeicherProfil("1");
+        lagerController = new LagerController(this, lagerView);
+        primaryViews.put(PrimaryViewName.LagerView, lagerView);
+    }
 
-	public void switchView(PrimaryViewName viewName) {
-		Scene currentScene = primaryStage.getScene();
-		Pane nextView = primaryViews.get(viewName);
-		if (nextView != null) {
-			currentScene.setRoot(nextView);
-		}
-	}
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        this.primaryStage = primaryStage;
 
-	public Raum getAktuellerRaum() {
-		return aktuellerRaum;
-	}
+        Scene scene = new Scene(new Pane(), 1440, 1024);
+        scene.getStylesheets().add(getClass().getResource("/css/globals.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/css/hauptmenue.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/css/profilmanager.css").toExternalForm());
+        primaryStage.setScene(scene);
 
-	public void setAktuellerRaum(Raum aktuellerRaum) {
-		this.aktuellerRaum = aktuellerRaum;
-	}
+        switchView(PrimaryViewName.StartmenueView);
 
-	public SpeicherProfil getAktuellesSpeicherprofil() {
-		return aktuellesSpeicherprofil;
-	}
+        primaryStage.setTitle("StorageShelves");
+        primaryStage.show();
+    }
 
-	public void setAktuellesSpeicherprofil(SpeicherProfil aktuellesSpeicherprofil) {
-		this.aktuellesSpeicherprofil = aktuellesSpeicherprofil;
-	}
+    public void switchView(PrimaryViewName viewName) {
+        Scene currentScene = primaryStage.getScene();
+        Pane nextView = primaryViews.get(viewName);
+        if (nextView != null) {
+            currentScene.setRoot(nextView);
+        }
+    }
 
-	public void ladeNeustesSpeicherprofil(){
-		aktuellesSpeicherprofil = profilauswahl.getNeustesProfil();
-		aktuellerRaum = aktuellesSpeicherprofil.load();
-	}
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
 
-	public void showProfilManager() {
-		profilManagerController.showPopup(primaryStage);
-	}
+    public RaumErstellenController getRaumErstellenController() {
+        return raumErstellenController;
+    }
+    public LagerController getLagerController() {
+        return lagerController;
+    }
 
-	public static void main(String[] args) {
-		launch(args);
-	}
+    public void setLagerController(LagerController lagerController) {
+        this.lagerController = lagerController;
+    }
+
+    public LagerView getLagerView() {
+        return lagerView;
+    }
+
+    public void setLagerView(LagerView lagerView) {
+        this.lagerView = lagerView;
+    }
+
+    public Raum getAktuellerRaum() {
+        return aktuellerRaum;
+    }
+
+    public void setAktuellerRaum(Raum aktuellerRaum) {
+        this.aktuellerRaum = aktuellerRaum;
+        if (raumChangeListener != null) {
+            raumChangeListener.onRaumChange(aktuellerRaum);
+        }
+    }
+
+    public SpeicherProfil getAktuellesSpeicherprofil() {
+        return aktuellesSpeicherprofil;
+    }
+
+    public void setAktuellesSpeicherprofil(SpeicherProfil aktuellesSpeicherprofil) {
+        this.aktuellesSpeicherprofil = aktuellesSpeicherprofil;
+    }
+
+    public void ladeNeustesSpeicherprofil() {
+        aktuellesSpeicherprofil = profilauswahl.getNeustesProfil();
+        aktuellerRaum = aktuellesSpeicherprofil.load();
+        if (raumChangeListener != null) {
+            raumChangeListener.onRaumChange(aktuellerRaum);
+        }
+    }
+
+    public void showProfilManager() {
+        profilManagerController.showPopup(primaryStage);
+    }
+
+    public Profilauswahl getProfilauswahl() {
+        return profilauswahl;
+    }
+
+    public void restart() {
+        primaryStage.close();
+        Platform.runLater(() -> {
+            try {
+                StorageShelvesApplication newApp = new StorageShelvesApplication();
+                Stage newStage = new Stage();
+                newApp.init();
+                newApp.start(newStage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public void setRaumChangeListener(RaumChangeListener listener) {
+        this.raumChangeListener = listener;
+    }
+
+    public void dragAnmelden(){
+        lagerController.dragListenerSauleAnmelden();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    public interface RaumChangeListener {
+        void onRaumChange(Raum newRaum);
+    }
 }
