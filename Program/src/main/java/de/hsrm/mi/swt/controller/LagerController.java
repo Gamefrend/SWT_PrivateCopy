@@ -48,6 +48,8 @@ public class LagerController {
     private Runnable onChange;
     double xPosition = 0;
 
+    private boolean deleteButtonActive = false;
+
     public LagerController(StorageShelvesApplication application, LagerView lagerView) {
         this.application = application;
         this.lagerView = lagerView;
@@ -220,8 +222,31 @@ public class LagerController {
         lagerView.getCenterArea().getChildren().add(karton.getRectangle()); // Rechteck zu der Ansicht hinzufügen
     }
 
-    private void handleDelete() {
-        boolean elementDeleted = false;
+    private void handleDelete(MouseEvent event) {
+
+        deleteButtonActive = !deleteButtonActive;
+
+        if ( deleteButtonActive ){
+            double clickX = event.getX();
+            double clickY = event.getY();
+
+            boolean elementDeleted = false;
+
+            if ( !elementDeleted){
+                if ( )
+
+
+            }
+
+
+
+
+
+        }
+
+
+
+        /*boolean elementDeleted = false;
 
         if (!aktuellerRaum.getRegal().getSaeulen().isEmpty()) {
             Saeule letzteSaeule = aktuellerRaum.getRegal().getSaeulen().getLast();
@@ -242,10 +267,41 @@ public class LagerController {
         if (!elementDeleted) {
             System.out.println("Nichts zu löschen");
         }
+
+
+         */
+    }
+
+    private boolean isClickInsideSaeule(Saeule saeule, double clickX, double clickY) {
+        double saeuleX = saeule.getPositionX();
+        double tolerance = 10;
+        return (Math.abs(saeuleX - clickX) <= tolerance);
+    }
+
+    private boolean isClickInsideBrett(RegalBrett brett, double clickX, double clickY) {
+        double brettX = brett.getLueckenIndex();
+        double brettY = brett.getHoehe();
+        double tolerance = 10;
+        return (Math.abs(brettX - clickX) <= tolerance && Math.abs(brettY - clickY) <= tolerance);
+    }
+
+    private boolean isClickInsideKarton(Karton karton, double clickX, double clickY) {
+        double kartonX = karton.getXPosition();
+        double kartonY = karton.getYPosition();
+        double kartonWidth = karton.getWidth();
+        double kartonHeight = karton.getHeight();
+
+
+        return (clickX >= kartonX && clickX <= kartonX + kartonWidth &&
+                clickY >= kartonY && clickY <= kartonY + kartonHeight);
     }
 
 
     public LagerView getRoot() {
         return lagerView;
     }
+
+
+
+
 }
