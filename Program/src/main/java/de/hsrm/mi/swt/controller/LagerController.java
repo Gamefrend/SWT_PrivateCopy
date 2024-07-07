@@ -40,7 +40,7 @@ public class LagerController {
     private boolean saeuleButtonActive = false;
 
     private Runnable onChange;
-    double xPosition=0;
+    double xPosition = 0;
 
     public LagerController(StorageShelvesApplication application, LagerView lagerView) {
         this.application = application;
@@ -101,7 +101,7 @@ public class LagerController {
             application.restart();
         });
         brettButton.addEventHandler(ActionEvent.ACTION, e -> handleBrett());
-        saueleButton.addEventHandler(ActionEvent.ACTION, e -> handleSauele());
+        saueleButton.setOnMouseClicked(e -> handleSauele());
         kartonButton.addEventHandler(ActionEvent.ACTION, e -> handleKarton());
 
         lagerView.getCenterArea().setOnMouseClicked(event -> {
@@ -171,7 +171,6 @@ public class LagerController {
 
         }
     }
-
 
 
 
