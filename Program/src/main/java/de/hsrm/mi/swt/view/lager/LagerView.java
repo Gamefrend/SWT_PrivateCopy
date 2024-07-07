@@ -92,8 +92,7 @@ public class LagerView extends StackPane {
         toolBox.setPadding(new Insets(10));
 
         // Inventar-Bereich
-        addKartonButton = new Button("+");
-
+        inventarTextField = new Label("Inventar");
         inventoryBox = new HBox(10);
         inventoryBox.setId("inventory-box");
         inventoryBox.setAlignment(Pos.CENTER_LEFT);
