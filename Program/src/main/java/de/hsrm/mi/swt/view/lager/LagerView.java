@@ -33,6 +33,7 @@ public class LagerView extends StackPane {
     private Button saueleButton;
     private Button skalierenButton;
     private Button moveButton;
+    private Button deleteButton;
     private Label inventarTextField;
     private Button kartonButton;
     private final int CENTRALHIGHT;
@@ -84,8 +85,9 @@ public class LagerView extends StackPane {
         saueleButton = new Button("Sauele");
         skalierenButton = new Button("Skalieren");
         moveButton = new Button("Move");
+        deleteButton = new Button("Löschen");
 
-        VBox toolBox = new VBox(brettButton, saueleButton, kartonButton, skalierenButton, moveButton);
+        VBox toolBox = new VBox(brettButton, saueleButton, kartonButton, skalierenButton, moveButton,deleteButton);
         toolBox.setAlignment(Pos.CENTER);
         toolBox.setPadding(new Insets(10));
         toolBox.setSpacing(10);
@@ -232,5 +234,8 @@ public class LagerView extends StackPane {
 
     public int getCENTRALHIGHT() {
         return CENTRALHIGHT;
+    }
+    public Button getDeleteButton() {
+        return deleteButton;
     }
 }
