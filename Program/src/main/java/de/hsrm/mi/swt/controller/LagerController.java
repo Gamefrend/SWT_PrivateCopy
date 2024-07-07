@@ -38,8 +38,6 @@ public class LagerController {
     private Button settingsButton;
     private Button brettButton;
     private Button saueleButton;
-    private Button skalierenButton;
-    private Button moveButton;
     private Button kartonButton;
     private Button deleteButton;
     private boolean saeuleButtonActive = false;
@@ -58,8 +56,6 @@ public class LagerController {
         settingsButton = lagerView.getSettingsButton();
         brettButton = lagerView.getBrettButton();
         saueleButton = lagerView.getSaueleButton();
-        skalierenButton = lagerView.getSkalierenButton();
-        moveButton = lagerView.getMoveButton();
         kartonButton = lagerView.getKartonButton();
         deleteButton = lagerView.getDeleteButton();
         kartonErstellenController = new KartonErstellenController();
@@ -218,7 +214,7 @@ public class LagerController {
         if (!aktuellerRaum.getRegal().getSaeulen().isEmpty()) {
             Saeule letzteSaeule = aktuellerRaum.getRegal().getSaeulen().getLast();
             aktuellerRaum.getRegal().getSaeulen().remove(letzteSaeule);
-            lagerView.getCenterArea().getChildren().remove(lagerView.getSaeuleRectangle()); // Assuming there's a method to get the graphical representation
+            lagerView.getCenterArea().getChildren().remove(lagerView.getSaeuleRectangle());
             System.out.println("Letzte Säule gelöscht");
             elementDeleted = true;
         }
@@ -226,7 +222,7 @@ public class LagerController {
         if (!elementDeleted && !aktuellerRaum.getRegal().getRegalBretter().isEmpty()) {
             RegalBrett letztesBrett = aktuellerRaum.getRegal().getRegalBretter().getLast();
             aktuellerRaum.getRegal().getRegalBretter().remove(letztesBrett);
-            lagerView.getCenterArea().getChildren().remove(lagerView.getBrettRectangle()); // Assuming there's a method to get the graphical representation
+            lagerView.getCenterArea().getChildren().remove(lagerView.getBrettRectangle());
             System.out.println("Letztes Brett gelöscht");
             elementDeleted = true;
         }
