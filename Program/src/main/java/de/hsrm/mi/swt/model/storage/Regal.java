@@ -17,12 +17,10 @@ public class Regal implements Serializable {
 
     private Inventar uebrigesInventar;
 
-    public Regal(IntegerProperty hoehe, int saelenPos1, int saulenPos2) {
+    public Regal(IntegerProperty hoehe) {
         this.hoehe = hoehe;
         this.regalBretter = FXCollections.observableArrayList();
         this.saeulen = FXCollections.observableArrayList();
-        this.saeulen.add(new Saeule(saelenPos1));
-        this.saeulen.add(new Saeule(saulenPos2));
         uebrigesInventar = new Inventar();
         onChange = new SimpleObjectProperty<>();
 
@@ -44,6 +42,7 @@ public class Regal implements Serializable {
 
     public void addSaeule(Saeule saeule) {
         int insertIndex = indexfindenBinarySearch(saeule);
+        saeule.setOnChange(onChange.get());
         saeulen.add(insertIndex, saeule);
     }
 

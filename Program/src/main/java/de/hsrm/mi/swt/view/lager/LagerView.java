@@ -144,7 +144,7 @@ public class LagerView extends StackPane {
                 centerArea.getChildren().add(kartonRectangle);
             }
         }
-
+        int i = 0;
         for (Saeule saeule : raum.getRegal().getSaeulen()) {
             int positionX = saeule.getPositionX();
             // Create a rectangle for each Säule
@@ -154,9 +154,10 @@ public class LagerView extends StackPane {
             saeuleRectangle.setX(positionX);
             saeuleRectangle.setY(5);
             saeuleRectangle.setFill(Color.GRAY);
+            saeuleRectangle.setId("Saeule"+i);
             centerArea.getChildren().add(saeuleRectangle);
+            i++;
         }
-
     }
 
     public ArrayList<Rectangle> getAllesSeuleRectangle() {
@@ -227,5 +228,9 @@ public class LagerView extends StackPane {
 
     public Button getKartonButton() {
         return kartonButton;
+    }
+
+    public int getCENTRALHIGHT() {
+        return CENTRALHIGHT;
     }
 }

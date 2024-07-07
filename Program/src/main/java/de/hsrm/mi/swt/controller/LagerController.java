@@ -5,6 +5,8 @@ import de.hsrm.mi.swt.model.storage.RegalBrett;
 import de.hsrm.mi.swt.model.storage.Saeule;
 import de.hsrm.mi.swt.view.uikomponente.Karton;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -17,6 +19,7 @@ import de.hsrm.mi.swt.view.lager.LagerView;
 import javafx.event.ActionEvent;
 import javafx.stage.Window;
 
+import javax.swing.event.ChangeEvent;
 import java.awt.event.MouseEvent;
 import java.util.Map;
 
@@ -77,7 +80,7 @@ public class LagerController {
             aktuellerRaum = application.getAktuellerRaum();
             application.setAktuellesSpeicherprofil(new SpeicherProfil("TestProfil1"));
             aktuellesSpeicherprofil = application.getAktuellesSpeicherprofil();
-            aktuellerRaum.setRegal(new Regal(new SimpleIntegerProperty(2000), 50, 300));
+            aktuellerRaum.setRegal(new Regal(new SimpleIntegerProperty(2000)));
         }
         lagerView.getProfileNameField().setText(aktuellesSpeicherprofil.getSaveName());
     }
@@ -103,11 +106,11 @@ public class LagerController {
         brettButton.addEventHandler(ActionEvent.ACTION, e -> handleBrett());
         saueleButton.setOnMouseClicked(e -> handleSauele());
         kartonButton.addEventHandler(ActionEvent.ACTION, e -> handleKarton());
-
         lagerView.getCenterArea().setOnMouseClicked(event -> {
             if (saeuleButtonActive) {
                 double x = event.getX();
                 addSaeule(x);
+                dragListenerSauleAnmelden();
             }
         });
     }
@@ -154,27 +157,44 @@ public class LagerController {
         saeuleButtonActive = !saeuleButtonActive;
         if (saeuleButtonActive) {
             saueleButton.getStyleClass().add("active-button");
-
-            /*
-            // Drag-and-Drop für die Säulen
-            lagerView.getSaeuleRectangle().setOnMousePressed(e -> {
-                xPosition = e.getSceneX();
-            });
-
-            lagerView.getSaeuleRectangle().setOnMouseDragged(e -> {
-                double offsetX = e.getSceneX() - xPosition;
-                double newTranslateX = lagerView.getSaeuleRectangle().getTranslateX() + offsetX;
-                lagerView.getSaeuleRectangle().setTranslateX(newTranslateX);
-                xPosition = e.getSceneX();
-            });
-             */
         } else {
             saueleButton.getStyleClass().remove("active-button");
-
         }
 
     }
 
+    public void dragListenerSauleAnmelden() {
+        for (Node node : lagerView.getCenterArea().getChildren()) {
+            if (node.getId() != null && node.getId().startsWith("Saeule")) {
+                node.setOnMousePressed(e -> {
+                    node.setOpacity(0.5); // Make node slightly transparent
+                    lagerView.getCenterArea().setCursor(Cursor.E_RESIZE); // Change cursor to move
+                });
+
+                node.setOnMouseReleased(e -> {
+                    if (e.getX() >= lagerView.getCenterArea().getLayoutX() && e.getX() <= lagerView.getLayoutX() + lagerView.getCenterArea().getWidth())
+                        node.setOpacity(1.0); // Reset opacity
+                    lagerView.getCenterArea().setCursor(Cursor.DEFAULT); // Reset cursor
+                    System.out.println((int) e.getX());
+                    System.out.println("Alt: " + aktuellerRaum.getRegal().getSaeulen().get(node.getId().charAt(node.getId().length() - 1) - '0').getPositionX());
+                    aktuellerRaum.getRegal().getSaeulen().get(node.getId().charAt(node.getId().length() - 1) - '0').setPositionX((int) e.getX());
+                    System.out.println("Neu: " + aktuellerRaum.getRegal().getSaeulen().get(node.getId().charAt(node.getId().length() - 1) - '0').getPositionX());
+                });
+
+                node.setOnMouseDragged(e -> {
+                    double mouseX = e.getSceneX();
+                    double newX = mouseX - node.getBoundsInParent().getWidth() / 2;
+
+                    // Ensure the node stays within the bounds of centerArea
+                    if (newX >= 0 && newX + node.getBoundsInParent().getWidth() <= lagerView.getCenterArea().getWidth()) {
+
+                    }
+
+                });
+            }
+        }
+
+    }
 
     public void addSaeule(double x) {
         int positionX = (int) x;

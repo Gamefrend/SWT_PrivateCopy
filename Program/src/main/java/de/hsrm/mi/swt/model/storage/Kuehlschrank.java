@@ -8,8 +8,8 @@ import java.util.List;
 
 public class Kuehlschrank extends Regal implements Serializable {
 
-    public Kuehlschrank(SimpleIntegerProperty hoehe, Saeule saeule, int saelenPos1, int saulenPos2) {
-        super(hoehe, saelenPos1, saulenPos2);
+    public Kuehlschrank(SimpleIntegerProperty hoehe) {
+        super(hoehe);
     }
 
 }
