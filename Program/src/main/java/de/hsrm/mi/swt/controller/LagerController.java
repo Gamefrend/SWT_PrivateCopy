@@ -1,5 +1,7 @@
 package de.hsrm.mi.swt.controller;
 
+import de.hsrm.mi.swt.model.save.AddSaeuleCommand;
+import de.hsrm.mi.swt.model.save.Command;
 import de.hsrm.mi.swt.model.storage.Regal;
 import de.hsrm.mi.swt.model.storage.RegalBrett;
 import de.hsrm.mi.swt.model.storage.Saeule;
@@ -23,6 +25,7 @@ import javafx.stage.Window;
 import javax.swing.event.ChangeEvent;
 import java.awt.event.MouseEvent;
 import java.util.Map;
+import java.util.Stack;
 
 public class LagerController {
     private Map<PrimaryViewName, Pane> primaryViews;
@@ -38,8 +41,6 @@ public class LagerController {
     private Button settingsButton;
     private Button brettButton;
     private Button saueleButton;
-    private Button skalierenButton;
-    private Button moveButton;
     private Button kartonButton;
     private Button deleteButton;
     private boolean saeuleButtonActive = false;
@@ -47,6 +48,8 @@ public class LagerController {
 
     private Runnable onChange;
     double xPosition = 0;
+    private Stack<Command> undoStack = new Stack<>();
+    private Stack<Command> redoStack = new Stack<>();
 
     private boolean deleteButtonActive = false;
 
@@ -60,8 +63,6 @@ public class LagerController {
         settingsButton = lagerView.getSettingsButton();
         brettButton = lagerView.getBrettButton();
         saueleButton = lagerView.getSaueleButton();
-        skalierenButton = lagerView.getSkalierenButton();
-        moveButton = lagerView.getMoveButton();
         kartonButton = lagerView.getKartonButton();
         deleteButton = lagerView.getDeleteButton();
         kartonErstellenController = new KartonErstellenController();
@@ -134,14 +135,30 @@ public class LagerController {
     }
 
 
-    private void handleUndo() {
-        // Undo-Logik muss noch implementiert werden
-        System.out.println("Undo button clicked");
+
+    public void handleUndo() {
+        if (!undoStack.isEmpty()) {
+            Command command = undoStack.pop();
+            System.out.println("Undoing command");
+            command.undo();
+            redoStack.push(command);
+            lagerView.redraw(aktuellerRaum); // Aktuellen Raum neu zeichnen
+        } else {
+            System.out.println("Undo stack is empty");
+        }
     }
 
-    private void handleRedo() {
-        // Redo-Logik muss noch implementiert werden
-        System.out.println("Redo button clicked");
+
+    public void handleRedo() {
+        if (!redoStack.isEmpty()) {
+            Command command = redoStack.pop();
+            System.out.println("Redoing command");
+            command.redo();
+            undoStack.push(command);
+            lagerView.redraw(aktuellerRaum); // Aktuellen Raum neu zeichnen
+        } else {
+            System.out.println("Redo stack is empty");
+        }
     }
 
     private void handleSave() {
@@ -155,7 +172,7 @@ public class LagerController {
 
     public void handleBrett() {
         RegalBrett neuesBrett = new RegalBrett(100, 10, 1, 0);
-        aktuellerRaum.getRegal().getRegalBretter().add(neuesBrett);
+        aktuellerRaum.getRegal().addBrett(neuesBrett);
         dragListenerSauleAnmelden();
     }
 
@@ -208,8 +225,14 @@ public class LagerController {
     public void addSaeule(double x) {
         int positionX = (int) x;
         Saeule newSaeule = new Saeule(positionX);
-        aktuellerRaum.getRegal().addSaeule(newSaeule);
+        Command command = new AddSaeuleCommand(aktuellerRaum, newSaeule);
+        System.out.println("Executing command: Adding Saeule at position " + positionX);
+        command.redo();
+        undoStack.push(command);
+        redoStack.clear(); // Redo-Stack leeren, da eine neue Aktion ausgeführt wurde
+        lagerView.redraw(aktuellerRaum); // Aktuellen Raum neu zeichnen
     }
+
 
     public boolean isSaeuleButtonActive() {
         return saeuleButtonActive;
@@ -251,7 +274,7 @@ public class LagerController {
         if (!aktuellerRaum.getRegal().getSaeulen().isEmpty()) {
             Saeule letzteSaeule = aktuellerRaum.getRegal().getSaeulen().getLast();
             aktuellerRaum.getRegal().getSaeulen().remove(letzteSaeule);
-            lagerView.getCenterArea().getChildren().remove(lagerView.getSaeuleRectangle()); // Assuming there's a method to get the graphical representation
+            lagerView.getCenterArea().getChildren().remove(lagerView.getSaeuleRectangle());
             System.out.println("Letzte Säule gelöscht");
             elementDeleted = true;
         }
@@ -259,7 +282,7 @@ public class LagerController {
         if (!elementDeleted && !aktuellerRaum.getRegal().getRegalBretter().isEmpty()) {
             RegalBrett letztesBrett = aktuellerRaum.getRegal().getRegalBretter().getLast();
             aktuellerRaum.getRegal().getRegalBretter().remove(letztesBrett);
-            lagerView.getCenterArea().getChildren().remove(lagerView.getBrettRectangle()); // Assuming there's a method to get the graphical representation
+            lagerView.getCenterArea().getChildren().remove(lagerView.getBrettRectangle());
             System.out.println("Letztes Brett gelöscht");
             elementDeleted = true;
         }
@@ -295,7 +318,6 @@ public class LagerController {
         return (clickX >= kartonX && clickX <= kartonX + kartonWidth &&
                 clickY >= kartonY && clickY <= kartonY + kartonHeight);
     }
-
 
     public LagerView getRoot() {
         return lagerView;
