@@ -116,4 +116,6 @@ public class RegalBrett implements Serializable {
         this.kartons = FXCollections.observableArrayList();
         this.kartons.addListener((Observable obs) -> triggerChange());
     }
+
+
 }
