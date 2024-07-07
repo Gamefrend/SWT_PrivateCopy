@@ -46,6 +46,13 @@ public class Regal implements Serializable {
         saeulen.add(insertIndex, saeule);
     }
 
+   /* public void addBrett(RegalBrett brett){
+
+
+    }
+    ----------------------------------------------------------------
+    */
+
     public void verschiebeSaeule(Saeule saeule, int positionX){
         saeulen.remove(saeule);
         saeule.setPositionX(positionX);

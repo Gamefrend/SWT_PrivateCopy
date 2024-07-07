@@ -1,5 +1,6 @@
 package de.hsrm.mi.swt.controller;
 
+import de.hsrm.mi.swt.model.save.AddBrettCommand;
 import de.hsrm.mi.swt.model.save.AddSaeuleCommand;
 import de.hsrm.mi.swt.model.save.Command;
 import de.hsrm.mi.swt.model.storage.Regal;
@@ -45,6 +46,7 @@ public class LagerController {
     private Button deleteButton;
     private boolean saeuleButtonActive = false;
     private KartonErstellenController kartonErstellenController;
+    private boolean brettButtonActive = false;
 
     private Runnable onChange;
     double xPosition = 0;
@@ -111,17 +113,12 @@ public class LagerController {
             System.out.println("Restarted?!?");
             application.restart();
         });
-        brettButton.addEventHandler(ActionEvent.ACTION, e -> handleBrett());
+
+        brettButton.setOnMouseClicked(e ->  handleBrett());
         saueleButton.setOnMouseClicked(e -> handleSauele());
         kartonButton.addEventHandler(ActionEvent.ACTION, e -> handleKarton());
 
-
-        // ----------
-        //deleteButton.addEventHandler(ActionEvent.ACTION, e -> handleDelete());
-
         deleteButton.setOnMouseClicked(e -> handleDelete());
-
-        // ------------
 
         lagerView.getAddKartonButton().setOnAction(e -> kartonErstellenController.showPopup(lagerView.getScene().getWindow()));
 
@@ -172,6 +169,14 @@ public class LagerController {
                 if (!elementDeleted) {
                     System.out.println("No element found to delete.");
                 }
+
+                if (brettButtonActive){
+                    int lueckenIndex = findLueckenIndex(clickX);
+                    addBrett(lueckenIndex , clickY);
+
+
+                }
+
                 lagerView.redraw(application.getAktuellerRaum());
             }
         });
@@ -213,10 +218,79 @@ public class LagerController {
     }
 
     public void handleBrett() {
-        RegalBrett neuesBrett = new RegalBrett(100, 10, 1, 0);
-        aktuellerRaum.getRegal().addBrett(neuesBrett);
-        dragListenerSauleAnmelden();
+
+        brettButtonActive = !brettButtonActive;
+
+        if (deleteButtonActive ){
+            deleteButtonActive = false ;
+            deleteButton.getStyleClass().remove("active-button");
+        }
+        if( saeuleButtonActive){
+            saeuleButtonActive = false;
+            saueleButton.getStyleClass().remove("active-button");
+        }
+
     }
+
+    public void addBrett(int lueckenIndex, double yPosition) {
+
+        System.out.println("-----------Angekommen-------------");
+
+        if (lueckenIndex < 0 || lueckenIndex >= aktuellerRaum.getRegal().getSaeulen().size() - 1) {
+            System.out.println("Keine geeignete Lücke für ein Brett vorhanden.");
+            return;
+        }
+
+        double xPosition;
+        if (lueckenIndex == 0) {
+
+        } else {
+            Saeule linkeSaeule = aktuellerRaum.getRegal().getSaeulen().get(lueckenIndex );
+            Saeule rechteSaeule = aktuellerRaum.getRegal().getSaeulen().get(lueckenIndex + 1);
+
+        }
+
+        RegalBrett neuesBrett = new RegalBrett((int) yPosition, 10, 1, lueckenIndex);
+
+        aktuellerRaum.getRegal().addBrett(neuesBrett);
+
+        // Redo Undo einbinden
+        Command command = new AddBrettCommand( aktuellerRaum.getRegal() , neuesBrett);
+        System.out.println("Exceuting command: Adding Brett at Y-Position" + yPosition + " and Index " + lueckenIndex);
+        command.redo();
+        undoStack.push(command);
+        redoStack.clear();
+        lagerView.redraw(aktuellerRaum); // Aktuellen Raum neu zeichnen
+    }
+
+    private int findLueckenIndex(double x) {
+        Saeule leftSaeule = null;
+        Saeule rightSaeule = null;
+
+        // Durchlaufe die Liste der Säulen, um die linke und rechte Säule relativ zu x zu finden
+        for (Saeule saeule : aktuellerRaum.getRegal().getSaeulen()) {
+            if (saeule.getPositionX() < x) {
+                if (leftSaeule == null || saeule.getPositionX() > leftSaeule.getPositionX()) {
+                    leftSaeule = saeule;
+                }
+            } else if (saeule.getPositionX() > x) {
+                if (rightSaeule == null || saeule.getPositionX() < rightSaeule.getPositionX()) {
+                    rightSaeule = saeule;
+                }
+            }
+        }
+
+        if ( leftSaeule != null && rightSaeule != null){
+
+            return aktuellerRaum.getRegal().getSaeulen().indexOf(leftSaeule);
+        }
+        else {
+            System.out.println("Keine Säule links oder rechts");
+            return -1;
+        }
+
+    }
+
 
     public void handleSauele() {
         saeuleButtonActive = !saeuleButtonActive;
