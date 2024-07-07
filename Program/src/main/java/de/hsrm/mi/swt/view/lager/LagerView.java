@@ -23,6 +23,8 @@ import java.time.LocalDate;
 
 
 public class LagerView extends StackPane {
+
+    private KartonView overlay;
     private Pane centerArea;
     private HBox inventoryBox;
     private Label profileNameField;
@@ -38,6 +40,7 @@ public class LagerView extends StackPane {
     private Label inventarTextField;
     private Button kartonButton;
     private final int CENTRALHIGHT;
+
 
     public LagerView() {
         setId("lager-view");
@@ -207,4 +210,16 @@ public class LagerView extends StackPane {
     public Button getKartonButton() {
         return kartonButton;
     }
+
+   /* public void setOverlay(KartonView overlay){
+        this.overlay = overlay;
+        getChildren().add(overlay);
+    }
+    private showOverlay(){
+        if ( overlay != null){
+            overlay.setVisible(true);
+        }
+    }
+
+    */
 }

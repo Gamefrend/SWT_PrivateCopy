@@ -103,6 +103,10 @@ public class StorageShelvesApplication extends Application {
 		profilManagerController.showPopup(primaryStage);
 	}
 
+	public void showKartonView(){
+
+	}
+
 	public static void main(String[] args) {
 		launch(args);
 	}
