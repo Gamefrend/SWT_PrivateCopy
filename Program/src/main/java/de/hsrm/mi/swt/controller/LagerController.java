@@ -37,6 +37,7 @@ public class LagerController {
     private Button skalierenButton;
     private Button moveButton;
     private Button kartonButton;
+    private Button deleteButton;
     private boolean saeuleButtonActive = false;
 
     private Runnable onChange;
@@ -55,6 +56,7 @@ public class LagerController {
         skalierenButton = lagerView.getSkalierenButton();
         moveButton = lagerView.getMoveButton();
         kartonButton = lagerView.getKartonButton();
+        deleteButton = lagerView.getDeleteButton();
         initialize(application.getAktuellerRaum());
         application.setRaumChangeListener(this::initialize);
     }
@@ -103,6 +105,7 @@ public class LagerController {
         brettButton.addEventHandler(ActionEvent.ACTION, e -> handleBrett());
         saueleButton.setOnMouseClicked(e -> handleSauele());
         kartonButton.addEventHandler(ActionEvent.ACTION, e -> handleKarton());
+        deleteButton.addEventHandler(ActionEvent.ACTION, e -> handleDelete());
 
         lagerView.getCenterArea().setOnMouseClicked(event -> {
             if (saeuleButtonActive) {
@@ -203,6 +206,30 @@ public class LagerController {
             xPosition = e.getSceneX();
         });
     }
+    private void handleDelete() {
+        boolean elementDeleted = false;
+
+        if (!aktuellerRaum.getRegal().getSaeulen().isEmpty()) {
+            Saeule letzteSaeule = aktuellerRaum.getRegal().getSaeulen().getLast();
+            aktuellerRaum.getRegal().getSaeulen().remove(letzteSaeule);
+            lagerView.getCenterArea().getChildren().remove(lagerView.getSaeuleRectangle()); // Assuming there's a method to get the graphical representation
+            System.out.println("Letzte Säule gelöscht");
+            elementDeleted = true;
+        }
+
+        if (!elementDeleted && !aktuellerRaum.getRegal().getRegalBretter().isEmpty()) {
+            RegalBrett letztesBrett = aktuellerRaum.getRegal().getRegalBretter().getLast();
+            aktuellerRaum.getRegal().getRegalBretter().remove(letztesBrett);
+            lagerView.getCenterArea().getChildren().remove(lagerView.getBrettRectangle()); // Assuming there's a method to get the graphical representation
+            System.out.println("Letztes Brett gelöscht");
+            elementDeleted = true;
+        }
+
+        if (!elementDeleted) {
+            System.out.println("Nichts zu löschen");
+        }
+    }
+
 
     public LagerView getRoot() {
         return lagerView;
