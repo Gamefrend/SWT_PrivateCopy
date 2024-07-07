@@ -38,7 +38,6 @@ public class LagerController {
     private Button settingsButton;
     private Button brettButton;
     private Button saueleButton;
-    private Button moveButton;
     private Button kartonButton;
     private Button deleteButton;
     private boolean saeuleButtonActive = false;
@@ -57,7 +56,6 @@ public class LagerController {
         settingsButton = lagerView.getSettingsButton();
         brettButton = lagerView.getBrettButton();
         saueleButton = lagerView.getSaueleButton();
-        moveButton = lagerView.getMoveButton();
         kartonButton = lagerView.getKartonButton();
         deleteButton = lagerView.getDeleteButton();
         kartonErstellenController = new KartonErstellenController();
