@@ -16,15 +16,17 @@ public class Karton implements Serializable {
     private transient ObjectProperty<Color> color;
     private transient IntegerProperty maxBelastung;
     private transient IntegerProperty xPosition;
+    private transient IntegerProperty yPosition; // Hinzugefügt für y-Koordinate
     private transient ObjectProperty<Ware> ware;
     private transient Rectangle rectangle;  // Rechteck, das den Karton visualisiert
 
-    public Karton(int width, int height, Color color, int maxBelastung, int xPosition, Ware ware) {
+    public Karton(int width, int height, Color color, int maxBelastung, int xPosition, int yPosition, Ware ware) {
         this.width = new SimpleIntegerProperty(width);
         this.height = new SimpleIntegerProperty(height);
         this.color = new SimpleObjectProperty<>(color);
         this.maxBelastung = new SimpleIntegerProperty(maxBelastung);
         this.xPosition = new SimpleIntegerProperty(xPosition);
+        this.yPosition = new SimpleIntegerProperty(yPosition);
         this.ware = new SimpleObjectProperty<>(ware);
         createRectangle();  // Rechteck erstellen und initialisieren
 
@@ -33,6 +35,7 @@ public class Karton implements Serializable {
         this.height.addListener((obs, oldVal, newVal) -> rectangle.setHeight(newVal.doubleValue()));
         this.color.addListener((obs, oldVal, newVal) -> rectangle.setFill(newVal));
         this.xPosition.addListener((obs, oldVal, newVal) -> rectangle.setX(newVal.doubleValue()));
+        this.yPosition.addListener((obs, oldVal, newVal) -> rectangle.setY(newVal.doubleValue())); // yPosition listener
     }
 
     /**
@@ -44,6 +47,7 @@ public class Karton implements Serializable {
         rectangle.setHeight(getHeight());
         rectangle.setFill(getColor());
         rectangle.setX(getXPosition());
+        rectangle.setY(getYPosition()); // yPosition setzen
     }
 
     /**
@@ -55,7 +59,7 @@ public class Karton implements Serializable {
         return rectangle;
     }
 
-    // Getter- und Setter-Methoden für die Breite, Höhe, Farbe, max. Belastung und X-Position des Kartons
+    // Getter- und Setter-Methoden für die Breite, Höhe, Farbe, max. Belastung und Position des Kartons
 
     public int getWidth() {
         return width.get();
@@ -117,6 +121,18 @@ public class Karton implements Serializable {
         return xPosition;
     }
 
+    public int getYPosition() {
+        return yPosition.get();
+    }
+
+    public void setYPosition(int yPosition) {
+        this.yPosition.set(yPosition);
+    }
+
+    public IntegerProperty yPositionProperty() {
+        return yPosition;
+    }
+
     public Ware getWare() {
         return ware.get();
     }
@@ -136,6 +152,7 @@ public class Karton implements Serializable {
         out.writeObject(getColor());
         out.writeInt(getMaxBelastung());
         out.writeInt(getXPosition());
+        out.writeInt(getYPosition()); // yPosition serialisieren
         out.writeObject(getWare());
     }
 
@@ -146,6 +163,7 @@ public class Karton implements Serializable {
         Color color = (Color) in.readObject();
         int maxBelastung = in.readInt();
         int xPosition = in.readInt();
+        int yPosition = in.readInt(); // yPosition deserialisieren
         Ware ware = (Ware) in.readObject();
 
         this.width = new SimpleIntegerProperty(width);
@@ -153,6 +171,7 @@ public class Karton implements Serializable {
         this.color = new SimpleObjectProperty<>(color);
         this.maxBelastung = new SimpleIntegerProperty(maxBelastung);
         this.xPosition = new SimpleIntegerProperty(xPosition);
+        this.yPosition = new SimpleIntegerProperty(yPosition);
         this.ware = new SimpleObjectProperty<>(ware);
 
         createRectangle();
@@ -162,5 +181,6 @@ public class Karton implements Serializable {
         this.height.addListener((obs, oldVal, newVal) -> rectangle.setHeight(newVal.doubleValue()));
         this.color.addListener((obs, oldVal, newVal) -> rectangle.setFill(newVal));
         this.xPosition.addListener((obs, oldVal, newVal) -> rectangle.setX(newVal.doubleValue()));
+        this.yPosition.addListener((obs, oldVal, newVal) -> rectangle.setY(newVal.doubleValue())); // yPosition listener
     }
 }

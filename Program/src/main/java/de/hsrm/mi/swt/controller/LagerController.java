@@ -17,6 +17,7 @@ import de.hsrm.mi.swt.view.lager.LagerView;
 import javafx.event.ActionEvent;
 import javafx.stage.Window;
 
+import java.awt.event.MouseEvent;
 import java.util.Map;
 
 public class LagerController {
@@ -39,6 +40,7 @@ public class LagerController {
     private boolean saeuleButtonActive = false;
 
     private Runnable onChange;
+    double xPosition=0;
 
     public LagerController(StorageShelvesApplication application, LagerView lagerView) {
         this.application = application;
@@ -63,6 +65,7 @@ public class LagerController {
         setupViewBindings();
         setupButtonHandlers();
         lagerView.redraw(aktuellerRaum);
+
     }
 
     private void setupRoom() {
@@ -100,6 +103,7 @@ public class LagerController {
         brettButton.addEventHandler(ActionEvent.ACTION, e -> handleBrett());
         saueleButton.addEventHandler(ActionEvent.ACTION, e -> handleSauele());
         kartonButton.addEventHandler(ActionEvent.ACTION, e -> handleKarton());
+
         lagerView.getCenterArea().setOnMouseClicked(event -> {
             if (saeuleButtonActive) {
                 double x = event.getX();
@@ -107,6 +111,7 @@ public class LagerController {
             }
         });
     }
+
 
     private void handleUndo() {
         // Undo-Logik muss noch implementiert werden
@@ -130,9 +135,22 @@ public class LagerController {
     public void handleBrett() {
         RegalBrett neuesBrett = new RegalBrett(100, 10, 1, 0);
         aktuellerRaum.getRegal().getRegalBretter().add(neuesBrett);
+
+        //das Drag-and-Drop-Eventhandling hinzufügen
+        lagerView.getBrettRectangle().setOnMousePressed(e -> {
+            xPosition = e.getSceneX();
+        });
+
+        lagerView.getBrettRectangle().setOnMouseDragged(e -> {
+            double offsetX = e.getSceneX() - xPosition;
+            double newTranslateX = lagerView.getBrettRectangle().getTranslateY() + offsetX;
+            lagerView.getBrettRectangle().setTranslateY(newTranslateX);
+            xPosition = e.getSceneX();
+        });
+
     }
 
-    public void handleSauele() {
+public void handleSauele() {
         saeuleButtonActive = !saeuleButtonActive;
         if (saeuleButtonActive) {
             saueleButton.getStyleClass().add("active-button");
@@ -140,6 +158,9 @@ public class LagerController {
             saueleButton.getStyleClass().remove("active-button");
         }
     }
+
+
+
 
     public void addSaeule(double x) {
         int positionX = (int) x;
@@ -151,8 +172,21 @@ public class LagerController {
     }
 
     public void handleKarton() {
-        aktuellerRaum.getRegal().getRegalBretter().get(0).getKartons().add(new Karton(50, 50, Color.FIREBRICK, 100, 20, null));
-        System.out.println(aktuellerRaum.getRegal().getRegalBretter().get(0).getKartons().toString());
+        RegalBrett regalBrett = aktuellerRaum.getRegal().getRegalBretter().get(0);
+        Karton karton = new Karton(50, 50, Color.FIREBRICK, 100, 0, 0, null);
+        regalBrett.getKartons().add(karton);
+        lagerView.getCenterArea().getChildren().add(karton.getRectangle()); // Rechteck zu der Ansicht hinzufügen
+
+        //das Drag-and-Drop-Eventhandling hinzufügen
+        lagerView.getKartonRectangle().setOnMousePressed(e -> {
+            xPosition = e.getSceneX();
+        });
+        lagerView.getKartonRectangle().setOnMouseDragged(e -> {
+            double offsetX = e.getSceneX() - xPosition;
+            double newTranslateX = lagerView.getKartonRectangle().getTranslateY() + offsetX;
+            lagerView.getKartonRectangle().setTranslateY(newTranslateX);
+            xPosition = e.getSceneX();
+        });
     }
 
     public LagerView getRoot() {
