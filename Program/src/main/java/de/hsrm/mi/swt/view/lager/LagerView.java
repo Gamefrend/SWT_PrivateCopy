@@ -14,6 +14,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -58,6 +60,12 @@ public class LagerView extends StackPane {
         menuButton = new Button("Menu");
         kartonButton = new Button("Karton");
 
+        setButtonIcon(menuButton, "/icons/home.png");
+        setButtonIcon(undoButton, "/icons/undo.png");
+        setButtonIcon(redoButton, "/icons/redo.png");
+        setButtonIcon(saveButton, "/icons/save.png");
+        setButtonIcon(settingsButton, "/icons/settings.png");
+
         // Buttons in einer HBox anordnen
         HBox unAndRedoBox = new HBox(10, undoButton, redoButton);
         HBox saveAndSettingsBox = new HBox(10, saveButton, settingsButton);
@@ -99,7 +107,7 @@ public class LagerView extends StackPane {
         HBox mainLayout = new HBox(toolBox, preMainLayout);
         getChildren().add(mainLayout);
 
-        
+
 
         getStylesheets().add(getClass().getResource("/css/globals.css").toExternalForm());
         getStylesheets().add(getClass().getResource("/css/lager.css").toExternalForm());
@@ -107,7 +115,7 @@ public class LagerView extends StackPane {
 
     }
 
-   
+
 
     public void setProfilname(String name) {
         this.profileNameField.setText(name);
@@ -165,6 +173,15 @@ public class LagerView extends StackPane {
             countSaeulen++;
         }
         System.out.println("Anzahl: "+ countSaeulen);
+    }
+
+    private void setButtonIcon(Button button, String iconPath) {
+        Image icon = new Image(getClass().getResourceAsStream(iconPath));
+        ImageView imageView = new ImageView(icon);
+        imageView.setFitWidth(70);
+        imageView.setFitHeight(70);
+        button.setGraphic(imageView);
+        button.getStyleClass().add("icon-button");
     }
 
     public ArrayList<Rectangle> getAllesSeuleRectangle() {

@@ -10,6 +10,24 @@
     -fx-padding: 40;
 }
 
+.icon-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+    -fx-content-display: graphic-only;
+    -fx-min-width: 70px;
+    -fx-min-height: 70px;
+    -fx-max-width: 70px;
+    -fx-max-height: 70px;
+}
+
+.icon-button:hover {
+    -fx-effect: dropshadow(gaussian, -fx-primary, 0, 0, 3, 3);
+}
+
+.icon-button:pressed {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 5, 0, 0, 0);
+}
+
 /* RaumErstellenView */
 
 .raum-erstellen-header {
