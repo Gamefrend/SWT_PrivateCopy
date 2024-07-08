@@ -88,21 +88,4 @@ public class Raum implements Serializable {
         out.writeObject(getRegal());
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
-        int hoehe = in.readInt();
-        int breite = in.readInt();
-        Regal regal = (Regal) in.readObject();
-
-        this.hoehe = new SimpleIntegerProperty(hoehe);
-        this.breite = new SimpleIntegerProperty(breite);
-        this.regal = new SimpleObjectProperty<>(regal);
-        this.onChange = new SimpleObjectProperty<>();
-
-        // Restore listeners
-        this.hoehe.addListener((obs, oldVal, newVal) -> triggerChange());
-        this.breite.addListener((obs, oldVal, newVal) -> triggerChange());
-        this.regal.addListener((obs, oldVal, newVal) -> triggerChange());
-
-    }
 }

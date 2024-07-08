@@ -6,7 +6,7 @@ import de.hsrm.mi.swt.model.save.Command;
 import de.hsrm.mi.swt.model.storage.Regal;
 import de.hsrm.mi.swt.model.storage.RegalBrett;
 import de.hsrm.mi.swt.model.storage.Saeule;
-import de.hsrm.mi.swt.view.uikomponente.Karton;
+import de.hsrm.mi.swt.model.storage.Karton;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Cursor;
@@ -42,8 +42,8 @@ public class LagerController {
     private Button settingsButton;
     private Button brettButton;
     private Button saueleButton;
-    private Button kartonButton;
     private Button deleteButton;
+    private Button addKartonButton;
     private boolean saeuleButtonActive = false;
     private KartonErstellenController kartonErstellenController;
     private boolean brettButtonActive = false;
@@ -65,9 +65,9 @@ public class LagerController {
         settingsButton = lagerView.getSettingsButton();
         brettButton = lagerView.getBrettButton();
         saueleButton = lagerView.getSaueleButton();
-        kartonButton = lagerView.getKartonButton();
         deleteButton = lagerView.getDeleteButton();
-        kartonErstellenController = new KartonErstellenController();
+        kartonErstellenController = new KartonErstellenController(application);
+        addKartonButton = lagerView.getAddKartonButton();
         initialize(application.getAktuellerRaum());
         application.setRaumChangeListener(this::initialize);
     }
@@ -116,11 +116,9 @@ public class LagerController {
 
         brettButton.setOnMouseClicked(e ->  handleBrett());
         saueleButton.setOnMouseClicked(e -> handleSauele());
-        kartonButton.addEventHandler(ActionEvent.ACTION, e -> handleKarton());
-
         deleteButton.setOnMouseClicked(e -> handleDelete());
 
-        lagerView.getAddKartonButton().setOnAction(e -> kartonErstellenController.showPopup(lagerView.getScene().getWindow()));
+        addKartonButton.setOnAction(e -> kartonErstellenController.showPopup(lagerView.getScene().getWindow()));
 
         lagerView.getCenterArea().setOnMouseClicked(event -> {
             if (saeuleButtonActive) {
@@ -165,18 +163,15 @@ public class LagerController {
                 if (!elementDeleted) {
                     System.out.println("No element found to delete.");
                 }
-                lagerView.redraw(application.getAktuellerRaum());
+
             }
-
-
             if (brettButtonActive){
-                double clickX = event.getX();
-                double clickY = event.getY();
-                int lueckenIndex = findLueckenIndex(clickX);
-                addBrett(lueckenIndex , clickY);
-                lagerView.redraw(application.getAktuellerRaum());
-
+                int lueckenIndex = findLueckenIndex(event.getX());
+                addBrett(lueckenIndex , event.getY());
             }
+            lagerView.redraw(application.getAktuellerRaum());
+
+
         });
     }
 
@@ -216,8 +211,8 @@ public class LagerController {
     }
 
     public void handleBrett() {
-
         brettButtonActive = !brettButtonActive;
+        updateToolButtonStyles();
 
         if (deleteButtonActive ){
             deleteButtonActive = false ;
@@ -280,6 +275,8 @@ public class LagerController {
 
     public void handleSauele() {
         saeuleButtonActive = !saeuleButtonActive;
+        updateToolButtonStyles();
+
         if(deleteButtonActive){
             deleteButtonActive = false;
             deleteButton.getStyleClass().remove("active-button");
@@ -357,15 +354,11 @@ public class LagerController {
         return saeuleButtonActive;
     }
 
-    public void handleKarton() {
-        RegalBrett regalBrett = aktuellerRaum.getRegal().getRegalBretter().get(0);
-        Karton karton = new Karton(50, 50, Color.FIREBRICK, 100, 0, 0, null);
-        regalBrett.getKartons().add(karton);
-        lagerView.getCenterArea().getChildren().add(karton.getRectangle()); // Rechteck zu der Ansicht hinzufügen
-    }
 
     public void handleDelete() {
         deleteButtonActive = !deleteButtonActive;
+        updateToolButtonStyles();
+
         if (deleteButtonActive) {
             if(saeuleButtonActive){
                 saeuleButtonActive = false;
@@ -379,7 +372,23 @@ public class LagerController {
         } else {
             deleteButton.getStyleClass().remove("active-button");
         }
-        
+
+    }
+
+    private void updateToolButtonStyles() {
+        lagerView.getSaueleButton().getStyleClass().remove("tool-button-selected");
+        lagerView.getBrettButton().getStyleClass().remove("tool-button-selected");
+        lagerView.getDeleteButton().getStyleClass().remove("tool-button-selected");
+
+        if (saeuleButtonActive) {
+            lagerView.getSaueleButton().getStyleClass().add("tool-button-selected");
+        }
+        if (brettButtonActive) {
+            lagerView.getBrettButton().getStyleClass().add("tool-button-selected");
+        }
+        if (deleteButtonActive) {
+            lagerView.getDeleteButton().getStyleClass().add("tool-button-selected");
+        }
     }
 
     private boolean isClickInsideSaeule(Saeule saeule, double clickX, double clickY) {
@@ -400,13 +409,13 @@ public class LagerController {
 
     private boolean isClickInsideKarton(Karton karton, double clickX, double clickY) {
         double kartonX = karton.getXPosition();
-        double kartonY = karton.getYPosition();
-        double kartonWidth = karton.getWidth();
-        double kartonHeight = karton.getHeight();
+       // double kartonY = karton.getYPosition();
+        //double kartonWidth = karton.getWidth();
+        //double kartonHeight = karton.getHeight();
 
-
-        return (clickX >= kartonX && clickX <= kartonX + kartonWidth &&
-                clickY >= kartonY && clickY <= kartonY + kartonHeight);
+        return false;
+       // return (clickX >= kartonX && clickX <= kartonX + kartonWidth &&
+         //       clickY >= kartonY && clickY <= kartonY + kartonHeight);
     }
 
     public LagerView getRoot() {

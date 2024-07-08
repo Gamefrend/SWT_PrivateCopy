@@ -1,7 +1,7 @@
 package de.hsrm.mi.swt.view.lager;
 
 import de.hsrm.mi.swt.model.storage.*;
-import de.hsrm.mi.swt.view.uikomponente.Karton;
+import de.hsrm.mi.swt.model.storage.Karton;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -44,7 +44,7 @@ public class LagerView extends StackPane {
 
     public LagerView() {
         setId("lager-view");
-        setPadding(new Insets(20));
+        setPadding(new Insets(20, 20, 0, 20));
 
         // Textfeld für den Profilnamen
         profileNameField = new Label("Profilname eingeben");
@@ -83,10 +83,16 @@ public class LagerView extends StackPane {
         addKartonButton = createIconButton("/icons/inventory-add.png", 50, 50);
         addKartonButton.getStyleClass().add("inventory-add-button");
 
-        // Create buttons with icons
+        // tools
         saueleButton = createIconButton("/icons/sauele.png", 42, 42);
+        saueleButton.getStyleClass().add("tool-button");
+
         brettButton = createIconButton("/icons/bretter.png", 42, 42);
+        brettButton.getStyleClass().add("tool-button");
+
         deleteButton = createIconButton("/icons/trash-tool.png", 42, 42);
+        deleteButton.getStyleClass().add("tool-button");
+
 
         // Create toolbox
         HBox toolBox = new HBox(10, saueleButton, brettButton, deleteButton);
@@ -108,7 +114,14 @@ public class LagerView extends StackPane {
         preMainLayout.setAlignment(Pos.CENTER);
 
         // Hauptlayout
-        getChildren().add(preMainLayout);
+        VBox mainLayout = new VBox(40);
+        mainLayout.getChildren().addAll(headerBox, centerArea, toolBox, inventoryBox);
+        mainLayout.setAlignment(Pos.TOP_LEFT);
+
+        StackPane wrapper = new StackPane(mainLayout);
+        wrapper.setAlignment(Pos.TOP_LEFT);
+
+        getChildren().add(wrapper);
 
         getStylesheets().add(getClass().getResource("/css/globals.css").toExternalForm());
         getStylesheets().add(getClass().getResource("/css/lager.css").toExternalForm());
@@ -148,11 +161,11 @@ public class LagerView extends StackPane {
                 for (Karton karton : brett.getKartons()) {
                     if (karton != null) {
                         kartonRectangle = new Rectangle();
-                        kartonRectangle.setHeight(karton.getHeight()); // Höhe der Säule
-                        kartonRectangle.setWidth(karton.getWidth()); // Breite der Säule
-                        kartonRectangle.setX(xPosition + karton.getXPosition()); // Position der Säule
-                        kartonRectangle.setY(brett.getHoehe() - karton.getHeight()); // Start bei 0 Y-Achse
-                        kartonRectangle.setFill(Color.RED); // Farbe der Säule
+                        kartonRectangle.setHeight(karton.getHoehe());
+                        kartonRectangle.setWidth(karton.getBreite());
+                        kartonRectangle.setX(xPosition + karton.getXPosition());
+                        kartonRectangle.setY(brett.getHoehe()+(brett.getDicke()/2) - karton.getHoehe());
+                        kartonRectangle.setFill(Color.RED);
                         kartonRectangle.setId(" Brett " + countBretter +" Karton" + countKarton);
                         centerArea.getChildren().add(kartonRectangle);
                         countKarton++;
@@ -174,7 +187,18 @@ public class LagerView extends StackPane {
             centerArea.getChildren().add(saeuleRectangle);
             countSaeulen++;
         }
-        System.out.println("Anzahl: "+ countSaeulen);
+        int countKarton = 0;
+        for(Karton karton : raum.getRegal().getUebrigesInventar().getKartons()){
+            kartonRectangle = new Rectangle();
+            kartonRectangle.setHeight(50);
+            kartonRectangle.setWidth(50);
+            kartonRectangle.setX(countKarton * 50 + 20); // im Inventar immer 'x'px weiter + 'y'px abstand zum nächsten
+            kartonRectangle.setY(20);
+            kartonRectangle.setFill(Color.RED);
+            kartonRectangle.setId(" Inventar:" + " Karton" + countKarton);
+            inventoryBox.getChildren().add(kartonRectangle);
+            countKarton++;
+        }
     }
 
     private void setButtonIcon(Button button, String iconPath) {

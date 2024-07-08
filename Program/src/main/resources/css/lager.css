@@ -113,9 +113,12 @@
 }
 
 .inventory-add-button {
+    -fx-min-width: 50px;
+    -fx-min-height: 50px;
+    -fx-max-width: 50px;
+    -fx-max-height: 50px;
     -fx-background-color: transparent;
     -fx-padding: 0;
-    -fx-effect: dropshadow(gaussian, #0029FF, 63, 0, 0, 0);
 }
 
 .inventory-add-button:hover {
@@ -126,10 +129,38 @@
     -fx-effect: dropshadow(gaussian, #0029FF, 32, 0, 0, 0);
 }
 
+/* Toolbox icon styles */
+.tool-button {
+    -fx-background-color: transparent;
+    -fx-padding: 5;
+    -fx-border-color: transparent;
+    -fx-border-width: 2;
+    -fx-border-radius: 5;
+}
+
+.tool-button:hover {
+    -fx-background-color: #E0E0E0;
+    -fx-border-color: #BDBDBD;
+}
+
+.tool-button:pressed {
+    -fx-background-color: #BDBDBD;
+}
+
 .tool-button.selected {
     -fx-background-color: #0029FF;
+    -fx-border-color: #001FCC;
+}
+
+.tool-button-selected {
+    -fx-background-color: -fx-offwhite;
 }
 
 .tool-button.selected:hover {
     -fx-background-color: #001FCC;
+    -fx-border-color: #001499;
+}
+
+.tool-button.selected .image-view {
+    -fx-effect: dropshadow(gaussian, white, 10, 0, 0, 0);
 }
