@@ -35,7 +35,7 @@ public class KartonErstellenView extends VBox {
         nameField = createTextField("Name");
         anzahlField = createTextField("Anzahl");
         breiteField = createTextField("Breite");
-        hoeheField = createTextField("Höhe");
+        hoeheField = createTextField("H\u00F6he");
         gewichtField = createTextField("Gewicht");
         mhdField = createTextField("MHD (YYYY-MM-DD)");
 
@@ -50,12 +50,12 @@ public class KartonErstellenView extends VBox {
 
         lebensmittelCheck = createCheckBox("Lebensmittel");
         giftigCheck = createCheckBox("Giftig");
-        gekuehltCheck = createCheckBox("Gekühlt");
+        gekuehltCheck = createCheckBox("Gek\u00FChlt");
 
         VBox checkboxes = new VBox(10, eigenschaften,
                 createCheckBoxWithLabel(lebensmittelCheck, "Lebensmittel"),
                 createCheckBoxWithLabel(giftigCheck, "Giftig"),
-                createCheckBoxWithLabel(gekuehltCheck, "Gekühlt")
+                createCheckBoxWithLabel(gekuehltCheck, "Gek\u00FChlt")
         );
 
         createButton = new Button("Artikel erstellen");

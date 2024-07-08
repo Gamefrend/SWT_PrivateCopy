@@ -71,7 +71,7 @@ public class ProfilZelle extends ListCell<SpeicherProfil> {
         if (item != null) {
             TextInputDialog dialog = new TextInputDialog(item.getSaveName());
             dialog.setTitle("Profil umbenennen");
-            dialog.setHeaderText("Geben Sie einen neuen Namen für das Profil ein");
+            dialog.setHeaderText("Geben Sie einen neuen Namen f\u00FCr das Profil ein");
             dialog.setContentText("Neuer Name:");
 
             Optional<String> result = dialog.showAndWait();

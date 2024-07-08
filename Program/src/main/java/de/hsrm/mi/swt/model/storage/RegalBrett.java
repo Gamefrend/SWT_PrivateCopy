@@ -49,7 +49,7 @@ public class RegalBrett implements Serializable {
     }
     private void triggerChange() {
         if (onChange.get() != null) {
-            System.out.println("Änderungen im Regalbrett erkannt");
+            System.out.println("\u00C4nderungen im Regalbrett erkannt");
             onChange.get().run();
         }
     }

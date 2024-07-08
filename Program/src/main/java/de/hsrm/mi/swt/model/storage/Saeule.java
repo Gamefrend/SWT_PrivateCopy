@@ -15,7 +15,7 @@ public class Saeule implements Serializable {
     public Saeule(int positionX) {
         if (positionX > 1300 || positionX < 0) {
             System.out.println(positionX);
-            System.err.println("Säulen müssen zwischen 0 und 1300 platziert werden!");
+            System.err.println("S\u00E4ulen m\u00FCssen zwischen 0 und 1300 platziert werden!");
             this.positionX = new SimpleIntegerProperty(Math.min(Math.max(positionX, 0), 1300));
             onChange = new SimpleObjectProperty<>();
         } else {
@@ -26,7 +26,7 @@ public class Saeule implements Serializable {
     }
     private void triggerChange() {
         // Hier können Sie weitere Logik hinzufügen, falls notwendig
-        System.out.println("Änderung in Säule.");
+        System.out.println("\u00C4nderung in S\u00E4ule.");
         if (onChange.get() != null) {
             onChange.get().run();
         }

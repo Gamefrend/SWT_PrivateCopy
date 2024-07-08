@@ -39,9 +39,9 @@ public class Profilauswahl {
             // Remove the profile from the list
             speicherProfile.remove(speicherProfil);
 
-            System.out.println("Profile files erfolgreich gelöscht");
+            System.out.println("Profile files erfolgreich gel\u00F6scht");
         } catch (IOException e) {
-            System.err.println("Fehler beim löschen: " + e.getMessage());
+            System.err.println("Fehler beim l\u00F6schen: " + e.getMessage());
             e.printStackTrace();
         }
     }
