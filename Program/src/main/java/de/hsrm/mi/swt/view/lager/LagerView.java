@@ -6,6 +6,7 @@ import de.hsrm.mi.swt.model.storage.Karton;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -158,7 +159,19 @@ public class LagerView extends StackPane {
 
     public void redraw(Raum raum) {
         centerArea.getChildren().clear();
-        inventoryBox.getChildren().clear();
+        ArrayList<Node> toBeRemover = new ArrayList<>();
+        for(Node node :  inventoryBox.getChildren()){
+            if(node != null) {
+                if(node.getId() != null) {
+                    if (node.getId().contains("Inventar")) {
+                        toBeRemover.add(node);
+                    }
+                }
+            }
+        }
+        for (Node node : toBeRemover){
+            inventoryBox.getChildren().remove(node);
+        }
         int raumHoehe = raum.getHoehe();
         int countBretter = 0;
         for (RegalBrett brett : raum.getRegal().getRegalBretter()) {
