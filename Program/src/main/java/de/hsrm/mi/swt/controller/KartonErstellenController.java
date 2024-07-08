@@ -1,5 +1,6 @@
 package de.hsrm.mi.swt.controller;
 
+import de.hsrm.mi.swt.app.StorageShelvesApplication;
 import de.hsrm.mi.swt.model.storage.Karton;
 import de.hsrm.mi.swt.model.storage.Typ;
 import de.hsrm.mi.swt.model.storage.Ware;
@@ -15,7 +16,10 @@ public class KartonErstellenController {
     private KartonErstellenView view;
     private Popup popup;
 
-    public KartonErstellenController() {
+    StorageShelvesApplication application;
+
+    public KartonErstellenController(StorageShelvesApplication application) {
+        this.application = application;
         this.view = new KartonErstellenView();
         this.popup = new Popup();
         this.popup.getContent().add(view);
@@ -63,7 +67,7 @@ public class KartonErstellenController {
             if (isValid) {
                 Ware ware = new Ware(name, hoehe, gewicht, 0, mhd, typ);
                 Karton karton = new Karton(gewicht, breite, hoehe, 1000, 0, ware);
-
+                application.getAktuellerRaum().getRegal().getUebrigesInventar().addKarton(karton);
                 // Here you would add the karton to your inventory or storage system
                 System.out.println("Karton created: " + karton);
 

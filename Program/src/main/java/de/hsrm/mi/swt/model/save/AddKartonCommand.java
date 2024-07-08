@@ -1,6 +1,6 @@
 package de.hsrm.mi.swt.model.save;
 
-import de.hsrm.mi.swt.view.uikomponente.Karton;
+import de.hsrm.mi.swt.model.storage.Karton;
 import de.hsrm.mi.swt.model.storage.RegalBrett;
 import de.hsrm.mi.swt.view.lager.KartonErstellenView;
 import javafx.scene.layout.Pane;
