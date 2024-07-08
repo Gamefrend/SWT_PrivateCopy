@@ -170,15 +170,14 @@ public class LagerController {
                     System.out.println("No element found to delete.");
                 }
 
-                if (brettButtonActive){
-                    int lueckenIndex = findLueckenIndex(clickX);
-                    addBrett(lueckenIndex , clickY);
-
-
-                }
-
-                lagerView.redraw(application.getAktuellerRaum());
             }
+            if (brettButtonActive){
+                int lueckenIndex = findLueckenIndex(event.getX());
+                addBrett(lueckenIndex , event.getY());
+            }
+            lagerView.redraw(application.getAktuellerRaum());
+
+
         });
     }
 
