@@ -44,6 +44,7 @@ public class LagerController {
     private Button saueleButton;
     private Button kartonButton;
     private Button deleteButton;
+    private Button addKartonButton;
     private boolean saeuleButtonActive = false;
     private KartonErstellenController kartonErstellenController;
     private boolean brettButtonActive = false;
@@ -68,6 +69,7 @@ public class LagerController {
         kartonButton = lagerView.getKartonButton();
         deleteButton = lagerView.getDeleteButton();
         kartonErstellenController = new KartonErstellenController();
+        addKartonButton = lagerView.getAddKartonButton();
         initialize(application.getAktuellerRaum());
         application.setRaumChangeListener(this::initialize);
     }
@@ -120,7 +122,7 @@ public class LagerController {
 
         deleteButton.setOnMouseClicked(e -> handleDelete());
 
-        lagerView.getAddKartonButton().setOnAction(e -> kartonErstellenController.showPopup(lagerView.getScene().getWindow()));
+        addKartonButton.setOnAction(e -> kartonErstellenController.showPopup(lagerView.getScene().getWindow()));
 
         lagerView.getCenterArea().setOnMouseClicked(event -> {
             if (saeuleButtonActive) {
