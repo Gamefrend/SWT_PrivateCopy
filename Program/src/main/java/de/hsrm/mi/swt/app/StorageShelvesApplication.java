@@ -88,10 +88,14 @@ public class StorageShelvesApplication extends Application {
 
     public void ladeNeustesSpeicherprofil() {
         aktuellesSpeicherprofil = profilauswahl.getNeustesProfil();
-        setAktuellesSpeicherprofil(aktuellesSpeicherprofil);
-        aktuellerRaum = aktuellesSpeicherprofil.load();
-        if (raumChangeListener != null) {
-            raumChangeListener.onRaumChange(aktuellerRaum);
+        Raum loadedRaum = aktuellesSpeicherprofil.load();
+        if (loadedRaum != null) {
+            aktuellerRaum = loadedRaum;
+            if (raumChangeListener != null) {
+                raumChangeListener.onRaumChange(aktuellerRaum);
+            }
+        } else {
+            System.err.println("Letzten Raum laden Fehlgeschlagen");
         }
     }
 

@@ -76,14 +76,25 @@ public class Profilauswahl {
         }
     }
 
-    public void reloadSpeicherProfile(){
+    public void reloadSpeicherProfile() {
         speicherProfile = new ArrayList<>();
         File directory = new File("src/main/resources/saves/");
-        for(File file : directory.listFiles())
-            if(file.getName().endsWith(".StorageShelves")){
-                speicherProfile.add(new SpeicherProfil(file.getName().replace(".StorageShelves","")));
+        if (directory.exists() && directory.isDirectory()) {
+            for (File file : directory.listFiles()) {
+                if (file.getName().endsWith(".StorageShelves")) {
+                    try {
+                        SpeicherProfil profile = new SpeicherProfil(file.getName().replace(".StorageShelves", ""));
+                        speicherProfile.add(profile);
+                    } catch (Exception e) {
+                        System.err.println("Error loading profile: " + file.getName());
+                        e.printStackTrace();
+                    }
+                }
             }
+        }
+        System.out.println("Loaded " + speicherProfile.size() + " profiles");
     }
+
     public void ceateTestProfile(){
         Raum r1 = new Raum(2000, 5000);
         Raum r2 = new Raum(4000, 300);
