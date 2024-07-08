@@ -11,7 +11,6 @@ import java.time.LocalDate;
 class SpeichProfilTest{
     @Test
     public void neuerKartonTest(){
-        System.out.println("HALOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-        //Karton karton = new Karton(1,1,1,1,1,new Ware("Testware",2,3,4, LocalDate.now(), new Typ(true,false,false)));
+        System.out.println("Idk wie das funktioniert :c");
     }
 }

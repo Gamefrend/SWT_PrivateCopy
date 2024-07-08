@@ -54,7 +54,7 @@ public class KartonErstellenController {
             String name = validateTextField(view.getNameField(), "Name");
             int anzahl = validateIntegerField(view.getAnzahlField(), "Anzahl");
             int breite = validateIntegerField(view.getBreiteField(), "Breite");
-            int hoehe = validateIntegerField(view.getHoeheField(), "Höhe");
+            int hoehe = validateIntegerField(view.getHoeheField(), "H\u00F6he");
             int gewicht = validateIntegerField(view.getGewichtField(), "Gewicht");
             LocalDate mhd = validateDateField(view.getMhdField(), "MHD");
 

@@ -26,7 +26,7 @@ public class Inventar implements Serializable {
     }
 
     private void triggerChange() {
-        System.out.println("Änderung im Inventar erkannt.");
+        System.out.println("\u00C4nderung im Inventar erkannt.");
         if (onChange.get() != null) {
             onChange.get().run();
         }

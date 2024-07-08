@@ -48,7 +48,7 @@ public class RaumErstellenView extends VBox {
         nameField.getStyleClass().addAll("raum-input", "copy");
 
         hoeheField = new TextField();
-        hoeheField.setPromptText("Höhe");
+        hoeheField.setPromptText("H\u00F6he");
         hoeheField.getStyleClass().addAll("raum-input", "copy");
 
         breiteField = new TextField();
