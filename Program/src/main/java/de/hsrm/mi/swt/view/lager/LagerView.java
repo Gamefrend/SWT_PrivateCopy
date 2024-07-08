@@ -1,5 +1,6 @@
 package de.hsrm.mi.swt.view.lager;
 
+import de.hsrm.mi.swt.model.save.SpeicherProfil;
 import de.hsrm.mi.swt.model.storage.*;
 import de.hsrm.mi.swt.model.storage.Karton;
 import javafx.collections.FXCollections;
@@ -35,12 +36,13 @@ public class LagerView extends StackPane {
     private Button deleteButton;
     private Label inventarTextField;
     private Button kartonButton;
-    private final int CENTRALHIGHT;
+    private int CENTRALHIGHT;
     private Rectangle brettRectangle;
     private Rectangle saeuleRectangle;
     private ArrayList<Rectangle> allesSeuleRectangle;
     private Rectangle kartonRectangle;
     private Button addKartonButton;
+    private SpeicherProfil speicherProfil;
 
     public LagerView() {
         setId("lager-view");
@@ -128,8 +130,22 @@ public class LagerView extends StackPane {
 
     }
 
+    public LagerView(SpeicherProfil speicherProfil) {
+        this.speicherProfil = speicherProfil;
+        profileNameField.setText(speicherProfil.getSaveName());
+    }
+
     public void setProfilname(String name) {
-        this.profileNameField.setText(name);
+        if (name != null) {
+            this.profileNameField.setText(name);
+        } else {
+            this.profileNameField.setText("Kein Profil angelegt");
+        }
+    }
+
+    public void updateSpeicherProfil(SpeicherProfil speicherProfil) {
+        this.speicherProfil = speicherProfil;
+        profileNameField.setText(speicherProfil.getSaveName());
     }
 
     public void bindModel(Raum raum) {

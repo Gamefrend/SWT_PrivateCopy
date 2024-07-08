@@ -3,35 +3,40 @@ package de.hsrm.mi.swt.controller;
 import de.hsrm.mi.swt.app.StorageShelvesApplication;
 import de.hsrm.mi.swt.model.save.SpeicherProfil;
 import de.hsrm.mi.swt.model.storage.Raum;
+import de.hsrm.mi.swt.view.PrimaryViewName;
 import de.hsrm.mi.swt.view.lager.RaumErstellenView;
-import javafx.application.Platform;
 import javafx.stage.Popup;
 import javafx.stage.Window;
-import de.hsrm.mi.swt.view.PrimaryViewName;
 
 public class RaumErstellenController {
+    private RaumErstellenView view;
     private StorageShelvesApplication application;
-    private RaumErstellenView raumErstellenView;
     private Popup popup;
+    private boolean isEditing;
 
-    public RaumErstellenController(StorageShelvesApplication application, RaumErstellenView raumErstellenView) {
+    public RaumErstellenController(StorageShelvesApplication application) {
         this.application = application;
-        this.raumErstellenView = raumErstellenView;
         this.popup = new Popup();
-        this.popup.getContent().add(raumErstellenView);
-
-        initialize();
     }
 
-    private void initialize() {
-        raumErstellenView.getCloseButton().setOnAction(e -> hidePopup());
-        raumErstellenView.getCreateButton().setOnAction(e -> createLagersystem());
-    }
+    public void showPopup(Window owner, boolean isEditing) {
+        this.isEditing = isEditing;
+        view = new RaumErstellenView(isEditing);
+        popup = new Popup();
+        popup.getContent().add(view);
 
-    public void showPopup(Window owner) {
-        if (!popup.isShowing()) {
-            popup.show(owner);
+        if (isEditing) {
+            SpeicherProfil currentProfil = application.getAktuellesSpeicherprofil();
+            Raum currentRaum = application.getAktuellerRaum();
+            view.setValues(currentProfil.getSaveName(), currentRaum.getHoehe(), currentRaum.getBreite());
+        } else {
+            view.clearValues();
         }
+
+        view.getCloseButton().setOnAction(e -> hidePopup());
+        view.getActionButton().setOnAction(e -> handleAction());
+
+        popup.show(owner);
     }
 
     public void hidePopup() {
@@ -40,24 +45,53 @@ public class RaumErstellenController {
         }
     }
 
-    private void createLagersystem() {
+    private void handleAction() {
+        boolean isValid = true;
+        String name = view.getNameField().getText();
+        int hoehe = 0, breite = 0;
+
+        view.clearInvalidInput(view.getNameField());
+        view.clearInvalidInput(view.getHoeheField());
+        view.clearInvalidInput(view.getBreiteField());
+
+        if (name.isEmpty()) {
+            view.setInvalidInput(view.getNameField());
+            isValid = false;
+        }
+
         try {
-            String name = raumErstellenView.getNameField().getText();
-            int hoehe = Integer.parseInt(raumErstellenView.getHoeheField().getText());
-            int breite = Integer.parseInt(raumErstellenView.getBreiteField().getText());
-
-            if (name.isEmpty()) {
-                throw new IllegalArgumentException("Name darf nicht leer sein");
-            }
-
-            application.setAktuellerRaum(new Raum(hoehe, breite));
-            application.setAktuellesSpeicherprofil(new SpeicherProfil(name));
-            application.switchView(PrimaryViewName.LagerView);
-            hidePopup();
+            hoehe = Integer.parseInt(view.getHoeheField().getText());
         } catch (NumberFormatException e) {
-            System.err.println("Ungültige Eingabe für Höhe oder Breite");
-        } catch (IllegalArgumentException e) {
-            System.err.println(e.getMessage());
+            view.setInvalidInput(view.getHoeheField());
+            isValid = false;
+        }
+
+        try {
+            breite = Integer.parseInt(view.getBreiteField().getText());
+        } catch (NumberFormatException e) {
+            view.setInvalidInput(view.getBreiteField());
+            isValid = false;
+        }
+
+        if (isValid) {
+            if (isEditing) {
+                SpeicherProfil currentProfil = application.getAktuellesSpeicherprofil();
+                currentProfil.setSaveName(name);
+                Raum currentRaum = application.getAktuellerRaum();
+                currentRaum.setHoehe(hoehe);
+                currentRaum.setBreite(breite);
+                currentProfil.save(currentRaum);
+
+                application.getLagerController().updateProfileName();
+            } else {
+                Raum newRaum = new Raum(hoehe, breite);
+                SpeicherProfil newProfil = new SpeicherProfil(name);
+                application.setAktuellerRaum(newRaum);
+                application.setAktuellesSpeicherprofil(newProfil);
+                application.switchView(PrimaryViewName.LagerView);
+            }
+            hidePopup();
         }
     }
+
 }

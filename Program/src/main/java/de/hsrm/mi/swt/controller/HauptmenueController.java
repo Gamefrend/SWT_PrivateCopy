@@ -40,7 +40,7 @@ public class HauptmenueController {
     }
 
     public void initialize() {
-        neuesLagerBtn.addEventHandler(ActionEvent.ACTION, e -> raumErstellenController.showPopup(application.getPrimaryStage()));
+        neuesLagerBtn.addEventHandler(ActionEvent.ACTION, e -> raumErstellenController.showPopup(application.getPrimaryStage(), false));
         manageProfileButton.addEventHandler(ActionEvent.ACTION, e -> application.showProfilManager());
         loadProfileButton.addEventHandler(ActionEvent.ACTION, e -> {
             application.ladeNeustesSpeicherprofil();
