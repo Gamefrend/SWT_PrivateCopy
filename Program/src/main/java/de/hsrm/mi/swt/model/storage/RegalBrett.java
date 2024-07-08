@@ -1,6 +1,5 @@
 package de.hsrm.mi.swt.model.storage;
 
-import de.hsrm.mi.swt.view.uikomponente.Karton;
 import javafx.beans.Observable;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -17,7 +16,6 @@ public class RegalBrett implements Serializable {
     private int dicke;
     private int maxBelastung;
     private int lueckenIndex;
-   // private List<Karton> kartons;
    private transient ObservableList<Karton> kartons;
    private transient ObjectProperty<Runnable> onChange;
 
@@ -29,13 +27,10 @@ public class RegalBrett implements Serializable {
         this.dicke = dicke;
         this.maxBelastung = maxBelastung;
         this.lueckenIndex = lueckenIndex;
-        //this.kartons = new ArrayList<>();
 
         this.onChange = new SimpleObjectProperty<>();
         this.kartons = FXCollections.observableArrayList();
         this.kartons.addListener((Observable obs) -> triggerChange());
-        this.onChange = new SimpleObjectProperty<>();
-        //this.kartons.get(0).setOnChangeListener(this::triggerChange);
     }
 
 

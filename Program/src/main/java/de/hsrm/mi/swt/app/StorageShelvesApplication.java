@@ -47,8 +47,13 @@ public class StorageShelvesApplication extends Application {
         // Kommentar wegmachen um TestSaves zu erstellen
         // profilauswahl.createTestProfile();
 
-        raumErstellenView = new RaumErstellenView();
-        raumErstellenController = new RaumErstellenController(this, raumErstellenView);
+        this.aktuellesSpeicherprofil = new SpeicherProfil("Standardprofil");
+        this.aktuellerRaum = new Raum(2000, 3000);
+        lagerView = new LagerView();
+        lagerController = new LagerController(this, lagerView);
+
+        raumErstellenView = new RaumErstellenView(false);
+        raumErstellenController = new RaumErstellenController(this);
 
         HauptmenueView mainMenuView = new HauptmenueView(this);
         HauptmenueController hauptmenueController = new HauptmenueController(this, mainMenuView);
@@ -58,9 +63,6 @@ public class StorageShelvesApplication extends Application {
         profilManagerController = new ProfilManagerController(this);
         primaryViews.put(PrimaryViewName.ProfilLadenView, profilManagerView);
 
-        lagerView = new LagerView();
-        SpeicherProfil speicherProfil = new SpeicherProfil("1");
-        lagerController = new LagerController(this, lagerView);
         primaryViews.put(PrimaryViewName.LagerView, lagerView);
     }
 
@@ -80,10 +82,23 @@ public class StorageShelvesApplication extends Application {
         primaryStage.show();
     }
 
+    public void showRaumErstellenPopup(boolean isEditing) {
+        raumErstellenController.showPopup(primaryStage, isEditing);
+    }
+
+    public void ladeNeustesSpeicherprofil() {
+        aktuellesSpeicherprofil = profilauswahl.getNeustesProfil();
+        setAktuellesSpeicherprofil(aktuellesSpeicherprofil);
+        aktuellerRaum = aktuellesSpeicherprofil.load();
+        if (raumChangeListener != null) {
+            raumChangeListener.onRaumChange(aktuellerRaum);
+        }
+    }
+
     public void switchView(PrimaryViewName viewName) {
         Scene currentScene = primaryStage.getScene();
         Pane nextView = primaryViews.get(viewName);
-        if(viewName.name().equals("LagerView")){
+        if (viewName == PrimaryViewName.LagerView) {
             lagerController.initialize(aktuellerRaum);
         }
         if (nextView != null) {
@@ -98,6 +113,7 @@ public class StorageShelvesApplication extends Application {
     public RaumErstellenController getRaumErstellenController() {
         return raumErstellenController;
     }
+
     public LagerController getLagerController() {
         return lagerController;
     }
@@ -129,20 +145,16 @@ public class StorageShelvesApplication extends Application {
         return aktuellesSpeicherprofil;
     }
 
-    public void setAktuellesSpeicherprofil(SpeicherProfil aktuellesSpeicherprofil) {
-        this.aktuellesSpeicherprofil = aktuellesSpeicherprofil;
-    }
-
-    public void ladeNeustesSpeicherprofil() {
-        aktuellesSpeicherprofil = profilauswahl.getNeustesProfil();
-        aktuellerRaum = aktuellesSpeicherprofil.load();
-        if (raumChangeListener != null) {
-            raumChangeListener.onRaumChange(aktuellerRaum);
-        }
-    }
 
     public void showProfilManager() {
         profilManagerController.showPopup(primaryStage);
+    }
+
+    public void setAktuellesSpeicherprofil(SpeicherProfil speicherProfil) {
+        this.aktuellesSpeicherprofil = speicherProfil;
+        if (lagerController != null) {
+            lagerController.setAktuellesSpeicherprofil(speicherProfil);
+        }
     }
 
     public Profilauswahl getProfilauswahl() {

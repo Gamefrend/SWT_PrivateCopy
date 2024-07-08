@@ -1,10 +1,12 @@
 package de.hsrm.mi.swt.view.lager;
 
+import de.hsrm.mi.swt.model.save.SpeicherProfil;
 import de.hsrm.mi.swt.model.storage.*;
-import de.hsrm.mi.swt.view.uikomponente.Karton;
+import de.hsrm.mi.swt.model.storage.Karton;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -35,12 +37,14 @@ public class LagerView extends StackPane {
     private Button deleteButton;
     private Label inventarTextField;
     private Button kartonButton;
-    private final int CENTRALHIGHT;
+    private int CENTRALHIGHT;
     private Rectangle brettRectangle;
     private Rectangle saeuleRectangle;
     private ArrayList<Rectangle> allesSeuleRectangle;
     private Rectangle kartonRectangle;
+    private Label kartonAnzahl;
     private Button addKartonButton;
+    private SpeicherProfil speicherProfil;
 
     public LagerView() {
         setId("lager-view");
@@ -128,8 +132,22 @@ public class LagerView extends StackPane {
 
     }
 
+    public LagerView(SpeicherProfil speicherProfil) {
+        this.speicherProfil = speicherProfil;
+        profileNameField.setText(speicherProfil.getSaveName());
+    }
+
     public void setProfilname(String name) {
-        this.profileNameField.setText(name);
+        if (name != null) {
+            this.profileNameField.setText(name);
+        } else {
+            this.profileNameField.setText("Kein Profil angelegt");
+        }
+    }
+
+    public void updateSpeicherProfil(SpeicherProfil speicherProfil) {
+        this.speicherProfil = speicherProfil;
+        profileNameField.setText(speicherProfil.getSaveName());
     }
 
     public void bindModel(Raum raum) {
@@ -141,6 +159,19 @@ public class LagerView extends StackPane {
 
     public void redraw(Raum raum) {
         centerArea.getChildren().clear();
+        ArrayList<Node> toBeRemover = new ArrayList<>();
+        for(Node node :  inventoryBox.getChildren()){
+            if(node != null) {
+                if(node.getId() != null) {
+                    if (node.getId().contains("Inventar")) {
+                        toBeRemover.add(node);
+                    }
+                }
+            }
+        }
+        for (Node node : toBeRemover){
+            inventoryBox.getChildren().remove(node);
+        }
         int raumHoehe = raum.getHoehe();
         int countBretter = 0;
         for (RegalBrett brett : raum.getRegal().getRegalBretter()) {
@@ -161,11 +192,11 @@ public class LagerView extends StackPane {
                 for (Karton karton : brett.getKartons()) {
                     if (karton != null) {
                         kartonRectangle = new Rectangle();
-                        kartonRectangle.setHeight(karton.getHeight()); // Höhe der Säule
-                        kartonRectangle.setWidth(karton.getWidth()); // Breite der Säule
-                        kartonRectangle.setX(xPosition + karton.getXPosition()); // Position der Säule
-                        kartonRectangle.setY(brett.getHoehe() - karton.getHeight()); // Start bei 0 Y-Achse
-                        kartonRectangle.setFill(Color.RED); // Farbe der Säule
+                        kartonRectangle.setHeight(karton.getHoehe());
+                        kartonRectangle.setWidth(karton.getBreite());
+                        kartonRectangle.setX(xPosition + karton.getXPosition());
+                        kartonRectangle.setY(brett.getHoehe()+(brett.getDicke()/2) - karton.getHoehe());
+                        kartonRectangle.setFill(Color.RED);
                         kartonRectangle.setId(" Brett " + countBretter +" Karton" + countKarton);
                         centerArea.getChildren().add(kartonRectangle);
                         countKarton++;
@@ -187,7 +218,28 @@ public class LagerView extends StackPane {
             centerArea.getChildren().add(saeuleRectangle);
             countSaeulen++;
         }
-        System.out.println("Anzahl: "+ countSaeulen);
+        int countKarton = 0;
+        int anzahlCounter = 0;
+        for(Karton karton : raum.getRegal().getUebrigesInventar().getKartons()){
+            kartonRectangle = new Rectangle();
+            kartonAnzahl = new Label();
+            kartonRectangle.setHeight(50);
+            kartonRectangle.setWidth(50);
+            kartonRectangle.setX(countKarton * 50 + 20); // im Inventar immer 'x'px weiter + 'y'px abstand zum nächsten
+            kartonRectangle.setY(20);
+            if(karton.getWaren().getTyp().isLebensmittelBool()){
+                kartonRectangle.setFill(Color.YELLOW);
+            } else if (karton.getWaren().getTyp().isGekuehltBool()) {
+                kartonRectangle.setFill(Color.LIGHTBLUE);
+            } else if (karton.getWaren().getTyp().isGiftigBool()) {
+                kartonRectangle.setFill(Color.LIGHTGREEN);
+            } else {
+                kartonRectangle.setFill(Color.DARKGOLDENROD);
+            }
+            kartonRectangle.setId(" Inventar:" + " Karton" + countKarton);
+            inventoryBox.getChildren().add(kartonRectangle);
+            countKarton++;
+        }
     }
 
     private void setButtonIcon(Button button, String iconPath) {

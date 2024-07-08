@@ -6,7 +6,7 @@ import de.hsrm.mi.swt.model.save.Command;
 import de.hsrm.mi.swt.model.storage.Regal;
 import de.hsrm.mi.swt.model.storage.RegalBrett;
 import de.hsrm.mi.swt.model.storage.Saeule;
-import de.hsrm.mi.swt.view.uikomponente.Karton;
+import de.hsrm.mi.swt.model.storage.Karton;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Cursor;
@@ -33,6 +33,7 @@ public class LagerController {
     private Stage primaryStage;
     private LagerView lagerView;
     private Raum aktuellerRaum;
+    private RaumErstellenController raumErstellenController;
     private SpeicherProfil aktuellesSpeicherprofil;
     private StorageShelvesApplication application;
     private Button menuButton;
@@ -42,7 +43,6 @@ public class LagerController {
     private Button settingsButton;
     private Button brettButton;
     private Button saueleButton;
-    private Button kartonButton;
     private Button deleteButton;
     private Button addKartonButton;
     private boolean saeuleButtonActive = false;
@@ -59,6 +59,16 @@ public class LagerController {
     public LagerController(StorageShelvesApplication application, LagerView lagerView) {
         this.application = application;
         this.lagerView = lagerView;
+        this.aktuellesSpeicherprofil = application.getAktuellesSpeicherprofil();
+//        f();
+
+        if (this.aktuellesSpeicherprofil == null) {
+            this.aktuellesSpeicherprofil = new SpeicherProfil("Standardprofil");
+            application.setAktuellesSpeicherprofil(this.aktuellesSpeicherprofil);
+        }
+
+        lagerView.setProfilname(this.aktuellesSpeicherprofil.getSaveName());
+
         menuButton = lagerView.getMenuButton();
         undoButton = lagerView.getUndoButton();
         redoButton = lagerView.getRedoButton();
@@ -66,22 +76,26 @@ public class LagerController {
         settingsButton = lagerView.getSettingsButton();
         brettButton = lagerView.getBrettButton();
         saueleButton = lagerView.getSaueleButton();
-        kartonButton = lagerView.getKartonButton();
         deleteButton = lagerView.getDeleteButton();
-        kartonErstellenController = new KartonErstellenController();
+        kartonErstellenController = new KartonErstellenController(application);
         addKartonButton = lagerView.getAddKartonButton();
+
+        setupButtonHandlers();
         initialize(application.getAktuellerRaum());
         application.setRaumChangeListener(this::initialize);
     }
 
     public void initialize(Raum raum) {
-        this.aktuellerRaum = raum;
-        setupRoom();
-        setupViewBindings();
-        setupButtonHandlers();
-        lagerView.redraw(aktuellerRaum);
-
+        if (raum != null) {
+            this.aktuellerRaum = raum;
+            setupRoom();
+            setupViewBindings();
+            lagerView.redraw(aktuellerRaum);
+        } else {
+            System.out.println("Warning: Trying to initialize LagerController with null Raum");
+        }
     }
+
 
     private void setupRoom() {
         if (application.getAktuellesSpeicherprofil() != null) {
@@ -110,7 +124,8 @@ public class LagerController {
         undoButton.setOnAction(e -> handleUndo());
         redoButton.setOnAction(e -> handleRedo());
         saveButton.setOnAction(e -> handleSave());
-        settingsButton.setOnAction(e -> handleSettings());
+//        settingsButton.setOnAction(e -> handleSettings());
+        lagerView.getSettingsButton().setOnAction(e -> handleSettings());
         menuButton.setOnAction(e -> {
             System.out.println("Restarted?!?");
             application.restart();
@@ -118,8 +133,6 @@ public class LagerController {
 
         brettButton.setOnMouseClicked(e ->  handleBrett());
         saueleButton.setOnMouseClicked(e -> handleSauele());
-        kartonButton.addEventHandler(ActionEvent.ACTION, e -> handleKarton());
-
         deleteButton.setOnMouseClicked(e -> handleDelete());
 
         addKartonButton.setOnAction(e -> kartonErstellenController.showPopup(lagerView.getScene().getWindow()));
@@ -141,8 +154,6 @@ public class LagerController {
                         break;
                     }
                 }
-
-
                 if (!elementDeleted) {
                     for (RegalBrett brett : aktuellerRaum.getRegal().getRegalBretter()) {
                         if (isClickInsideBrett(brett, clickX, clickY)) {
@@ -152,8 +163,6 @@ public class LagerController {
                         }
                     }
                 }
-
-
                 if (!elementDeleted) {
                     for (RegalBrett brett : aktuellerRaum.getRegal().getRegalBretter()) {
                         for (Karton karton : brett.getKartons()) {
@@ -196,6 +205,11 @@ public class LagerController {
         }
     }
 
+    public void updateProfileName() {
+        if (aktuellesSpeicherprofil != null) {
+            lagerView.setProfilname(aktuellesSpeicherprofil.getSaveName());
+        }
+    }
 
     public void handleRedo() {
         if (!redoStack.isEmpty()) {
@@ -215,6 +229,8 @@ public class LagerController {
     }
 
     private void handleSettings() {
+        application.showRaumErstellenPopup(true);
+//        lagerView.updateSpeicherProfil(aktuellesSpeicherprofil);
         System.out.println("Settings button clicked");
     }
 
@@ -231,6 +247,11 @@ public class LagerController {
             saueleButton.getStyleClass().remove("active-button");
         }
 
+    }
+
+    public void setAktuellesSpeicherprofil(SpeicherProfil speicherProfil) {
+        this.aktuellesSpeicherprofil = speicherProfil;
+        updateProfileName();
     }
 
     public void addBrett(int lueckenIndex, double yPosition) {
@@ -289,6 +310,11 @@ public class LagerController {
             deleteButtonActive = false;
             deleteButton.getStyleClass().remove("active-button");
         }
+        if ( brettButtonActive){
+            brettButtonActive = false;
+
+        }
+
         if (saeuleButtonActive) {
             saueleButton.getStyleClass().add("active-button");
         } else {
@@ -357,12 +383,6 @@ public class LagerController {
         return saeuleButtonActive;
     }
 
-    public void handleKarton() {
-        RegalBrett regalBrett = aktuellerRaum.getRegal().getRegalBretter().get(0);
-        Karton karton = new Karton(50, 50, Color.FIREBRICK, 100, 0, 0, null);
-        regalBrett.getKartons().add(karton);
-        lagerView.getCenterArea().getChildren().add(karton.getRectangle()); // Rechteck zu der Ansicht hinzufügen
-    }
 
     public void handleDelete() {
         deleteButtonActive = !deleteButtonActive;
@@ -373,37 +393,15 @@ public class LagerController {
                 saeuleButtonActive = false;
                 saueleButton.getStyleClass().remove("active-button");
             }
+            if(brettButtonActive){
+                brettButtonActive = false;
+                brettButton.getStyleClass().remove("active-button");
+            }
             deleteButton.getStyleClass().add("active-button");
         } else {
             deleteButton.getStyleClass().remove("active-button");
         }
 
-
-
-        /*boolean elementDeleted = false;
-
-        if (!aktuellerRaum.getRegal().getSaeulen().isEmpty()) {
-            Saeule letzteSaeule = aktuellerRaum.getRegal().getSaeulen().getLast();
-            aktuellerRaum.getRegal().getSaeulen().remove(letzteSaeule);
-            lagerView.getCenterArea().getChildren().remove(lagerView.getSaeuleRectangle());
-            System.out.println("Letzte Säule gelöscht");
-            elementDeleted = true;
-        }
-
-        if (!elementDeleted && !aktuellerRaum.getRegal().getRegalBretter().isEmpty()) {
-            RegalBrett letztesBrett = aktuellerRaum.getRegal().getRegalBretter().getLast();
-            aktuellerRaum.getRegal().getRegalBretter().remove(letztesBrett);
-            lagerView.getCenterArea().getChildren().remove(lagerView.getBrettRectangle());
-            System.out.println("Letztes Brett gelöscht");
-            elementDeleted = true;
-        }
-
-        if (!elementDeleted) {
-            System.out.println("Nichts zu löschen");
-        }
-
-
-         */
     }
 
     private void updateToolButtonStyles() {
@@ -429,21 +427,24 @@ public class LagerController {
     }
 
     private boolean isClickInsideBrett(RegalBrett brett, double clickX, double clickY) {
+
         double brettX = brett.getLueckenIndex();
+
+
         double brettY = brett.getHoehe();
         double tolerance = 10;
-        return (Math.abs(brettX - clickX) <= tolerance && Math.abs(brettY - clickY) <= tolerance);
+        return (brettX  == findLueckenIndex(clickX) && Math.abs(brettY - clickY) <= tolerance);
     }
 
     private boolean isClickInsideKarton(Karton karton, double clickX, double clickY) {
         double kartonX = karton.getXPosition();
-        double kartonY = karton.getYPosition();
-        double kartonWidth = karton.getWidth();
-        double kartonHeight = karton.getHeight();
+       // double kartonY = karton.getYPosition();
+        //double kartonWidth = karton.getWidth();
+        //double kartonHeight = karton.getHeight();
 
-
-        return (clickX >= kartonX && clickX <= kartonX + kartonWidth &&
-                clickY >= kartonY && clickY <= kartonY + kartonHeight);
+        return false;
+       // return (clickX >= kartonX && clickX <= kartonX + kartonWidth &&
+         //       clickY >= kartonY && clickY <= kartonY + kartonHeight);
     }
 
     public LagerView getRoot() {

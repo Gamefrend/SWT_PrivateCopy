@@ -14,22 +14,19 @@ public class Regal implements Serializable {
     private transient ObservableList<Saeule> saeulen;
 
     private transient ObjectProperty<Runnable> onChange;
-
-    private Inventar uebrigesInventar;
+    private transient ObjectProperty<Inventar> uebrigesInventar;
 
     public Regal(IntegerProperty hoehe) {
         this.hoehe = hoehe;
         this.regalBretter = FXCollections.observableArrayList();
         this.saeulen = FXCollections.observableArrayList();
-        uebrigesInventar = new Inventar();
+        uebrigesInventar = new SimpleObjectProperty<>(new Inventar());
         onChange = new SimpleObjectProperty<>();
 
         this.hoehe.addListener((obs, oldVal, newVal) -> triggerChange());
         this.regalBretter.addListener((ListChangeListener.Change<? extends RegalBrett> change) -> triggerChange());
-        this.saeulen.addListener((ListChangeListener.Change<? extends Saeule> change) -> {
-            triggerChange();
-            return;
-        });
+        this.saeulen.addListener((ListChangeListener.Change<? extends Saeule> change) -> triggerChange());
+        this.uebrigesInventar.get().setOnChangeListener(onChange.get());
     }
 
     private void triggerChange() {
@@ -46,12 +43,14 @@ public class Regal implements Serializable {
         saeulen.add(insertIndex, saeule);
     }
 
-   /* public void addBrett(RegalBrett brett){
-
-
+    public void addBrett(RegalBrett b){
+        regalBretter.add(b);
+        for(RegalBrett brett:regalBretter){
+            brett.setOnChange(onChange.get());
+        }
     }
-    ----------------------------------------------------------------
-    */
+
+
 
     public void verschiebeSaeule(Saeule saeule, int positionX){
         saeulen.remove(saeule);
@@ -80,6 +79,7 @@ public class Regal implements Serializable {
 
     public void setOnChangeListener(Runnable listener) {
         this.onChange.set(listener);
+        uebrigesInventar.get().setOnChangeListener(listener);
     }
 
     public IntegerProperty getHoehe() {
@@ -97,12 +97,7 @@ public class Regal implements Serializable {
         return regalBretter;
     }
 
-    public void addBrett(RegalBrett b){
-        regalBretter.add(b);
-        for(RegalBrett brett:regalBretter){
-            brett.setOnChange(onChange.get());
-        }
-    }
+
 
     public void setRegalBretter(ObservableList<RegalBrett> regalBretter) {
         this.regalBretter = regalBretter;
@@ -114,5 +109,8 @@ public class Regal implements Serializable {
 
     public void setSaeulen(ObservableList<Saeule> saeulen) {
         this.saeulen = saeulen;
+    }
+    public Inventar getUebrigesInventar() {
+        return uebrigesInventar.get();
     }
 }
