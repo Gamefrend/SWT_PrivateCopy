@@ -49,6 +49,7 @@ public class LagerView extends StackPane {
         // Textfeld für den Profilnamen
         profileNameField = new Label("Profilname eingeben");
         profileNameField.setMinWidth(200);
+        profileNameField.getStyleClass().add("h2");
 
         // Buttons
         undoButton = new Button("Undo");
@@ -76,15 +77,16 @@ public class LagerView extends StackPane {
         // Zentrum
         centerArea = new Pane();
         centerArea.setId("Lager-center-Area");
-        centerArea.setStyle("-fx-border-color: black; -fx-background-color: white; -fx-min-height: 400;");
+        centerArea.setStyle("-fx-background-color: white; -fx-min-height: 600;");
         CENTRALHIGHT = Integer.parseInt(centerArea.getStyle().split(": ")[centerArea.getStyle().split(": ").length - 1].replace(";", ""));
 
-        addKartonButton = new Button("+");
+        addKartonButton = createIconButton("/icons/inventory-add.png", 50, 50);
+        addKartonButton.getStyleClass().add("inventory-add-button");
 
         // Create buttons with icons
-        saueleButton = createIconButton("/icons/sauele.png");
-        brettButton = createIconButton("/icons/bretter.png");
-        deleteButton = createIconButton("/icons/trash-tool.png");
+        saueleButton = createIconButton("/icons/sauele.png", 42, 42);
+        brettButton = createIconButton("/icons/bretter.png", 42, 42);
+        deleteButton = createIconButton("/icons/trash-tool.png", 42, 42);
 
         // Create toolbox
         HBox toolBox = new HBox(10, saueleButton, brettButton, deleteButton);
@@ -92,7 +94,6 @@ public class LagerView extends StackPane {
         toolBox.setPadding(new Insets(10));
 
         // Inventar-Bereich
-        inventarTextField = new Label("Inventar");
         inventoryBox = new HBox(10);
         inventoryBox.setId("inventory-box");
         inventoryBox.setAlignment(Pos.CENTER_LEFT);
@@ -103,7 +104,7 @@ public class LagerView extends StackPane {
         VBox bottomSection = new VBox(10, toolBox, inventoryBox);
         bottomSection.setAlignment(Pos.CENTER_LEFT);
 
-        VBox preMainLayout = new VBox(180, headerBox, centerArea, bottomSection);
+        VBox preMainLayout = new VBox(50, headerBox, centerArea, bottomSection);
         preMainLayout.setAlignment(Pos.CENTER);
 
         // Hauptlayout
@@ -113,8 +114,6 @@ public class LagerView extends StackPane {
         getStylesheets().add(getClass().getResource("/css/lager.css").toExternalForm());
 
     }
-
-
 
     public void setProfilname(String name) {
         this.profileNameField.setText(name);
@@ -187,17 +186,17 @@ public class LagerView extends StackPane {
         button.getStyleClass().add("icon-button");
     }
 
-    private Button createIconButton(String iconPath) {
+    private Button createIconButton(String iconPath, int width, int height) {
         Button button = new Button();
         Image icon = new Image(getClass().getResourceAsStream(iconPath));
         ImageView imageView = new ImageView(icon);
-        imageView.setFitWidth(42);
-        imageView.setFitHeight(42);
+        imageView.setFitWidth(width);
+        imageView.setFitHeight(height);
         button.setGraphic(imageView);
-        button.getStyleClass().add("tool-button");
-        button.setPrefSize(42, 42);
-        button.setMinSize(42, 42);
-        button.setMaxSize(42, 42);
+        button.getStyleClass().add("icon-button");
+        button.setPrefSize(width, height);
+        button.setMinSize(width, height);
+        button.setMaxSize(width, height);
         return button;
     }
 

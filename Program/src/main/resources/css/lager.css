@@ -98,14 +98,32 @@
     -fx-border-width: 2px;
 }
 
-.tool-button {
+.icon-button {
     -fx-background-color: transparent;
-    -fx-border-color: transparent;
     -fx-padding: 0;
+    -fx-content-display: graphic-only;
 }
 
-.tool-button:hover {
-    -fx-background-color: #e0e0e0;
+.icon-button:hover {
+    -fx-effect: dropshadow(gaussian, -fx-primary, 0, 0, 3, 3);
+}
+
+.icon-button:pressed {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 5, 0, 0, 0);
+}
+
+.inventory-add-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+    -fx-effect: dropshadow(gaussian, #0029FF, 63, 0, 0, 0);
+}
+
+.inventory-add-button:hover {
+    -fx-effect: dropshadow(gaussian, #0029FF, 63, 0.2, 0, 0);
+}
+
+.inventory-add-button:pressed {
+    -fx-effect: dropshadow(gaussian, #0029FF, 32, 0, 0, 0);
 }
 
 .tool-button.selected {
