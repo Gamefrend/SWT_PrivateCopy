@@ -14,6 +14,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.scene.image.Image;
@@ -22,6 +25,8 @@ import javafx.scene.image.ImageView;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class LagerView extends StackPane {
     private Pane centerArea;
@@ -152,7 +157,7 @@ public class LagerView extends StackPane {
 
     public void bindModel(Raum raum) {
         raum.setOnChangeListener(() -> {
-            System.out.println("Raum geändert");
+            System.out.println("Raum ge\u00E4ndert");
             redraw(raum);
         });
     }
@@ -189,18 +194,17 @@ public class LagerView extends StackPane {
                 countBretter++;
 
                 int countKarton = 0;
-                for (Karton karton : brett.getKartons()) {
-                    if (karton != null) {
-                        kartonRectangle = new Rectangle();
-                        kartonRectangle.setHeight(karton.getHoehe());
-                        kartonRectangle.setWidth(karton.getBreite());
-                        kartonRectangle.setX(xPosition + karton.getXPosition());
-                        kartonRectangle.setY(brett.getHoehe()+(brett.getDicke()/2) - karton.getHoehe());
-                        kartonRectangle.setFill(Color.RED);
-                        kartonRectangle.setId(" Brett " + countBretter +" Karton" + countKarton);
-                        centerArea.getChildren().add(kartonRectangle);
-                        countKarton++;
-                    }
+                for (Karton karton : raum.getRegal().getUebrigesInventar().getKartons()) {
+                    Rectangle kartonRectangle = new Rectangle(50, 50);
+                    kartonRectangle.setX(countKarton * 60 + 20); // Erhöhter Abstand
+                    kartonRectangle.setY(20);
+
+                    // Setze den Farbgradienten basierend auf den Typen
+                    setKartonFill(kartonRectangle, karton.getWaren().getTyp());
+
+                    kartonRectangle.setId("Inventar: Karton" + countKarton);
+                    inventoryBox.getChildren().add(kartonRectangle);
+                    countKarton++;
                 }
             }
         }
@@ -220,25 +224,36 @@ public class LagerView extends StackPane {
         }
         int countKarton = 0;
         int anzahlCounter = 0;
-        for(Karton karton : raum.getRegal().getUebrigesInventar().getKartons()){
-            kartonRectangle = new Rectangle();
-            kartonAnzahl = new Label();
-            kartonRectangle.setHeight(50);
-            kartonRectangle.setWidth(50);
-            kartonRectangle.setX(countKarton * 50 + 20); // im Inventar immer 'x'px weiter + 'y'px abstand zum nächsten
+        for (Karton karton : raum.getRegal().getUebrigesInventar().getKartons()) {
+            Rectangle kartonRectangle = new Rectangle(50, 50);
+            kartonRectangle.setX(countKarton * 60 + 20); // Erhöhter Abstand
             kartonRectangle.setY(20);
-            if(karton.getWaren().getTyp().isLebensmittelBool()){
-                kartonRectangle.setFill(Color.YELLOW);
-            } else if (karton.getWaren().getTyp().isGekuehltBool()) {
-                kartonRectangle.setFill(Color.LIGHTBLUE);
-            } else if (karton.getWaren().getTyp().isGiftigBool()) {
-                kartonRectangle.setFill(Color.LIGHTGREEN);
-            } else {
-                kartonRectangle.setFill(Color.DARKGOLDENROD);
-            }
-            kartonRectangle.setId(" Inventar:" + " Karton" + countKarton);
+
+            // Setze den Farbgradienten basierend auf den Typen
+            setKartonFill(kartonRectangle, karton.getWaren().getTyp());
+
+            kartonRectangle.setId("Inventar: Karton" + countKarton);
             inventoryBox.getChildren().add(kartonRectangle);
             countKarton++;
+        }
+    }
+
+    private void setKartonFill(Rectangle kartonRectangle, Typ typ) {
+        List<Color> colors = new ArrayList<>();
+
+        if (typ.isLebensmittelBool()) colors.add(Color.YELLOW);
+        if (typ.isGekuehltBool()) colors.add(Color.LIGHTBLUE);
+        if (typ.isGiftigBool()) colors.add(Color.LIGHTGREEN);
+
+        if (colors.isEmpty()) {
+            kartonRectangle.setFill(Color.DARKGOLDENROD); // Standardfarbe
+        } else if (colors.size() == 1) {
+            kartonRectangle.setFill(colors.get(0));
+        } else {
+            LinearGradient gradient = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE,
+                    colors.stream().map(color -> new Stop(colors.indexOf(color) / (double)(colors.size() - 1), color))
+                            .collect(Collectors.toList()));
+            kartonRectangle.setFill(gradient);
         }
     }
 

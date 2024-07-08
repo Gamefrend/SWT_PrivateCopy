@@ -256,7 +256,7 @@ public class LagerController {
 
     public void addBrett(int lueckenIndex, double yPosition) {
         if (lueckenIndex < 0 || lueckenIndex >= aktuellerRaum.getRegal().getSaeulen().size() - 1) {
-            System.out.println("Keine geeignete Lücke für ein Brett vorhanden.");
+            System.out.println("Keine geeignete L\u00FCcke f\u00FCr ein Brett vorhanden.");
             return;
         }
 
@@ -295,7 +295,7 @@ public class LagerController {
             return aktuellerRaum.getRegal().getSaeulen().indexOf(leftSaeule);
         }
         else {
-            System.out.println("Keine Säule links oder rechts");
+            System.out.println("Keine S\u00E4ule links oder rechts");
             return -1;
         }
 
