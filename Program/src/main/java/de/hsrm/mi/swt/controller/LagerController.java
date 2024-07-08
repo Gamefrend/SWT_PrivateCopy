@@ -77,9 +77,8 @@ public class LagerController {
         brettButton = lagerView.getBrettButton();
         saueleButton = lagerView.getSaueleButton();
         deleteButton = lagerView.getDeleteButton();
-        kartonErstellenController = new KartonErstellenController();
+        kartonErstellenController = new KartonErstellenController(application);
         addKartonButton = lagerView.getAddKartonButton();
-        kartonErstellenController = new KartonErstellenController();
 
         setupButtonHandlers();
         initialize(application.getAktuellerRaum());
