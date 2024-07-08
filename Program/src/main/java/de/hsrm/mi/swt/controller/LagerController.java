@@ -25,6 +25,8 @@ import javafx.stage.Window;
 
 import javax.swing.event.ChangeEvent;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
@@ -171,15 +173,15 @@ public class LagerController {
                         // removen der Bretter
 
                         if (saeulenIndex >= 0 && saeulenIndex < aktuellerRaum.getRegal().getSaeulen().size()) {
+                            // Sammle die zu entfernenden Bretter in einer separaten Liste
+                            List<RegalBrett> bretterToRemove = new ArrayList<>();
+
                             // Bretter links
                             if (saeulenIndex > 0) {
                                 int leftLueckenIndex = saeulenIndex - 1;
                                 for (RegalBrett brett : aktuellerRaum.getRegal().getRegalBretter()) {
                                     if (brett.getLueckenIndex() == leftLueckenIndex) {
-                                        aktuellerRaum.getRegal().getRegalBretter().remove(brett);
-                                    }
-                                    if ( aktuellerRaum.getRegal().getRegalBretter().size() == 0){
-                                        break;
+                                        bretterToRemove.add(brett);
                                     }
                                 }
                             }
@@ -187,14 +189,15 @@ public class LagerController {
                             if (saeulenIndex < aktuellerRaum.getRegal().getSaeulen().size() - 1) {
                                 for (RegalBrett brett : aktuellerRaum.getRegal().getRegalBretter()) {
                                     if (brett.getLueckenIndex() == saeulenIndex) {
-                                        aktuellerRaum.getRegal().getRegalBretter().remove(brett);
-                                        if ( aktuellerRaum.getRegal().getRegalBretter().size() == 0){
-                                            break;
-                                        }
+                                        bretterToRemove.add(brett);
                                     }
                                 }
                             }
+
+                            // Entferne die gesammelten Bretter
+                            aktuellerRaum.getRegal().getRegalBretter().removeAll(bretterToRemove);
                         }
+
 
                         // bretter sind removed
 
