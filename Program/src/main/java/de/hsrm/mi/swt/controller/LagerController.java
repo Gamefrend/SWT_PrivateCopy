@@ -254,6 +254,7 @@ public class LagerController {
         updateProfileName();
     }
 
+
     public void addBrett(int lueckenIndex, double yPosition) {
         if (lueckenIndex < 0 || lueckenIndex >= aktuellerRaum.getRegal().getSaeulen().size() - 1) {
             System.out.println("Keine geeignete Lücke für ein Brett vorhanden.");
@@ -261,10 +262,6 @@ public class LagerController {
         }
 
         RegalBrett neuesBrett = new RegalBrett((int) yPosition, 10, 1, lueckenIndex);
-
-        aktuellerRaum.getRegal().addBrett(neuesBrett);
-
-        // Redo Undo einbinden
         Command command = new AddBrettCommand(aktuellerRaum.getRegal(), neuesBrett);
         System.out.println("Executing command: Adding Brett at Y-Position " + yPosition + " and Index " + lueckenIndex);
         command.redo();
