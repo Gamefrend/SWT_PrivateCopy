@@ -141,6 +141,20 @@ public class LagerController {
             if (saeuleButtonActive) {
                 double x = event.getX();
                 addSaeule(x);
+
+                int lueckenIndex = findLueckenIndex(x);
+
+                System.out.println(lueckenIndex+"-----------------------------------------------");
+                for( RegalBrett brett : aktuellerRaum.getRegal().getRegalBretter()){
+
+                    if( lueckenIndex<= 0){
+                        brett.setLueckenIndex(brett.getLueckenIndex() + 1);
+                    }
+                    else if ( lueckenIndex < brett.getLueckenIndex()){
+                        brett.setLueckenIndex(brett.getLueckenIndex() + 1);
+                    }
+                }
+
                 dragListenerSauleAnmelden();
             }
             if (deleteButtonActive) {
@@ -176,6 +190,9 @@ public class LagerController {
                                 }
                             }
 
+                        }
+                        for ( RegalBrett brett : aktuellerRaum.getRegal().getRegalBretter()){
+                            brett.setLueckenIndex(brett.getLueckenIndex()-1);
                         }
                         // Säule entfernen
                         aktuellerRaum.getRegal().getSaeulen().remove(saeule);
@@ -296,6 +313,8 @@ public class LagerController {
         command.redo();
         undoStack.push(command);
         redoStack.clear();
+
+
         lagerView.redraw(aktuellerRaum); // Aktuellen Raum neu zeichnen
     }
 
@@ -320,6 +339,9 @@ public class LagerController {
 
             return aktuellerRaum.getRegal().getSaeulen().indexOf(leftSaeule);
         }
+        else if ( leftSaeule !=null && rightSaeule == null){
+            return aktuellerRaum.getRegal().getSaeulen().size()-1;
+        }
         else {
             System.out.println("Keine S\u00E4ule links oder rechts");
             return -1;
@@ -338,6 +360,7 @@ public class LagerController {
         }
         if ( brettButtonActive){
             brettButtonActive = false;
+            brettButton.getStyleClass().remove("active-button");
 
         }
 
@@ -346,6 +369,7 @@ public class LagerController {
         } else {
             saueleButton.getStyleClass().remove("active-button");
         }
+
 
     }
 
@@ -401,6 +425,11 @@ public class LagerController {
         command.redo();
         undoStack.push(command);
         redoStack.clear(); // Redo-Stack leeren, da eine neue Aktion ausgeführt wurde
+
+
+
+
+
         lagerView.redraw(aktuellerRaum); // Aktuellen Raum neu zeichnen
     }
 
