@@ -196,6 +196,7 @@ public class LagerController {
         }
     }
 
+
     public void handleRedo() {
         if (!redoStack.isEmpty()) {
             Command command = redoStack.pop();
@@ -207,7 +208,6 @@ public class LagerController {
             System.out.println("Redo stack is empty");
         }
     }
-
 
     private void handleSave() {
         aktuellesSpeicherprofil.save(aktuellerRaum);
@@ -240,6 +240,10 @@ public class LagerController {
         }
 
         RegalBrett neuesBrett = new RegalBrett((int) yPosition, 10, 1, lueckenIndex);
+
+        aktuellerRaum.getRegal().addBrett(neuesBrett);
+
+        // Redo Undo einbinden
         Command command = new AddBrettCommand(aktuellerRaum.getRegal(), neuesBrett);
         System.out.println("Executing command: Adding Brett at Y-Position " + yPosition + " and Index " + lueckenIndex);
         command.redo();
