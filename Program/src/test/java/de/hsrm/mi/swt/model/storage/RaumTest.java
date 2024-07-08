@@ -16,5 +16,6 @@ public class RaumTest {
     public void addRegal(){
         Raum r1 = new Raum(10,20);
         r1.setRegal(new Regal(r1.getHoehe()));
+        Assertions.assertEquals(true, r1.getRegal() != null);
     }
 }

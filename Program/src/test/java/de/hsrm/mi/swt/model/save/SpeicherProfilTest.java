@@ -1,17 +1,12 @@
-package de.hsrm.mi.swt.model.save;
+package test.java.de.hsrm.mi.swt.model.save;
 
 import de.hsrm.mi.swt.model.storage.Raum;
-import de.hsrm.mi.swt.model.storage.Karton;
-import de.hsrm.mi.swt.model.storage.Typ;
-import de.hsrm.mi.swt.model.storage.Ware;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 import de.hsrm.mi.swt.model.save.SpeicherProfil;
 
-import java.time.LocalDate;
 
-
-class SpeichProfilTest{
+class SpeicherProfilTest {
     @Test
     public void speicherProfilnameWirdRichtigGesetzt() {
 
