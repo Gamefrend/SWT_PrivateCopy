@@ -139,8 +139,6 @@ public class LagerController {
                         break;
                     }
                 }
-
-
                 if (!elementDeleted) {
                     for (RegalBrett brett : aktuellerRaum.getRegal().getRegalBretter()) {
                         if (isClickInsideBrett(brett, clickX, clickY)) {
@@ -150,8 +148,6 @@ public class LagerController {
                         }
                     }
                 }
-
-
                 if (!elementDeleted) {
                     for (RegalBrett brett : aktuellerRaum.getRegal().getRegalBretter()) {
                         for (Karton karton : brett.getKartons()) {
@@ -169,15 +165,17 @@ public class LagerController {
                 if (!elementDeleted) {
                     System.out.println("No element found to delete.");
                 }
-
-                if (brettButtonActive){
-                    int lueckenIndex = findLueckenIndex(clickX);
-                    addBrett(lueckenIndex , clickY);
-
-
-                }
-
                 lagerView.redraw(application.getAktuellerRaum());
+            }
+
+
+            if (brettButtonActive){
+                double clickX = event.getX();
+                double clickY = event.getY();
+                int lueckenIndex = findLueckenIndex(clickX);
+                addBrett(lueckenIndex , clickY);
+                lagerView.redraw(application.getAktuellerRaum());
+
             }
         });
     }
@@ -286,6 +284,11 @@ public class LagerController {
             deleteButtonActive = false;
             deleteButton.getStyleClass().remove("active-button");
         }
+        if ( brettButtonActive){
+            brettButtonActive = false;
+
+        }
+
         if (saeuleButtonActive) {
             saueleButton.getStyleClass().add("active-button");
         } else {
@@ -368,37 +371,15 @@ public class LagerController {
                 saeuleButtonActive = false;
                 saueleButton.getStyleClass().remove("active-button");
             }
+            if(brettButtonActive){
+                brettButtonActive = false;
+                brettButton.getStyleClass().remove("active-button");
+            }
             deleteButton.getStyleClass().add("active-button");
         } else {
             deleteButton.getStyleClass().remove("active-button");
         }
-
-
-
-        /*boolean elementDeleted = false;
-
-        if (!aktuellerRaum.getRegal().getSaeulen().isEmpty()) {
-            Saeule letzteSaeule = aktuellerRaum.getRegal().getSaeulen().getLast();
-            aktuellerRaum.getRegal().getSaeulen().remove(letzteSaeule);
-            lagerView.getCenterArea().getChildren().remove(lagerView.getSaeuleRectangle());
-            System.out.println("Letzte Säule gelöscht");
-            elementDeleted = true;
-        }
-
-        if (!elementDeleted && !aktuellerRaum.getRegal().getRegalBretter().isEmpty()) {
-            RegalBrett letztesBrett = aktuellerRaum.getRegal().getRegalBretter().getLast();
-            aktuellerRaum.getRegal().getRegalBretter().remove(letztesBrett);
-            lagerView.getCenterArea().getChildren().remove(lagerView.getBrettRectangle());
-            System.out.println("Letztes Brett gelöscht");
-            elementDeleted = true;
-        }
-
-        if (!elementDeleted) {
-            System.out.println("Nichts zu löschen");
-        }
-
-
-         */
+        
     }
 
     private boolean isClickInsideSaeule(Saeule saeule, double clickX, double clickY) {
@@ -408,10 +389,13 @@ public class LagerController {
     }
 
     private boolean isClickInsideBrett(RegalBrett brett, double clickX, double clickY) {
+
         double brettX = brett.getLueckenIndex();
+
+
         double brettY = brett.getHoehe();
         double tolerance = 10;
-        return (Math.abs(brettX - clickX) <= tolerance && Math.abs(brettY - clickY) <= tolerance);
+        return (brettX  == findLueckenIndex(clickX) && Math.abs(brettY - clickY) <= tolerance);
     }
 
     private boolean isClickInsideKarton(Karton karton, double clickX, double clickY) {

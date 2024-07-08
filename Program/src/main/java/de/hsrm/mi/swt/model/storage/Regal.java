@@ -46,12 +46,14 @@ public class Regal implements Serializable {
         saeulen.add(insertIndex, saeule);
     }
 
-   /* public void addBrett(RegalBrett brett){
-
-
+    public void addBrett(RegalBrett b){
+        regalBretter.add(b);
+        for(RegalBrett brett:regalBretter){
+            brett.setOnChange(onChange.get());
+        }
     }
-    ----------------------------------------------------------------
-    */
+
+
 
     public void verschiebeSaeule(Saeule saeule, int positionX){
         saeulen.remove(saeule);
@@ -97,12 +99,7 @@ public class Regal implements Serializable {
         return regalBretter;
     }
 
-    public void addBrett(RegalBrett b){
-        regalBretter.add(b);
-        for(RegalBrett brett:regalBretter){
-            brett.setOnChange(onChange.get());
-        }
-    }
+
 
     public void setRegalBretter(ObservableList<RegalBrett> regalBretter) {
         this.regalBretter = regalBretter;
