@@ -135,7 +135,7 @@ public class LagerController {
             application.restart();
         });
 
-        brettButton.setOnMouseClicked(e ->  handleBrett());
+        brettButton.setOnMouseClicked(e -> handleBrett());
         saueleButton.setOnMouseClicked(e -> handleSauele());
         deleteButton.setOnMouseClicked(e -> handleDelete());
 
@@ -298,21 +298,6 @@ public class LagerController {
         System.out.println("Settings button clicked");
     }
 
-    public void handleBrett() {
-        brettButtonActive = !brettButtonActive;
-        updateToolButtonStyles();
-
-        if (deleteButtonActive ){
-            deleteButtonActive = false ;
-            deleteButton.getStyleClass().remove("active-button");
-        }
-        if( saeuleButtonActive){
-            saeuleButtonActive = false;
-            saueleButton.getStyleClass().remove("active-button");
-        }
-
-    }
-
     public void setAktuellesSpeicherprofil(SpeicherProfil speicherProfil) {
         this.aktuellesSpeicherprofil = speicherProfil;
         updateProfileName();
@@ -368,29 +353,54 @@ public class LagerController {
 
     }
 
-
-    public void handleSauele() {
-        saeuleButtonActive = !saeuleButtonActive;
-        updateToolButtonStyles();
-
-        if(deleteButtonActive){
+    private void deselectAllToolsExcept(Button exception) {
+        if (brettButton != exception) {
+            brettButtonActive = false;
+            brettButton.getStyleClass().remove("active-button");
+        }
+        if (saueleButton != exception) {
+            saeuleButtonActive = false;
+            saueleButton.getStyleClass().remove("active-button");
+        }
+        if (deleteButton != exception) {
             deleteButtonActive = false;
             deleteButton.getStyleClass().remove("active-button");
         }
-        if ( brettButtonActive){
-            brettButtonActive = false;
+    }
+
+    private void handleBrett() {
+        brettButtonActive = !brettButtonActive;
+        if (brettButtonActive) {
+            deselectAllToolsExcept(brettButton);
+            brettButton.getStyleClass().add("active-button");
+        } else {
             brettButton.getStyleClass().remove("active-button");
-
         }
+        updateToolButtonStyles();
+    }
 
+    private void handleSauele() {
+        saeuleButtonActive = !saeuleButtonActive;
         if (saeuleButtonActive) {
+            deselectAllToolsExcept(saueleButton);
             saueleButton.getStyleClass().add("active-button");
         } else {
             saueleButton.getStyleClass().remove("active-button");
         }
-
-
+        updateToolButtonStyles();
     }
+
+    private void handleDelete() {
+        deleteButtonActive = !deleteButtonActive;
+        if (deleteButtonActive) {
+            deselectAllToolsExcept(deleteButton);
+            deleteButton.getStyleClass().add("active-button");
+        } else {
+            deleteButton.getStyleClass().remove("active-button");
+        }
+        updateToolButtonStyles();
+    }
+
 
     public void dragListenerSauleAnmelden() {
 
@@ -399,16 +409,16 @@ public class LagerController {
                 node.setCursor(Cursor.HAND);
                 node.setOnMousePressed(e -> {
                     if (!deleteButtonActive) {
-                        node.setOpacity(0.5); // Make node slightly transparent
-                        lagerView.getCenterArea().setCursor(Cursor.E_RESIZE); // Change cursor to move
+                        node.setOpacity(0.5);
+                        lagerView.getCenterArea().setCursor(Cursor.E_RESIZE);
                     }
                 });
 
                 node.setOnMouseReleased(e -> {
                     if (!deleteButtonActive) {
                         if (e.getX() >= lagerView.getCenterArea().getLayoutX() && e.getX() <= lagerView.getLayoutX() + lagerView.getCenterArea().getWidth())
-                            node.setOpacity(1.0); // Reset opacity
-                        lagerView.getCenterArea().setCursor(Cursor.DEFAULT); // Reset cursor
+                            node.setOpacity(1.0);
+                        lagerView.getCenterArea().setCursor(Cursor.DEFAULT);
                         aktuellerRaum.getRegal().verschiebeSaeule(aktuellerRaum.getRegal().getSaeulen().get(node.getId().charAt(node.getId().length() - 1) - '0'), (int) e.getX());
                         dragListenerSauleAnmelden();
                     }
@@ -418,16 +428,16 @@ public class LagerController {
                 node.setCursor(Cursor.HAND);
                 node.setOnMousePressed(e -> {
                     if (!deleteButtonActive) {
-                        node.setOpacity(0.5); // Make node slightly transparent
-                        lagerView.getCenterArea().setCursor(Cursor.H_RESIZE); // Change cursor to move
+                        node.setOpacity(0.5);
+                        lagerView.getCenterArea().setCursor(Cursor.H_RESIZE);
                     }
                 });
 
                 node.setOnMouseReleased(e -> {
                     if (!deleteButtonActive) {
                         if (e.getY() >= lagerView.getCenterArea().getLayoutY() && e.getY() <= lagerView.getLayoutY() + lagerView.getCenterArea().getHeight())
-                            node.setOpacity(1.0); // Reset opacity
-                        lagerView.getCenterArea().setCursor(Cursor.DEFAULT); // Reset cursor
+                            node.setOpacity(1.0);
+                        lagerView.getCenterArea().setCursor(Cursor.DEFAULT);
                         aktuellerRaum.getRegal().getRegalBretter().get(node.getId().charAt(node.getId().length() - 1) - '0').setHoehe((int) e.getY());
                         dragListenerSauleAnmelden();
                     }
@@ -458,40 +468,19 @@ public class LagerController {
         return saeuleButtonActive;
     }
 
-
-    public void handleDelete() {
-        deleteButtonActive = !deleteButtonActive;
-        updateToolButtonStyles();
-
-        if (deleteButtonActive) {
-            if(saeuleButtonActive){
-                saeuleButtonActive = false;
-                saueleButton.getStyleClass().remove("active-button");
-            }
-            if(brettButtonActive){
-                brettButtonActive = false;
-                brettButton.getStyleClass().remove("active-button");
-            }
-            deleteButton.getStyleClass().add("active-button");
-        } else {
-            deleteButton.getStyleClass().remove("active-button");
-        }
-
-    }
-
     private void updateToolButtonStyles() {
-        lagerView.getSaueleButton().getStyleClass().remove("tool-button-selected");
-        lagerView.getBrettButton().getStyleClass().remove("tool-button-selected");
-        lagerView.getDeleteButton().getStyleClass().remove("tool-button-selected");
+        brettButton.getStyleClass().remove("tool-button-selected");
+        saueleButton.getStyleClass().remove("tool-button-selected");
+        deleteButton.getStyleClass().remove("tool-button-selected");
 
-        if (saeuleButtonActive) {
-            lagerView.getSaueleButton().getStyleClass().add("tool-button-selected");
-        }
         if (brettButtonActive) {
-            lagerView.getBrettButton().getStyleClass().add("tool-button-selected");
+            brettButton.getStyleClass().add("tool-button-selected");
+        }
+        if (saeuleButtonActive) {
+            saueleButton.getStyleClass().add("tool-button-selected");
         }
         if (deleteButtonActive) {
-            lagerView.getDeleteButton().getStyleClass().add("tool-button-selected");
+            deleteButton.getStyleClass().add("tool-button-selected");
         }
     }
 

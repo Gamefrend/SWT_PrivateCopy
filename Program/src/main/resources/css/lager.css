@@ -23,10 +23,6 @@
     -fx-effect: dropshadow(gaussian, -fx-primary, 0, 0, 3, 3);
 }
 
-.icon-button:pressed {
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 5, 0, 0, 0);
-}
-
 /* Checkbox style */
 /* Checkbox style */
 .custom-checkbox {
