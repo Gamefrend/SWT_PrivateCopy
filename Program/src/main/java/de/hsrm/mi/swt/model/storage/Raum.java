@@ -12,6 +12,8 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 public class Raum implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private transient IntegerProperty hoehe;
     private transient IntegerProperty breite;
     private transient ObjectProperty<Regal> regal;
@@ -78,14 +80,17 @@ public class Raum implements Serializable {
         return regal;
     }
 
-
-
-
     private void writeObject(ObjectOutputStream out) throws IOException {
         out.defaultWriteObject();
         out.writeInt(getHoehe());
         out.writeInt(getBreite());
         out.writeObject(getRegal());
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        hoehe = new SimpleIntegerProperty(in.readInt());
+        breite = new SimpleIntegerProperty(in.readInt());
     }
 
 }

@@ -42,10 +42,15 @@ public class ProfilManagerController {
         profileView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 Raum raum = newValue.load();
-                System.out.println("Raum: " + raum.getHoehe() + " | " + raum.getBreite());
-                application.setAktuellerRaum(raum);
-                application.setAktuellesSpeicherprofil(newValue);
-                hidePopup();
+                if (raum != null) {
+                    System.out.println("Raum: " + raum.getHoehe() + " | " + raum.getBreite());
+                    application.setAktuellerRaum(raum);
+                    application.setAktuellesSpeicherprofil(newValue);
+                    application.switchView(PrimaryViewName.LagerView);
+                    hidePopup();
+                } else {
+                    System.err.println("Raum von Profil konnte nicht geladen werden: " + newValue.getSaveName());
+                }
             }
         });
         profilManagerView.setOnDeleteAction(this::deleteProfile);

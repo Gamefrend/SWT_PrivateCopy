@@ -9,6 +9,8 @@ import javafx.collections.ListChangeListener;
 import java.io.Serializable;
 
 public class Regal implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private transient IntegerProperty hoehe;
     private transient ObservableList<RegalBrett> regalBretter;
     private transient ObservableList<Saeule> saeulen;
