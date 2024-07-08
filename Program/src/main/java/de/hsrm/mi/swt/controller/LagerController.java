@@ -218,8 +218,8 @@ public class LagerController {
     }
 
     public void handleBrett() {
-
         brettButtonActive = !brettButtonActive;
+        updateToolButtonStyles();
 
         if (deleteButtonActive ){
             deleteButtonActive = false ;
@@ -282,6 +282,8 @@ public class LagerController {
 
     public void handleSauele() {
         saeuleButtonActive = !saeuleButtonActive;
+        updateToolButtonStyles();
+
         if(deleteButtonActive){
             deleteButtonActive = false;
             deleteButton.getStyleClass().remove("active-button");
@@ -363,6 +365,8 @@ public class LagerController {
 
     public void handleDelete() {
         deleteButtonActive = !deleteButtonActive;
+        updateToolButtonStyles();
+
         if (deleteButtonActive) {
             if(saeuleButtonActive){
                 saeuleButtonActive = false;
@@ -399,6 +403,22 @@ public class LagerController {
 
 
          */
+    }
+
+    private void updateToolButtonStyles() {
+        lagerView.getSaueleButton().getStyleClass().remove("tool-button-selected");
+        lagerView.getBrettButton().getStyleClass().remove("tool-button-selected");
+        lagerView.getDeleteButton().getStyleClass().remove("tool-button-selected");
+
+        if (saeuleButtonActive) {
+            lagerView.getSaueleButton().getStyleClass().add("tool-button-selected");
+        }
+        if (brettButtonActive) {
+            lagerView.getBrettButton().getStyleClass().add("tool-button-selected");
+        }
+        if (deleteButtonActive) {
+            lagerView.getDeleteButton().getStyleClass().add("tool-button-selected");
+        }
     }
 
     private boolean isClickInsideSaeule(Saeule saeule, double clickX, double clickY) {

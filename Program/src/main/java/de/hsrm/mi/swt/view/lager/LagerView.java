@@ -44,7 +44,7 @@ public class LagerView extends StackPane {
 
     public LagerView() {
         setId("lager-view");
-        setPadding(new Insets(20));
+        setPadding(new Insets(20, 20, 0, 20));
 
         // Textfeld für den Profilnamen
         profileNameField = new Label("Profilname eingeben");
@@ -83,10 +83,16 @@ public class LagerView extends StackPane {
         addKartonButton = createIconButton("/icons/inventory-add.png", 50, 50);
         addKartonButton.getStyleClass().add("inventory-add-button");
 
-        // Create buttons with icons
+        // tools
         saueleButton = createIconButton("/icons/sauele.png", 42, 42);
+        saueleButton.getStyleClass().add("tool-button");
+
         brettButton = createIconButton("/icons/bretter.png", 42, 42);
+        brettButton.getStyleClass().add("tool-button");
+
         deleteButton = createIconButton("/icons/trash-tool.png", 42, 42);
+        deleteButton.getStyleClass().add("tool-button");
+
 
         // Create toolbox
         HBox toolBox = new HBox(10, saueleButton, brettButton, deleteButton);
@@ -108,7 +114,14 @@ public class LagerView extends StackPane {
         preMainLayout.setAlignment(Pos.CENTER);
 
         // Hauptlayout
-        getChildren().add(preMainLayout);
+        VBox mainLayout = new VBox(40);
+        mainLayout.getChildren().addAll(headerBox, centerArea, toolBox, inventoryBox);
+        mainLayout.setAlignment(Pos.TOP_LEFT);
+
+        StackPane wrapper = new StackPane(mainLayout);
+        wrapper.setAlignment(Pos.TOP_LEFT);
+
+        getChildren().add(wrapper);
 
         getStylesheets().add(getClass().getResource("/css/globals.css").toExternalForm());
         getStylesheets().add(getClass().getResource("/css/lager.css").toExternalForm());
