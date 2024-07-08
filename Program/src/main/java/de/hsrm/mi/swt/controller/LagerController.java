@@ -93,6 +93,7 @@ public class LagerController {
             setupRoom();
             setupViewBindings();
             lagerView.redraw(aktuellerRaum);
+            dragListenerSauleAnmelden();
         } else {
             System.out.println("Warning: Trying to initialize LagerController with null Raum");
         }
@@ -117,6 +118,7 @@ public class LagerController {
         onChange = () -> {
             aktuellerRaum = application.getAktuellerRaum();
             lagerView.redraw(aktuellerRaum);
+            dragListenerSauleAnmelden();
         };
         aktuellerRaum.setOnChangeListener(onChange);
         lagerView.bindModel(aktuellerRaum);
@@ -246,6 +248,7 @@ public class LagerController {
                 addBrett(lueckenIndex , event.getY());
             }
             lagerView.redraw(application.getAktuellerRaum());
+            dragListenerSauleAnmelden();
 
 
         });
@@ -259,6 +262,7 @@ public class LagerController {
             command.undo();
             redoStack.push(command);
             lagerView.redraw(aktuellerRaum); // Aktuellen Raum neu zeichnen
+            dragListenerSauleAnmelden();
         } else {
             System.out.println("Undo stack is empty");
         }
@@ -277,6 +281,7 @@ public class LagerController {
             command.redo();
             undoStack.push(command);
             lagerView.redraw(aktuellerRaum); // Aktuellen Raum neu zeichnen
+            dragListenerSauleAnmelden();
         } else {
             System.out.println("Redo stack is empty");
         }
@@ -329,6 +334,7 @@ public class LagerController {
 
 
         lagerView.redraw(aktuellerRaum); // Aktuellen Raum neu zeichnen
+        dragListenerSauleAnmelden();
     }
 
     private int findLueckenIndex(double x) {
@@ -443,7 +449,8 @@ public class LagerController {
 
 
 
-        lagerView.redraw(aktuellerRaum); // Aktuellen Raum neu zeichnen
+        lagerView.redraw(aktuellerRaum);// Aktuellen Raum neu zeichnen
+        dragListenerSauleAnmelden();
     }
 
 
