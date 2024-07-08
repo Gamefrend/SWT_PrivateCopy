@@ -15,15 +15,23 @@ public class RaumErstellenView extends VBox {
     private TextField nameField;
     private TextField hoeheField;
     private TextField breiteField;
-    private Button createButton;
+    private Button actionButton;
 
-    public RaumErstellenView() {
+    public RaumErstellenView(boolean isEditing) {
         setSpacing(40);
         setPadding(new Insets(40));
-        setStyle("-fx-background-color: white;");
+        if (isEditing) {
+            setStyle("-fx-background-color: white; -fx-border-color: #0029FF; -fx-border-width: 2px;");
+        } else {
+            setStyle("-fx-background-color: white;");
+        }
 
-        headerLabel = new Label("Neues Lagersystem anlegen");
+        // Initialize headerLabel first
+        headerLabel = new Label();
         headerLabel.getStyleClass().add("h3");
+
+        // Set the text based on isEditing
+        headerLabel.setText(isEditing ? "Raum bearbeiten" : "Neues Lagersystem anlegen");
 
         closeButton = new Button("X");
         closeButton.getStyleClass().addAll("h3", "raum-erstellen-close-button");
@@ -52,13 +60,33 @@ public class RaumErstellenView extends VBox {
 
         VBox inputFields = new VBox(10, nameField, dimensionInputs);
 
-        createButton = new Button("Lagersystem anlegen");
-        createButton.getStyleClass().addAll("raum-erstellen-create-button", "copy");
+        actionButton = new Button(isEditing ? "Speichern" : "Lagersystem anlegen");
+        actionButton.getStyleClass().addAll("raum-erstellen-create-button", "copy");
 
-        getChildren().addAll(header, inputFields, createButton);
+        getChildren().addAll(header, inputFields, actionButton);
 
         getStylesheets().add(getClass().getResource("/css/globals.css").toExternalForm());
         getStylesheets().add(getClass().getResource("/css/lager.css").toExternalForm());
+    }
+
+    public void setValues(String name, int hoehe, int breite) {
+        nameField.setText(name);
+        hoeheField.setText(String.valueOf(hoehe));
+        breiteField.setText(String.valueOf(breite));
+    }
+
+    public void clearValues() {
+        nameField.clear();
+        hoeheField.clear();
+        breiteField.clear();
+    }
+
+    public void setInvalidInput(TextField field) {
+        field.getStyleClass().add("invalid-input");
+    }
+
+    public void clearInvalidInput(TextField field) {
+        field.getStyleClass().remove("invalid-input");
     }
 
     public Button getCloseButton() {
@@ -77,7 +105,7 @@ public class RaumErstellenView extends VBox {
         return breiteField;
     }
 
-    public Button getCreateButton() {
-        return createButton;
+    public Button getActionButton() {
+        return actionButton;
     }
 }

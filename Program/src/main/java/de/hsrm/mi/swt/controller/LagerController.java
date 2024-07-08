@@ -33,6 +33,7 @@ public class LagerController {
     private Stage primaryStage;
     private LagerView lagerView;
     private Raum aktuellerRaum;
+    private RaumErstellenController raumErstellenController;
     private SpeicherProfil aktuellesSpeicherprofil;
     private StorageShelvesApplication application;
     private Button menuButton;
@@ -58,6 +59,16 @@ public class LagerController {
     public LagerController(StorageShelvesApplication application, LagerView lagerView) {
         this.application = application;
         this.lagerView = lagerView;
+        this.aktuellesSpeicherprofil = application.getAktuellesSpeicherprofil();
+//        f();
+
+        if (this.aktuellesSpeicherprofil == null) {
+            this.aktuellesSpeicherprofil = new SpeicherProfil("Standardprofil");
+            application.setAktuellesSpeicherprofil(this.aktuellesSpeicherprofil);
+        }
+
+        lagerView.setProfilname(this.aktuellesSpeicherprofil.getSaveName());
+
         menuButton = lagerView.getMenuButton();
         undoButton = lagerView.getUndoButton();
         redoButton = lagerView.getRedoButton();
@@ -68,18 +79,23 @@ public class LagerController {
         kartonButton = lagerView.getKartonButton();
         deleteButton = lagerView.getDeleteButton();
         kartonErstellenController = new KartonErstellenController();
+
+        setupButtonHandlers();
         initialize(application.getAktuellerRaum());
         application.setRaumChangeListener(this::initialize);
     }
 
     public void initialize(Raum raum) {
-        this.aktuellerRaum = raum;
-        setupRoom();
-        setupViewBindings();
-        setupButtonHandlers();
-        lagerView.redraw(aktuellerRaum);
-
+        if (raum != null) {
+            this.aktuellerRaum = raum;
+            setupRoom();
+            setupViewBindings();
+            lagerView.redraw(aktuellerRaum);
+        } else {
+            System.out.println("Warning: Trying to initialize LagerController with null Raum");
+        }
     }
+
 
     private void setupRoom() {
         if (application.getAktuellesSpeicherprofil() != null) {
@@ -108,7 +124,8 @@ public class LagerController {
         undoButton.setOnAction(e -> handleUndo());
         redoButton.setOnAction(e -> handleRedo());
         saveButton.setOnAction(e -> handleSave());
-        settingsButton.setOnAction(e -> handleSettings());
+//        settingsButton.setOnAction(e -> handleSettings());
+        lagerView.getSettingsButton().setOnAction(e -> handleSettings());
         menuButton.setOnAction(e -> {
             System.out.println("Restarted?!?");
             application.restart();
@@ -195,6 +212,11 @@ public class LagerController {
         }
     }
 
+    public void updateProfileName() {
+        if (aktuellesSpeicherprofil != null) {
+            lagerView.setProfilname(aktuellesSpeicherprofil.getSaveName());
+        }
+    }
 
     public void handleRedo() {
         if (!redoStack.isEmpty()) {
@@ -214,6 +236,8 @@ public class LagerController {
     }
 
     private void handleSettings() {
+        application.showRaumErstellenPopup(true);
+//        lagerView.updateSpeicherProfil(aktuellesSpeicherprofil);
         System.out.println("Settings button clicked");
     }
 
@@ -230,6 +254,11 @@ public class LagerController {
             saueleButton.getStyleClass().remove("active-button");
         }
 
+    }
+
+    public void setAktuellesSpeicherprofil(SpeicherProfil speicherProfil) {
+        this.aktuellesSpeicherprofil = speicherProfil;
+        updateProfileName();
     }
 
     public void addBrett(int lueckenIndex, double yPosition) {
