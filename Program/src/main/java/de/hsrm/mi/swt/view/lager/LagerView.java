@@ -41,6 +41,7 @@ public class LagerView extends StackPane {
     private Rectangle saeuleRectangle;
     private ArrayList<Rectangle> allesSeuleRectangle;
     private Rectangle kartonRectangle;
+    private Label kartonAnzahl;
     private Button addKartonButton;
     private SpeicherProfil speicherProfil;
 
@@ -157,6 +158,7 @@ public class LagerView extends StackPane {
 
     public void redraw(Raum raum) {
         centerArea.getChildren().clear();
+        inventoryBox.getChildren().clear();
         int raumHoehe = raum.getHoehe();
         int countBretter = 0;
         for (RegalBrett brett : raum.getRegal().getRegalBretter()) {
@@ -204,13 +206,23 @@ public class LagerView extends StackPane {
             countSaeulen++;
         }
         int countKarton = 0;
+        int anzahlCounter = 0;
         for(Karton karton : raum.getRegal().getUebrigesInventar().getKartons()){
             kartonRectangle = new Rectangle();
+            kartonAnzahl = new Label();
             kartonRectangle.setHeight(50);
             kartonRectangle.setWidth(50);
             kartonRectangle.setX(countKarton * 50 + 20); // im Inventar immer 'x'px weiter + 'y'px abstand zum nächsten
             kartonRectangle.setY(20);
-            kartonRectangle.setFill(Color.RED);
+            if(karton.getWaren().getTyp().isLebensmittelBool()){
+                kartonRectangle.setFill(Color.YELLOW);
+            } else if (karton.getWaren().getTyp().isGekuehltBool()) {
+                kartonRectangle.setFill(Color.LIGHTBLUE);
+            } else if (karton.getWaren().getTyp().isGiftigBool()) {
+                kartonRectangle.setFill(Color.LIGHTGREEN);
+            } else {
+                kartonRectangle.setFill(Color.DARKGOLDENROD);
+            }
             kartonRectangle.setId(" Inventar:" + " Karton" + countKarton);
             inventoryBox.getChildren().add(kartonRectangle);
             countKarton++;

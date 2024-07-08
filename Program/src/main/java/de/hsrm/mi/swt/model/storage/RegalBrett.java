@@ -27,13 +27,10 @@ public class RegalBrett implements Serializable {
         this.dicke = dicke;
         this.maxBelastung = maxBelastung;
         this.lueckenIndex = lueckenIndex;
-        //this.kartons = new ArrayList<>();
 
         this.onChange = new SimpleObjectProperty<>();
         this.kartons = FXCollections.observableArrayList();
         this.kartons.addListener((Observable obs) -> triggerChange());
-        this.onChange = new SimpleObjectProperty<>();
-        //this.kartons.get(0).setOnChangeListener(this::triggerChange);
     }
 
 
