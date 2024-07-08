@@ -149,6 +149,35 @@ public class LagerController {
                 double clickY = event.getY();
                 for (Saeule saeule : aktuellerRaum.getRegal().getSaeulen()) {
                     if (isClickInsideSaeule(saeule, clickX, clickY)) {
+
+
+                        int saeulenIndex = aktuellerRaum.getRegal().getSaeulen().indexOf(saeule);
+                        if (saeulenIndex >= 0 && saeulenIndex < aktuellerRaum.getRegal().getSaeulen().size()) {
+                            // Bretter links
+                            if (saeulenIndex > 0) {
+                                int leftLueckenIndex = saeulenIndex - 1;
+                                for (RegalBrett brett : aktuellerRaum.getRegal().getRegalBretter()) {
+                                    if (brett.getLueckenIndex() == leftLueckenIndex) {
+                                        aktuellerRaum.getRegal().getRegalBretter().remove(brett);
+
+                                    }
+                                }
+                            }
+
+                            // Bretter rechts
+                            if (saeulenIndex < aktuellerRaum.getRegal().getSaeulen().size() - 1) {
+                                for (RegalBrett brett : aktuellerRaum.getRegal().getRegalBretter()) {
+                                    if (brett.getLueckenIndex() == saeulenIndex) {
+                                        aktuellerRaum.getRegal().getRegalBretter().remove(brett);
+                                        if ( aktuellerRaum.getRegal().getRegalBretter().size() == 0){
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                        // Säule entfernen
                         aktuellerRaum.getRegal().getSaeulen().remove(saeule);
                         elementDeleted = true;
                         break;
