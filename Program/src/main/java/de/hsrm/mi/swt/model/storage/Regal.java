@@ -14,7 +14,6 @@ public class Regal implements Serializable {
     private transient ObservableList<Saeule> saeulen;
 
     private transient ObjectProperty<Runnable> onChange;
-
     private Inventar uebrigesInventar;
 
     public Regal(IntegerProperty hoehe) {
@@ -114,5 +113,8 @@ public class Regal implements Serializable {
 
     public void setSaeulen(ObservableList<Saeule> saeulen) {
         this.saeulen = saeulen;
+    }
+    public Inventar getUebrigesInventar() {
+        return uebrigesInventar;
     }
 }

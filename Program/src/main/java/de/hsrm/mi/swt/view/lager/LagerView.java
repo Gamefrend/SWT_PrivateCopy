@@ -1,7 +1,7 @@
 package de.hsrm.mi.swt.view.lager;
 
 import de.hsrm.mi.swt.model.storage.*;
-import de.hsrm.mi.swt.view.uikomponente.Karton;
+import de.hsrm.mi.swt.model.storage.Karton;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -161,11 +161,11 @@ public class LagerView extends StackPane {
                 for (Karton karton : brett.getKartons()) {
                     if (karton != null) {
                         kartonRectangle = new Rectangle();
-                        kartonRectangle.setHeight(karton.getHeight()); // Höhe der Säule
-                        kartonRectangle.setWidth(karton.getWidth()); // Breite der Säule
-                        kartonRectangle.setX(xPosition + karton.getXPosition()); // Position der Säule
-                        kartonRectangle.setY(brett.getHoehe() - karton.getHeight()); // Start bei 0 Y-Achse
-                        kartonRectangle.setFill(Color.RED); // Farbe der Säule
+                        kartonRectangle.setHeight(karton.getHoehe());
+                        kartonRectangle.setWidth(karton.getBreite());
+                        kartonRectangle.setX(xPosition + karton.getXPosition());
+                        kartonRectangle.setY(brett.getHoehe()+(brett.getDicke()/2) - karton.getHoehe());
+                        kartonRectangle.setFill(Color.RED);
                         kartonRectangle.setId(" Brett " + countBretter +" Karton" + countKarton);
                         centerArea.getChildren().add(kartonRectangle);
                         countKarton++;
@@ -187,7 +187,18 @@ public class LagerView extends StackPane {
             centerArea.getChildren().add(saeuleRectangle);
             countSaeulen++;
         }
-        System.out.println("Anzahl: "+ countSaeulen);
+        int countKarton = 0;
+        for(Karton karton : raum.getRegal().getUebrigesInventar().getKartons()){
+            kartonRectangle = new Rectangle();
+            kartonRectangle.setHeight(50);
+            kartonRectangle.setWidth(50);
+            kartonRectangle.setX(countKarton * 50 + 20); // im Inventar immer 'x'px weiter + 'y'px abstand zum nächsten
+            kartonRectangle.setY(20);
+            kartonRectangle.setFill(Color.RED);
+            kartonRectangle.setId(" Inventar:" + " Karton" + countKarton);
+            inventoryBox.getChildren().add(kartonRectangle);
+            countKarton++;
+        }
     }
 
     private void setButtonIcon(Button button, String iconPath) {
