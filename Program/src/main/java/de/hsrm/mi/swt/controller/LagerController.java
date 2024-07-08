@@ -106,7 +106,7 @@ public class LagerController {
             aktuellerRaum = application.getAktuellerRaum();
             application.setAktuellesSpeicherprofil(new SpeicherProfil("TestProfil1"));
             aktuellesSpeicherprofil = application.getAktuellesSpeicherprofil();
-            aktuellerRaum.setRegal(new Regal(new SimpleIntegerProperty(2000)));
+            aktuellerRaum.setRegal(new Regal(2000));
         }
         lagerView.getProfileNameField().setText(aktuellesSpeicherprofil.getSaveName());
     }

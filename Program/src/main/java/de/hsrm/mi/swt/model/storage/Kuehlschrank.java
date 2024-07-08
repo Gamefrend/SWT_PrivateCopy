@@ -9,7 +9,7 @@ import java.util.List;
 public class Kuehlschrank extends Regal implements Serializable {
 
     public Kuehlschrank(SimpleIntegerProperty hoehe) {
-        super(hoehe);
+        super(hoehe.get());
     }
 
 }

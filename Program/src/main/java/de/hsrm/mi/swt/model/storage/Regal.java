@@ -2,6 +2,7 @@ package de.hsrm.mi.swt.model.storage;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,8 +19,8 @@ public class Regal implements Serializable {
     private transient ObjectProperty<Runnable> onChange;
     private transient ObjectProperty<Inventar> uebrigesInventar;
 
-    public Regal(IntegerProperty hoehe) {
-        this.hoehe = hoehe;
+    public Regal(int hoehe) {
+        this.hoehe = new SimpleIntegerProperty(hoehe);
         this.regalBretter = FXCollections.observableArrayList();
         this.saeulen = FXCollections.observableArrayList();
         uebrigesInventar = new SimpleObjectProperty<>(new Inventar());

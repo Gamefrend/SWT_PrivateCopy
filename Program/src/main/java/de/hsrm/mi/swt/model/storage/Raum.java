@@ -23,7 +23,7 @@ public class Raum implements Serializable {
     public Raum(int hoehe, int breite) {
         this.hoehe = new SimpleIntegerProperty(hoehe);
         this.breite = new SimpleIntegerProperty(breite);
-        this.regal = new SimpleObjectProperty<>(new Regal(this.hoehe));
+        this.regal = new SimpleObjectProperty<>(new Regal(this.hoehe.get()));
         this.onChange = new SimpleObjectProperty<>();
 
         // Listeners for properties
