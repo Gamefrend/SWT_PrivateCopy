@@ -194,7 +194,7 @@ public class LagerView extends StackPane {
                 countBretter++;
 
                 int countKarton = 0;
-                for (Karton karton : raum.getRegal().getUebrigesInventar().getKartons()) {
+                for (Karton karton : brett.getKartons()) {
                     Rectangle kartonRectangle = new Rectangle(50, 50);
                     kartonRectangle.setX(countKarton * 60 + 20); // Erhöhter Abstand
                     kartonRectangle.setY(20);
