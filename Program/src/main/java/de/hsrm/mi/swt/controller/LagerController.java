@@ -7,24 +7,17 @@ import de.hsrm.mi.swt.model.storage.Regal;
 import de.hsrm.mi.swt.model.storage.RegalBrett;
 import de.hsrm.mi.swt.model.storage.Saeule;
 import de.hsrm.mi.swt.model.storage.Karton;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import de.hsrm.mi.swt.app.StorageShelvesApplication;
 import de.hsrm.mi.swt.model.save.SpeicherProfil;
 import de.hsrm.mi.swt.model.storage.Raum;
 import de.hsrm.mi.swt.view.PrimaryViewName;
 import de.hsrm.mi.swt.view.lager.LagerView;
-import javafx.event.ActionEvent;
-import javafx.stage.Window;
 
-import javax.swing.event.ChangeEvent;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -93,18 +86,42 @@ public class LagerController {
             setupRoom();
             setupViewBindings();
             lagerView.redraw(aktuellerRaum);
-            dragListenerSauleAnmelden();
+            listenerAufNodesAnmelden();
+            reApllyListeners();
         } else {
             System.out.println("Warning: Trying to initialize LagerController with null Raum");
         }
     }
 
+    public void reApllyListeners(){
+        new Thread(() -> {
+            while (true) {
+                try {
+                    saueleButton.getOnAction();
+                    if (!lagerView.getCenterArea().getChildren().isEmpty()) {
+                        if (lagerView.getCenterArea().getChildren().get(0).getOnMousePressed() == null) {
+                            listenerAufNodesAnmelden();
+                        }
+                    }
+                    if(lagerView.getInventoryBox().getChildren().size() >1){
+                        if (lagerView.getInventoryBox().getChildren().get(1).getOnMousePressed() == null) {
+                            listenerAufNodesAnmelden();
+                        }
+                    }
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    // Falls der Thread unterbrochen wird, die Schleife verlassen
+                    Thread.currentThread().interrupt();
+                    break;
+                }
+            }
+        }).start();
+    }
 
     private void setupRoom() {
         if (application.getAktuellesSpeicherprofil() != null) {
             this.aktuellesSpeicherprofil = application.getAktuellesSpeicherprofil();
         } else {
-            System.out.println("Hier kommt Logik hin die ein neuen Raum erstellt");
             application.setAktuellerRaum(new Raum(2000, 3000));
             aktuellerRaum = application.getAktuellerRaum();
             application.setAktuellesSpeicherprofil(new SpeicherProfil("TestProfil1"));
@@ -118,7 +135,7 @@ public class LagerController {
         onChange = () -> {
             aktuellerRaum = application.getAktuellerRaum();
             lagerView.redraw(aktuellerRaum);
-            dragListenerSauleAnmelden();
+            listenerAufNodesAnmelden();
         };
         aktuellerRaum.setOnChangeListener(onChange);
         lagerView.bindModel(aktuellerRaum);
@@ -148,18 +165,16 @@ public class LagerController {
 
                 int lueckenIndex = findLueckenIndex(x);
 
-                System.out.println(lueckenIndex+"-----------------------------------------------");
-                for( RegalBrett brett : aktuellerRaum.getRegal().getRegalBretter()){
+                for (RegalBrett brett : aktuellerRaum.getRegal().getRegalBretter()) {
 
-                    if( lueckenIndex<= 0){
+                    if (lueckenIndex <= 0) {
                         brett.setLueckenIndex(brett.getLueckenIndex() + 1);
-                    }
-                    else if ( lueckenIndex < brett.getLueckenIndex()){
+                    } else if (lueckenIndex < brett.getLueckenIndex()) {
                         brett.setLueckenIndex(brett.getLueckenIndex() + 1);
                     }
                 }
 
-                dragListenerSauleAnmelden();
+                listenerAufNodesAnmelden();
             }
             if (deleteButtonActive) {
                 boolean elementDeleted = false;
@@ -167,8 +182,6 @@ public class LagerController {
                 double clickY = event.getY();
                 for (Saeule saeule : aktuellerRaum.getRegal().getSaeulen()) {
                     if (isClickInsideSaeule(saeule, clickX, clickY)) {
-
-
 
 
                         int saeulenIndex = aktuellerRaum.getRegal().getSaeulen().indexOf(saeule);
@@ -243,12 +256,12 @@ public class LagerController {
                 }
 
             }
-            if (brettButtonActive){
+            if (brettButtonActive) {
                 int lueckenIndex = findLueckenIndex(event.getX());
-                addBrett(lueckenIndex , event.getY());
+                addBrett(lueckenIndex, event.getY());
             }
             lagerView.redraw(application.getAktuellerRaum());
-            dragListenerSauleAnmelden();
+            listenerAufNodesAnmelden();
 
 
         });
@@ -262,7 +275,7 @@ public class LagerController {
             command.undo();
             redoStack.push(command);
             lagerView.redraw(aktuellerRaum); // Aktuellen Raum neu zeichnen
-            dragListenerSauleAnmelden();
+            listenerAufNodesAnmelden();
         } else {
             System.out.println("Undo stack is empty");
         }
@@ -281,7 +294,7 @@ public class LagerController {
             command.redo();
             undoStack.push(command);
             lagerView.redraw(aktuellerRaum); // Aktuellen Raum neu zeichnen
-            dragListenerSauleAnmelden();
+            listenerAufNodesAnmelden();
         } else {
             System.out.println("Redo stack is empty");
         }
@@ -319,7 +332,7 @@ public class LagerController {
 
 
         lagerView.redraw(aktuellerRaum); // Aktuellen Raum neu zeichnen
-        dragListenerSauleAnmelden();
+        listenerAufNodesAnmelden();
     }
 
     private int findLueckenIndex(double x) {
@@ -339,14 +352,12 @@ public class LagerController {
             }
         }
 
-        if ( leftSaeule != null && rightSaeule != null){
+        if (leftSaeule != null && rightSaeule != null) {
 
             return aktuellerRaum.getRegal().getSaeulen().indexOf(leftSaeule);
-        }
-        else if ( leftSaeule !=null && rightSaeule == null){
-            return aktuellerRaum.getRegal().getSaeulen().size()-1;
-        }
-        else {
+        } else if (leftSaeule != null && rightSaeule == null) {
+            return aktuellerRaum.getRegal().getSaeulen().size() - 1;
+        } else {
             System.out.println("Keine S\u00E4ule links oder rechts");
             return -1;
         }
@@ -402,7 +413,24 @@ public class LagerController {
     }
 
 
-    public void dragListenerSauleAnmelden() {
+    public void listenerAufNodesAnmelden() {
+        for (Node node : lagerView.getInventoryBox().getChildren()) {
+            if (node != null) {
+                if (node.getId() != null) {
+                    if (node.getId().contains("Karton")) {
+                        node.setCursor(Cursor.OPEN_HAND);
+                        node.setOnMousePressed(e -> {
+                            node.setCursor(Cursor.CLOSED_HAND);
+                            node.setOpacity(0.5);
+                        });
+                        node.setOnMouseReleased(e ->{
+                            node.setCursor(Cursor.CLOSED_HAND);
+                            node.setOpacity(1.0);
+                        });
+                    }
+                }
+            }
+        }
 
         for (Node node : lagerView.getCenterArea().getChildren()) {
             if (node.getId() != null && node.getId().startsWith("Saeule")) {
@@ -420,7 +448,7 @@ public class LagerController {
                             node.setOpacity(1.0);
                         lagerView.getCenterArea().setCursor(Cursor.DEFAULT);
                         aktuellerRaum.getRegal().verschiebeSaeule(aktuellerRaum.getRegal().getSaeulen().get(node.getId().charAt(node.getId().length() - 1) - '0'), (int) e.getX());
-                        dragListenerSauleAnmelden();
+                        listenerAufNodesAnmelden();
                     }
                 });
             }
@@ -439,7 +467,7 @@ public class LagerController {
                             node.setOpacity(1.0);
                         lagerView.getCenterArea().setCursor(Cursor.DEFAULT);
                         aktuellerRaum.getRegal().getRegalBretter().get(node.getId().charAt(node.getId().length() - 1) - '0').setHoehe((int) e.getY());
-                        dragListenerSauleAnmelden();
+                        listenerAufNodesAnmelden();
                     }
                 });
             }
@@ -456,11 +484,8 @@ public class LagerController {
         redoStack.clear(); // Redo-Stack leeren, da eine neue Aktion ausgeführt wurde
 
 
-
-
-
         lagerView.redraw(aktuellerRaum);// Aktuellen Raum neu zeichnen
-        dragListenerSauleAnmelden();
+        listenerAufNodesAnmelden();
     }
 
 
@@ -497,18 +522,18 @@ public class LagerController {
 
         double brettY = brett.getHoehe();
         double tolerance = 10;
-        return (brettX  == findLueckenIndex(clickX) && Math.abs(brettY - clickY) <= tolerance);
+        return (brettX == findLueckenIndex(clickX) && Math.abs(brettY - clickY) <= tolerance);
     }
 
     private boolean isClickInsideKarton(Karton karton, double clickX, double clickY) {
         double kartonX = karton.getXPosition();
-       // double kartonY = karton.getYPosition();
+        // double kartonY = karton.getYPosition();
         //double kartonWidth = karton.getWidth();
         //double kartonHeight = karton.getHeight();
 
         return false;
-       // return (clickX >= kartonX && clickX <= kartonX + kartonWidth &&
-         //       clickY >= kartonY && clickY <= kartonY + kartonHeight);
+        // return (clickX >= kartonX && clickX <= kartonX + kartonWidth &&
+        //       clickY >= kartonY && clickY <= kartonY + kartonHeight);
     }
 
     public LagerView getRoot() {

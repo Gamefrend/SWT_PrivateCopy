@@ -202,7 +202,7 @@ public class LagerView extends StackPane {
                     // Setze den Farbgradienten basierend auf den Typen
                     setKartonFill(kartonRectangle, karton.getWaren().getTyp());
 
-                    kartonRectangle.setId("Inventar: Karton" + countKarton);
+                    kartonRectangle.setId("Brett" + countBretter + ": Karton" + countKarton);
                     inventoryBox.getChildren().add(kartonRectangle);
                     countKarton++;
                 }
